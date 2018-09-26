@@ -248,7 +248,12 @@
 ```
 以上代码将会把`some_list`从`2`开始做切片操作。
 
-## stringtags
+## striptags
+
+删除字符串中所有的`html`标签。
+```python
+    {{value|striptags}}
+```
 
 ## truncatechars
 
