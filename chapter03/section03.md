@@ -99,3 +99,7 @@
         </p>
     {% endspaceless %}
 ```
+那么在渲染完成后，会变成以下的代码：
+```html
+    <p><a href="foo/">Foo</a></p>
+```
