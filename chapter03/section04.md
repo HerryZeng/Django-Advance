@@ -122,3 +122,7 @@
 
 ## default
 
+如果值被评估为`False`。比如`[]、""、None、{}`等这些在`if`判断中为`False`的值，都会使用`default`过滤器提供的默认值。示例代码如下：
+```html
+    {{ value|default:"nothing" }}
+```
