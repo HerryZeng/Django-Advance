@@ -66,3 +66,6 @@
         {% endfor %}
     {% endblock%}
 ```
+需要注意的是：**extends**标签必须放在模板的第一行。
+子模板中的代码必须放在**block**中，否则将不会被渲染
+如果某个`block`中需要使用父模板中的内容，那么可以使用`{{ block.super }}`来继承。比如上例，`{% block title %}`，想要使用父模板的`title`，那么可以在子模板的`title block`中使用`{{ block.super }}`
