@@ -158,11 +158,12 @@
 |34.000|\{{ value\|floatformat:3}}|34.000|
 |34.260|\{{ value\|floatformat:0}}|34.260|
 
-
-
-
 ## join
 
+类似与`Python`中的`join`，将列表/元组/字符串用指定的字符进行拼接。示例如下：
+```python
+    {{ value|join:"/" }}
+```
 
 ## length
 
