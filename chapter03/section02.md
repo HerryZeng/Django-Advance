@@ -6,4 +6,8 @@
 ```Python
 # profile.html模板代码
 <p>{{ username }} </p>
+
+# views.py代码
+def profile(request):
+    return render(request,'profile.html',context={'username':'hanmeimei'})
 ```
