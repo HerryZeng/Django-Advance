@@ -20,3 +20,11 @@
         html = render_to_string("detail.html")
         return HttpResponse(html)
 ```
+
+2. 以上方式虽然已经很方便了。但是**Django**还提供了一个更加简便的方式，直接将模板渲染成字符串和包装成`HttpResponse`对象一步到位完成。示例代码如下：
+```Python
+    from django.shortcuts import render
+    
+    def book_list(request):
+        return render(request,'list.html')
+```
