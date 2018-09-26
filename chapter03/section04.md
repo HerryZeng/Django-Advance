@@ -30,3 +30,13 @@
 ```python
     {{ value|cut:" " }}
 ```
+以上示例将会移除`value`中所有的空格字符。`cut`过滤器的源代码如下：
+```python
+    def cut(value,arg):
+        """Remove all values of arg from the given string."""
+        safe = isinstance(value,SafeData)
+        value = value.replace(arg,'')
+        if save and arg != ';':
+            return mark_safe(value)
+        return value
+```
