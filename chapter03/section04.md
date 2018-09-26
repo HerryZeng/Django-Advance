@@ -152,6 +152,13 @@
         <th>模板代码</th>
         <th>输出</th>
     </thead>
+    <tbody>
+<tr>
+<td>34.23234</td>
+<td>{{ value|floatformat}}</td>
+<td>34.2</td>
+</tr>
+</tbody>
 </table>
 |value|模板代码|输出|
 |--- | --- | ---|
