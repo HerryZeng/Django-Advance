@@ -156,7 +156,7 @@
         <tr>
             <td>34.23234</td>
             <td>`{{ value|floatformat}}`</td>
-            <td>34.23234</td>
+            <td>34.2</td>
         </tr>
     </tbody>
 </table>
