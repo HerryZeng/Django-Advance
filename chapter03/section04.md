@@ -43,3 +43,13 @@
 
 ## date
 
+将一个日期按照指定的格式，格式化成字符串。示例如下：
+```python
+    # 数据
+    context = {
+        "birthday":datetime.now()
+    }
+    
+    # 模板
+    {{ birthday|date:"Y/m/d" }}
+```
