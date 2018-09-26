@@ -63,5 +63,6 @@
         {% for entry in blog_entries %}
             <h2> {{ entry.title }}</h2>
             <p>{{ entry.body }}</p>
+        {% endfor %}
     {% endblock%}
 ```
