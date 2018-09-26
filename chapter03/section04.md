@@ -83,32 +83,37 @@
             <td>1-12</td>
         </tr>
         <tr>
-            <td>d</td>
+            <td>j</td>
             <td>两位数字的日</td>
             <td>01-31</td>
         </tr>
         <tr>
-            <td>d</td>
+            <td>g</td>
             <td>两位数字的日</td>
             <td>01-31</td>
         </tr>
         <tr>
-            <td>d</td>
+            <td>h</td>
             <td>两位数字的日</td>
             <td>01-31</td>
         </tr>
         <tr>
-            <td>d</td>
+            <td>G</td>
             <td>两位数字的日</td>
             <td>01-31</td>
         </tr>
         <tr>
-            <td>d</td>
+            <td>H</td>
             <td>两位数字的日</td>
             <td>01-31</td>
         </tr>
         <tr>
-            <td>d</td>
+            <td>i</td>
+            <td>两位数字的日</td>
+            <td>01-31</td>
+        </tr>
+        <tr>
+            <td>s</td>
             <td>两位数字的日</td>
             <td>01-31</td>
         </tr>
