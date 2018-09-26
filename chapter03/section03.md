@@ -91,3 +91,5 @@
 ```python
     <a href="{% url 'book:detail' book_id=1 page=2 %}">图书详情</a>
 ```
+
+6. `spaceless`标签：移除**HTML**标签中的空白字符。包括空格、tab键、换行等。示例如下：
