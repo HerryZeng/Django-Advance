@@ -152,6 +152,11 @@
 |34.000|\{{ value\|floatformat}}|34|
 |34.260|\{{ value\|floatformat}}|34.3|
 2.如果传递参数：
+|value|模板代码|输出|
+|--- | --- | ---|
+|34.23234| \{{ value\|floatformat:3}} |34.232|
+|34.000|\{{ value\|floatformat}}|34|
+|34.260|\{{ value\|floatformat}}|34.3|
 
 
 
