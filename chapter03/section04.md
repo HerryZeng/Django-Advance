@@ -160,3 +160,8 @@
 
 
 ## slice
+
+
+## stringtags
+
+## truncatechars
