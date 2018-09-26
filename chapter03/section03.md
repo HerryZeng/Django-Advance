@@ -80,4 +80,6 @@
     # url反转，使用位置参数
     <a href="{% url 'book:detail 1 %}">图书详情</a>
     
+    # url反转，使用位置参数
+    <a href="{% url 'book:detail book_id=1 %}">图书详情</a>
 ```
