@@ -125,4 +125,9 @@
         {{ info }}
     {% endautoescape %}
 ```
-那么就会显示百度的一个超链接。如把`on`换成`off`，那就会显示成一个普通的字符串。
+那么就会显示百度的一个超链接。如把`on`换成`off`，那就会显示成一个普通的字符串。示例代码中下：
+```html
+    {% autoescape off %}
+        {{ info }}
+    {% endautoescape %}
+```
