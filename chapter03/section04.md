@@ -23,3 +23,9 @@
         except Exception
             return ''
 ```
+
+## cut
+
+移除值中所有指定的字符串。类似于`Python`中的`replace(arg,"")`。示例如下：
+```python
+```
