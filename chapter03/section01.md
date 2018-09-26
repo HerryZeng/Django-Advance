@@ -10,3 +10,13 @@
 ## 渲染模板
 
 渲染模板有多种方式。这里讲一下两种常用的方式。
+
+1. `render_to_string`:找到模板，然后将模板编译后渲染成**Python**的字符串格式。最后再通过`HttpResponse`类包装成一个`HttpResponse`对象返回回去。示例代码如下：
+```Python
+    from django.template.loader import render_to_string
+    from django.http import HttpResponse
+    
+    def book_detail(request):
+        html = render_to_string("detail.html")
+        return HttpResponse(html)
+```
