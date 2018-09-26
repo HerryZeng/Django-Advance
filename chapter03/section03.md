@@ -92,3 +92,10 @@
 ```
 
 6. `spaceless`标签：移除**HTML**标签中的空白字符。包括空格、tab键、换行等。示例如下：
+```python
+    {% spaceless %}
+        <p>
+            <a href="foo/">Foo</a>
+        </p>
+    {% endspaceless %}
+```
