@@ -9,8 +9,8 @@
 * [第二章：URL与视图](chapter02.md)
   * [第一节：第一个Django项目](chapter02/section01.md)
   * [第二节：视图与URL分发器](chapter02/section02.md)
-* [第三章：模板](di-san-zhang-ff1a-mo-ban.md)
-  * [第一节：模板介绍](di-san-zhang-ff1a-mo-ban/di-yi-jie-ff1a-mo-ban-jie-shao.md)
+* [第三章：模板](chapter03.md)
+  * [第一节：模板介绍](chapter03/section01.md)
   * [第二节：模板变量](di-san-zhang-ff1a-mo-ban/di-er-jie-ff1a-mo-ban-bian-liang.md)
   * 第三节：常用标签
   * 第四节：常用过滤器
