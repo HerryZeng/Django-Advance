@@ -127,3 +127,7 @@
     {{ value|default:"nothing" }}
 ```
 如果`value`是等于一个空的字符串。比如`""`，那么以上代码将会输出`nothins`。
+
+## default_if_none
+
+如果值是`None`，那么将会使用`default_if_none`提供的默认值。这个和`default`有区别，`default`是所有被评估为`False`的都会使用默认值 。而`default_if_none`则只有这个值是等于`None`的时候才会使用默认值。
