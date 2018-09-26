@@ -15,3 +15,9 @@
         <p>{{ person.name }}</p>
     {% endfor %}
 ```
+如果想要反向遍历，那么在遍历的时候就加上一个`reversed`。示例代码如下：
+```python
+    {% for person in persons reversed }%
+        <p>{{ person.name }}</p>
+    {% endfor %}
+```
