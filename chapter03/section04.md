@@ -164,6 +164,7 @@
 ```python
     {{ value|join:"/" }}
 ```
+如果`value`等于`['a','b','c']`，那以上代码将输出`a/b/c`。
 
 ## length
 
