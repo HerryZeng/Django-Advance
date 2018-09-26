@@ -147,12 +147,12 @@
 
 1. 如果没有传递参数
 <table>
-    <thead>
-        <th>value</th>
-        <th>模板代码</th>
-        <th>输出</th>
-    </thead>
-    <tbody>
+<thead>
+<th>value</th>
+<th>模板代码</th>
+<th>输出</th>
+</thead>
+<tbody>
 <tr>
 <td>34.23234</td>
 <td>{{ value|floatformat}}</td>
