@@ -254,8 +254,15 @@
 ```python
     {{value|striptags}}
 ```
-如果`value`是`<strong>hello world</strong>`，那以上代码将会输出`hello world`
+如果`value`是`<strong>hello world</strong>`，那以上代码将会输出`hello world`。
+
 
 ## truncatechars
+
+如果给定的字符串长度超过了过滤器指定的长度。那么就会进行切割，并且会拼接三个点作为省略号。
+```python
+    {{value|truncatechars:5}}
+```
+如果`value`是等于`北京欢迎你~`，那输出 的结果是`北京...`。可能会想，为什么不是`北京欢迎你...`。因为三个点也占了三个字符。所以`北京`+三个点的字符长度就是**5**。
 
 ## truncatechars_html
