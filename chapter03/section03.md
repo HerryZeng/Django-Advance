@@ -111,4 +111,4 @@
         </strong>
     {% endspaceless %}
 ```
-
+这个不会移除`strong`中的空白字符 。
