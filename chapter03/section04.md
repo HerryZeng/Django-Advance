@@ -272,3 +272,4 @@
 ```python
     value|truncates_html:5
 ```
+如果`value`是`<p>北京欢迎你</p>`，那输出的是`<p>北京...</p>`。
