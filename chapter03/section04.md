@@ -154,3 +154,9 @@
 
 
 ## random
+
+
+## safe
+
+
+## slice
