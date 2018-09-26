@@ -83,3 +83,7 @@
     # url反转，使用位置参数
     <a href="{% url 'book:detail book_id=1 %}">图书详情</a>
 ```
+如果想经在使用`url`标签反转的时候要传递查询字符串的参数，那么必须手动在后面添加。示例如下：
+```python
+    <a href="{% url 'book:detail' book_id=1 %}?page=1">图书详情</a>
+```
