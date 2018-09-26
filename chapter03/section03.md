@@ -87,3 +87,8 @@
 ```python
     <a href="{% url 'book:detail' book_id=1 %}?page=1">图书详情</a>
 ```
+如果需要传递多个参数，那么通过空格的方式进行分隔。示例如下：
+```python
+    <a href="{% url 'book:detail' book_id=1 page=2 %}">图书详情</a>
+
+```
