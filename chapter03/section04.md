@@ -214,6 +214,11 @@
 
 ## lower
 
+将值中所有字符全部转换成小写。
+```python
+    {{ value|lower }}
+```
+如果`value`是等于`Hello World`。则输出`hello world`。
 
 ## upper
 
