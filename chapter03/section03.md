@@ -21,3 +21,4 @@
         <p>{{ person.name }}</p>
     {% endfor %}
 ```
+遍历字典的时候，需要使用`items`、`keys`和`values`等方法。在`DTL`中，**执行一个方法不能使用圆括号的形式**。
