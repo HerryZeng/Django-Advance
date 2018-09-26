@@ -36,3 +36,12 @@
     * `forloop.first`:是否为第一次遍历
     * `forloop.last`:是否为最后一次遍历
     * `forloop.parentloop`:如果有多个循环嵌套，那么这个属性代表的是上一级的`for`循环
+    
+3. `for ... in ... empty`标签：这个标签使用跟`for ... in ...`一样的，只不过是遍历的对象如果没有元素的情况下，会执行`empty`中的内容。示例代码如下：
+```python
+    {% for person in persons %}
+        <li>{{ person }}</li>
+    {% empty %}
+        暂时还没有任何人
+    {% endfor %}
+```
