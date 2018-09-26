@@ -40,3 +40,6 @@
             return mark_safe(value)
         return value
 ```
+
+## date
+
