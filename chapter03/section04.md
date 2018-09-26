@@ -63,7 +63,9 @@
     </thead>
     <tbody>
         <tr>
-            <td></td>
+            <td>Y</td>
+            <td>四位数字的年份</td>
+            <td>2018</td>
         </tr>
     </tbody>
 </table>
