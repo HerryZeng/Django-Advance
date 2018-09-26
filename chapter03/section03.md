@@ -131,3 +131,10 @@
         {{ info }}
     {% endautoescape %}
 ```
+
+8. `verbatim`标签：默认的`DTL`模板中是会去解析那些特殊字符的。比如`{%`和`%}`以及`{{`等。如果在你某个代码段中不想使用`DTL`的解析引擎。那么你可以把这个代码片段放在`verbatim`标签中。示例如下：
+```html
+    {% verbatim %}
+    {{ if dying }} Still alive. {{/if}}
+    {% endverbatim %}
+```
