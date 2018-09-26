@@ -151,6 +151,8 @@
 |34.23234| \{{ value\|floatformat}} |34.2|
 |34.000|\{{ value\|floatformat}}|34|
 |34.260|\{{ value\|floatformat}}|34.3|
+2.如果传递参数：
+
 
 
 
