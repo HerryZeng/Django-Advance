@@ -171,11 +171,30 @@
 </tbody>
 </table>
 2.如果传递参数：
-|value|模板代码|输出|
-|--- | --- | ---|
-|34.23234| \{{ value\|floatformat:3}} |34.232|
-|34.000|\{{ value\|floatformat:3}}|34.000|
-|34.260|\{{ value\|floatformat:0}}|34.260|
+<table>
+<thead>
+<th>value</th>
+<th>模板代码</th>
+<th>输出</th>
+</thead>
+<tbody>
+<tr>
+<td>34.23234</td>
+<td>{{ value|floatformat:3}}</td>
+<td>34.232</td>
+</tr>
+<tr>
+<td>34.000</td>
+<td>{{ value|floatformat:3}}</td>
+<td>34.000</td>
+</tr>
+<tr>
+<td>34.260</td>
+<td>{{ value|floatformat:3}}</td>
+<td>34.260</td>
+</tr>
+</tbody>
+</table>
 
 ## join
 
