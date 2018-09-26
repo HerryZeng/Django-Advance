@@ -103,3 +103,12 @@
 ```html
     <p><a href="foo/">Foo</a></p>
 ```
+`spaceless`只会移除**HTML**标签之间的空白字符。而不会移除标签与文本之间的空白字符。看以下代码：
+```html
+    {% spaceless %}
+        <strong>
+            Hello
+        </strong>
+    {% endspaceless %}
+```
+
