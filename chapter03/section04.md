@@ -254,6 +254,7 @@
 ```python
     {{value|striptags}}
 ```
+如果`value`是`<strong>hello world</strong>`，那以上代码将会输出`hello world`
 
 ## truncatechars
 
