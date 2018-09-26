@@ -165,3 +165,5 @@
 ## stringtags
 
 ## truncatechars
+
+## truncatechars_html
