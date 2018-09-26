@@ -35,4 +35,16 @@
     <head>
         <link ref="stylesheet" href="{% static 'style.css' %}" />
         <title>{% block title %}我的站点{% endblock %}</title>
+    </head>
+    
+    <body>
+        <div id="sidebar">
+            {% block sidebar %}
+            <ul>
+                <li><a href="/">首页<a></li>
+                <li><a href="/blog/">博客<a></li>
+            </ul>
+            {% endblock %}
+        </div>
+    </body>
 ```
