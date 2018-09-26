@@ -10,3 +10,8 @@
         os.path.join(BASE_DIR,'static'),
     ]
 ```
+5. 在模板中使用`load` 标签加载`static`标签，比如要加载在项目的`static`目录下的`style.css`文件。示例代码如下：
+```html
+    {% load static %}
+    <link ref="stylesheet" href="{% static 'style.css' %}"
+```
