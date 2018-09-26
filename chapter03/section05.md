@@ -53,3 +53,13 @@
     </body>
     </html>
 ```
+这个模板，我们取名为`base.html`，定义好一个简单的`html`骨架，然后定义好两个`block`接口，让子模板来根据具体需要来实现。子模板然后通过`extends`标签来实现，示例代码如下：
+```html
+    {% extends "base.html" %}
+    
+    {% block title %}博客列表{% endblock %}
+    
+    {% block content %}
+    
+    {% endblock%}
+```
