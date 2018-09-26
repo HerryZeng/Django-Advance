@@ -121,7 +121,10 @@
         "info":"<a href='www.baidu.com'>百度</a>"
     }
     
-    #
+    # 在模板中关闭自动转义
+    {% autoescape on %}
+        {{ info }}
+    {% endautoescape %}
 
 ```
 
