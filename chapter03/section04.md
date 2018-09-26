@@ -68,8 +68,8 @@
             <td>2018</td>
         </tr>
         <tr>
-            <td>Y</td>
-            <td>四位数字的年份</td>
+            <td>m</td>
+            <td>两位数字的月份</td>
             <td>2018</td>
         </tr>
     </tbody>
