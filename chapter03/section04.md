@@ -62,5 +62,8 @@
         <th>示例</th>
     </thead>
     <tbody>
+        <tr>
+            <td></td>
+        </tr>
     </tbody>
 </table>
