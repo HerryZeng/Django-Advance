@@ -60,4 +60,7 @@
         <th>格式字符</th>
         <th>描述</th>
         <th>示例</th>
+    </thead>
+    <tbody>
+    </tbody>
 </table>
