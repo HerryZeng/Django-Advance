@@ -77,5 +77,7 @@
     # path部分
     path('detail<book_id>/',views.book_detail,name='detail')
     
+    # url反转，使用位置参数
+    <a href="{% url 'book:detail 1 %}">图书详情</a>
     
 ```
