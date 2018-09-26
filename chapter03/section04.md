@@ -149,8 +149,8 @@
 |value|模板代码|输出|
 |--- | --- | ---|
 |34.23234| `{{ value\|floatformat}}` |34.2|
-|34.000|`\{{ value\|floatformat}}`|34|
-|34.260|`\{{ value\|floatformat}}`|34.3|
+|34.000|`{{ value\|floatformat}}`|34|
+|34.260|`{{ value\|floatformat}}`|34.3|
 
 
 
