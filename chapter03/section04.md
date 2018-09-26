@@ -70,6 +70,11 @@
         <tr>
             <td>m</td>
             <td>两位数字的月份</td>
+            <td>01-12</td>
+        </tr>
+        <tr>
+            <td>m</td>
+            <td>两位数字的月份</td>
             <td>2018</td>
         </tr>
     </tbody>
