@@ -126,3 +126,4 @@
 ```html
     {{ value|default:"nothing" }}
 ```
+如果`value`是等于一个空的字符串。比如`""`，那么以上代码将会输出`nothins`。
