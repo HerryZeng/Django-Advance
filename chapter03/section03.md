@@ -28,3 +28,11 @@
         <p>Value:{{ value }}</p>
     {% endfor %}
 ```
+在`for`循环中，`DTL`提供了一些变量可供使用。这些变量如下：
+    * `forloop.counter`：当前循环的下标，以1为起始值
+    * `forloop.counter0`:当前循环的下村，以0为起始值
+    * `forloop.revcounter`:当前循环的反向下标值。以1为最后一个元素的下标
+    * `forloop.revcounter0`:当前循环的反向下标值。以0为最后一个元素的下标
+    * `forloop.first`:是否为第一次遍历
+    * `forloop.last`:是否为最后一次遍历
+    * `forloop.parentloop`:如果有多个循环嵌套，那么这个属性代表的是上一级的`for`循环
