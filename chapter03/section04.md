@@ -242,6 +242,11 @@
 
 ## slice
 
+类似于`Python`中的切片操作。
+```python
+    {{some_list|slice:"2:"}}
+```
+以上代码将会把`some_list`从`2`开始做切片操作。
 
 ## stringtags
 
