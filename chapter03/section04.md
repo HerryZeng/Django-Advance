@@ -11,3 +11,15 @@
 ```html
     {{ value|add:"2" }}
 ```
+如果`value`是等于**4**，那么结果将是**6**。如果`value`是等于一个普通的字符器，如`abc`，那么结果将是`abc2`。`add`过滤器的源代码如下：
+```python
+    def add(value,arg):
+    '''Add the arg to the value.'''
+    try:
+        return int(value) + int(arg)
+    except (ValueError,TypeError):
+        try:
+            return value + arg
+        except Exception
+            return ''
+```
