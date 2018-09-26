@@ -159,14 +159,14 @@
 <td>34.2</td>
 </tr>
 <tr>
-<td>34.23234</td>
+<td>34.000</td>
 <td>{{ value|floatformat}}</td>
-<td>34.2</td>
+<td>34</td>
 </tr>
 <tr>
-<td>34.23234</td>
+<td>34.260</td>
 <td>{{ value|floatformat}}</td>
-<td>34.2</td>
+<td>34.3</td>
 </tr>
 </tbody>
 </table>
