@@ -60,6 +60,8 @@
     {% block title %}博客列表{% endblock %}
     
     {% block content %}
-    
+        {% for entry in blog_entries %}
+            <h2> {{ entry.title }}</h2>
+            <p>{{ entry.body }}</p>
     {% endblock%}
 ```
