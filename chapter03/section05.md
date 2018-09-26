@@ -46,5 +46,9 @@
             </ul>
             {% endblock %}
         </div>
+        
+        <div id="content">
+            {% block content %} {% endblock %}
+        </div>
     </body>
 ```
