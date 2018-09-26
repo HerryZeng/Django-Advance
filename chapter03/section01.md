@@ -28,3 +28,13 @@
     def book_list(request):
         return render(request,'list.html')
 ```
+
+# 模板查找路径配置
+
+在项目的`settings.py`文件中，有一个`TEMPLATES`配置，这个配置包含了模板引擎的配置，模板查找路径的配置，模板上下文的配置等。模板路径可以在两个地方配置。
+
+1. `DIRS`:这是一个列表，在这个列表中可以存放所有的模板路径，以后在视图中使用`render`或`render_to_string`渲染模板的时候，会在这个列表的路径中查找模板。
+
+2. `APP_DIRS`:默认为`True`，这个设置为`True`,会在`INSTALLED_APPS`的`APP`下的`templates`目录中查找模板。
+
+3. 查找顺序：比如代码`render(request,'list.html')`。会先在`DIRS`这个列表中依次查找路径下有没有这个模板，如果有，就返回。如果`DIRS`列表中所有的路径都没有找到，那么就先检查当前这个视图所处的`APP`是否已安装，如果已安装了，那么就先在当前这个`APP`下的`templates`目录中查找模板，如果没有找到，那么会在其他已安装的`APP`的`templates`目录中查找模板。如果所有路径下都没有找到，那么会抛出一个`TemplageDoesNotExist`的异常。
