@@ -10,8 +10,9 @@
         name = models.CharField(max_length=20,null=False)
         desc = models.CharField(max_length=100,name='description',db_column="description1")
         pub_date = models.DateTimeField(auto_now_add=True)
-        book = Book(name='三国演义',desc='三国英雄！')
-        book.save()
+        
+    book = Book(name='三国演义',desc='三国英雄！')
+    book.save()
 ```
 
 ### 查找数据
