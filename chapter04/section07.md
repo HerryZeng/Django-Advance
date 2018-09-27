@@ -139,3 +139,41 @@
     end_date = make_aware(datetime(year=2018,month=3,day=29,hour=16))
     articles = Article.objects.filter(pub_date__range=(start_date,end_date))
 ```
+以上代码的意思是提取所有发布时间在 `2018/1/1` 到 `2018/12/12` 之间的文章。将翻译成以下的 `SQL `语句：
+```sql
+    select ... from article where pub_time between '2018-01-01' and '2018-12-12';
+```
+需要注意的是，以上提取数据，**不会包含最后一个值**。也就是不会包含 2018/12/12 的文章。而且另外一个重点，因为我们在 `settings.py` 中指定了 `USE_TZ=True` ，并且设置了 `TIME_ZONE='Asia/Shanghai'` ，因此我们在提取数据的时候要使用 `django.utils.timezone.make_aware` 先将 `datetime.datetime` 从 `navie `时间转换为 `aware `时间。 `make_aware `会将指定的时间转换为 `TIME_ZONE `中指定的时区的时间。
+
+### date
+
+针对某些 `date `或者 `datetime `类型的字段。可以指定 `date `的范围。并且这个时间过滤，还可以使用链式调用。示例代码如下：
+```python
+    articles = Article.objects.filter(pub_date__date=date(2018,3,29))
+```
+以上代码的意思是查找时间为 `2018/3/29` 这一天发表的所有文章。将翻译成以下的 sql 语句：
+```sql
+    select ... WHERE DATE(CONVERT_TZ(`front_article`.`pub_date`, 'UTC', 'Asia/Shanghai')) =2018-03-29
+```
+注意，因为默认情况下 `MySQL `的表中是没有存储时区相关的信息的。因此我们需要下载一些时区表的文件，然后添加到 `Mysql `的配置路径中。如果你用的是 `windows `操作系统。那么在 [http://dev.mysql.com/downloads/timezones.html](http://dev.mysql.com/downloads/timezones.html) 下载 `timezone_2018d_posix.zip - POSIX standard` 。然后将下载下来的所有文件拷贝到 `C:\ProgramData\MySQL\MySQL Server5.7\Data\mysql` 中，如果提示文件名重复，那么选择覆盖即可。
+如果用的是 `linux `或者 `mac `系统，那么在命令行中执行以下命令： `mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -D mysql -u root -p` ，然后输入密码，从系统中加载时区文件更新到 `mysql `中。
+
+### year
+
+根据年份进行查找。示例代码如下：
+```python
+    articles = Article.objects.filter(pub_date__year=2018)
+    articles = Article.objects.filter(pub_date__year__gte=2017)
+```
+以上的代码在翻译成 SQL 语句为如下:
+```sql
+    select ... where pub_date between '2018-01-01' and '2018-12-31';
+    select ... where pub_date >= '2017-01-01';
+```
+### month
+
+同`year`，根据月份进行查找。
+
+### day
+
+同`year`，根据日期进行查找。
