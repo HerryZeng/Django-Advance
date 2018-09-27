@@ -349,6 +349,12 @@
     employee.salary += 1000
     employee.save()
 ```
+而我们的 `F表达式`就可以优化这个流程，他可以不需要先把数据从数据库中提取出来，计算完成后再保存回去，他可以直接执行 `SQL`语句 ，就将员工的工资增加1000元。示例代码如下：
+```python
+    from djang.db.models import F
+    Employee.object.update(salary=F("salary")+1000)
+```
+
 
 ### Q表达式
 
