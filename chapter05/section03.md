@@ -44,3 +44,10 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 3. `get_host()` ：服务器的域名。如果在访问的时候还有端口号，那么会加上端口号。比如 `www.baidu.com:9000` 。
 4. `get_full_path()` ：返回完整的path。如果有查询字符串，还会加上查询字符串。比如 `/music/bands/?print=True` 。
 5. `get_raw_uri()` ：获取请求的完整 `url `。
+
+### QueryDict对象
+
+我们平时用的 `request.GET` 和 `request.POST` 都是 `QueryDict`对象，这个对象继承自 `dict`，因此用法跟 `dict`相差无几。其中用得比较多的是 `get`方法和 `getlist`方法。
+1. `get`方法：用来获取指定 `key`的值，如果没有这个 `key`，那么会返回 `None`。
+2. getlist 方法：如果浏览器上传上来的 key 对应的值有多个，那么就需要通过这个方法获
+取。
