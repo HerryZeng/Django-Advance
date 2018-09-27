@@ -214,3 +214,9 @@
     select ... where title regexp binary '^hello';
 ```
 `iregex `是大小写不敏感的。
+
+
+# 根据关联的表进行查询
+
+
+
