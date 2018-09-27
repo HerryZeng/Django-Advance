@@ -71,3 +71,54 @@
 ```sql
     select ...from category where article.id in (select id from article where title like '%hello%');
 ```
+
+### gt
+
+某个 `field `的值要大于给定的值。示例代码如下：
+```python
+    articles = Article.objects.filter(id__gt=4)
+```
+以上代码的意思是将所有 id 大于4的文章全部都找出来。将翻译成以下 SQL 语句：
+```sql
+    select ... where id > 4;
+```
+
+### gte
+
+类似于 `gt `，是大于等于。
+
+
+### lt
+
+类似于 `gt `,是小于。
+
+### lte
+
+类似于 `gt`, 是小于等于。
+
+### startswith
+
+判断某个字段的值是否是以某个值开始的。**大小写敏感**。示例代码如下：
+```python
+    articles = Article.objects.filter(title__startswith='hello')
+```
+以上代码的意思是提取所有标题以 `hello `字符串开头的文章。将翻译成以下 `SQL `语句：
+```sql
+    select ... where title like 'hello%';
+```
+
+### istartswith
+
+类似于 `startswith `，但是大小写是不敏感的。
+
+
+### endswith
+
+判断某个字段的值是否以某个值结束。大小写敏感。示例代码如下：
+```python
+    articles = Article.objects.filter(title__endswith='world')
+```
+以上代码的意思是提取所有标题以 `world `结尾的文章。将翻译成以下 `SQL `语句：
+```sql
+    select ... where title like '%world';
+```
