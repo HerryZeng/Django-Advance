@@ -6,6 +6,7 @@
 在 `Django `中，重定向是使用 `redirect(to, *args, permanent=False, **kwargs)` 来实现的。 `to `是一个 `url `， `permanent `代表的是这个重定向是否是一个永久的重定向，默认是 `False `。关于重定向的使用。请看以下例子：
 ```python
     from django.shortcuts import reverse,redirect
+    from django.http import HttpResponse
     
     def profile(request):
     if request.GET.get("username"):
