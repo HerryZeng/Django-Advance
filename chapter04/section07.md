@@ -288,3 +288,10 @@
 ```python
     {"price__avg":23.0}
 ```
+其中 `price__avg `的结构是根据 `field__avg `规则构成的。如果想要修改默认的名字，那么可以将 `Avg `赋值给一个关键字参数。示例代码如下：
+```python
+    from django.db.models import Avg
+    
+    result = Book.objects.aggregate(my_avg=Avg('price'))
+    print(result)
+```
