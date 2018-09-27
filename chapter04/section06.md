@@ -39,3 +39,31 @@ books = Book.objects.filter(name='三国演义',desc='test')
 
 ### 获取单个对象
 
+使用 `filter `返回的是所有满足条件的结果集。有时候如果只需要返回第一个满足条件的对象。那么可以使用 `get `方法。示例代码如下：
+```
+book = Book.objects.get(name='三国演义')
+> <Book:三国演义>
+```
+当然，如果没有找到满足条件的对象，那么就会抛出一个异常。而 `filter `在没有找到满足条件的数据的时候，是返回一个空的列表。
+
+### 数据排序
+
+在之前的例子中，数据都是无序的。如果你想在查找数据的时候使用某个字段来进行排序，那么可以使用 `order_by `方法来实现。示例代码如下：
+```python
+books = Book.objects.order_by("pub_date")
+```
+以上代码在提取所有书籍的数据的时候，将会使用 pub_date 从小到大进行排序。如果想要进行倒序排序，那么可以在 pub_date 前面加一个负号。实例代码如下：
+```
+books = Book.objects.order_by("-pub_date")
+```
+
+### 修改数据
+
+在查找到数据后，便可以进行修改了。修改的方式非常简单，只需要将查找出来的对象的某个属性进行修改，然后再调用这个对象的 `save `方法便可以进行修改。示例代码如下：
+```python
+from datetime import datetime
+book = Book.objects.get(name='三国演义')
+book.pub_date = datetime.now()
+book.save()
+```
+
