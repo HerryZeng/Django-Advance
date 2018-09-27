@@ -145,8 +145,21 @@
 如果不想使用 `模型名字小写_set` 的方式，想要使用其他的名字，那么可以在定义模型的时候指定 `related_name `。示例代码如下：
 ```python
     class Article(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    # 传递related_name参数，以后在方向引用的时候使用articles进行访问
-    author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles')
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        # 传递related_name参数，以后在方向引用的时候使用articles进行访问
+        author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles')
+```
+以后在方向引用的时候。使用 `articles `可以访问到这个作者的文章模型。示例代码如下：
+```python
+    user = User.objects.get(name='张三')
+    user.articles.all()
+```
+如果不想使用反向引用，那么可以指定 `related_name='+'` 。示例代码如下：
+```python
+    class Article(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        # 传递related_name参数，以后在方向引用的时候使用articles进行访问
+        author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='+')
 ```
