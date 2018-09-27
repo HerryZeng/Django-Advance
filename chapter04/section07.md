@@ -62,3 +62,8 @@
 ```sql
     select ... where id in (1,3,4)
 ```
+当然也可以传递一个 `QuerySet `对象进去。示例代码如下：
+```python
+    inner_qs = Article.objects.filter(title__contains='hello')
+    categories = Category.objects.filter(article__in=inner_qs)
+```
