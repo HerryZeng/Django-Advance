@@ -21,3 +21,22 @@
         }
     }
 ```
+
+## 在Django中操作数据库
+
+在`Django`中操作数据库有两种方式。第一种方式是使用原生`sql`语句操作；第二种就是使用`ORM`模型来操作。这节首先来讲第一种。
+在`Django`中使用原生`sql`语句操作其实就是使用`python db api`的接口来操作。如果你的`mysql`驱动使用的是`pymysql`，那么你就是使用`pymysql`来操作，只不过`Django`将数据库连接的这一部分封装好了，我们只要在`settings.py`中配置好的数据库连接信息直接使用`Django`封装好的接口就可以操作了。示例如下 ：
+```python
+    # 使用django封装好的connection对象，会自动读取settings.py中的数据库配置信息
+    from django.db import connection
+    
+    # 获取游标对象
+    cursor = connection.cursor()
+    # 拿到游标对象后执行sql语句
+    cursor.execute("select * from book")
+    # 获取所有的数据
+    rows = cursor.fetchall()
+    # 遍历查询到的数据
+    for row in rows:
+        print(now)
+```
