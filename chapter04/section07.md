@@ -122,3 +122,20 @@
 ```sql
     select ... where title like '%world';
 ```
+
+### iendswith
+
+类似于 `endswith `，只不过大小写不敏感。
+
+
+### range
+
+判断某个 `field `的值是否在给定的区间中。示例代码如下：
+```python
+    from django.utils.timezone import make_aware
+    from datetime import datetime
+    
+    start_date = make_aware(datetime(year=2018,month=1,day=1))
+    end_date = make_aware(datetime(year=2018,month=3,day=29,hour=16))
+    articles = Article.objects.filter(pub_date__range=(start_date,end_date))
+```
