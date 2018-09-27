@@ -6,3 +6,9 @@
 
 ### exact
 
+使用精确的`= `进行查找。如果提供的是一个 `None `，那么在 `SQL `层面就是被解释为 `NULL `。示例代码如下：
+```python
+    article = Article.objects.get(id__exact=14)
+    article = Article.objects.get(id__exact=None)
+```
+
