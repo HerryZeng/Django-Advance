@@ -284,3 +284,7 @@
     result = Book.objects.aggregate(Avg('price'))
     print(result)
 ```
+以上的打印结果是：
+```python
+    {"price__avg":23.0}
+```
