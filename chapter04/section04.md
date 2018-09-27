@@ -144,6 +144,9 @@
             db_table = 'book_model'
             ordering = ['pub_date']
 ```
+更多的配置后面会慢慢介绍到，官方文档：
+[https://docs.djangoproject.com/en/2.1/ref/models/options/](https://docs.djangoproject.com/en/2.1/ref/models/options/)
+
 
 
 
