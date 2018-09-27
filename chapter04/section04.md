@@ -26,3 +26,25 @@
 1. `auto_now`：在每次这个数据保存的时候，都使用当前的时间。比如做为一个记录修改日期的字段，可以将这个属性设置为`True`。
 2. `auto_now_add`：在每次数据第一次被添加进行的时候，都使用当前的时间，比如作为一个记录第一次入库的字段，可以将这个属性设置为`True`。
 
+### DateTimeField
+
+
+
+## Field的常用参数
+
+### null
+
+
+### blank
+
+
+### db_column
+
+
+### default
+
+### primary_key
+
+
+### unique
+
