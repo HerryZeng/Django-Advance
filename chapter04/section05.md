@@ -130,3 +130,4 @@
         content = models.TextField()
         tags = models.ManyToManyField("Tag",related_name="articles")
 ```
+在数据库层面，实际上 `Django `是为这种多对多的关系建立了一个中间表。这个中间表分别定义了两个外键，引用到 `article `和 `tag `两张表的主键。
