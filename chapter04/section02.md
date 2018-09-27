@@ -41,3 +41,5 @@
         print(row)
 ```
 以上`execute`以及`fetchall`方法都是`Python DB API`规范中定义好的。任何使用`Python`来操作`MySQL`的驱动程序者应该遵循这个规范。所以不管是用`pymysql`或是`mysqlclient`或`mysqldb`,他们的接口都是一样的。更多的规范请参考：[https://www.python.org/dev/peps/pep-0249/#cursor-methods](https://www.python.org/dev/peps/pep-0249/#cursor-methods)
+
+## Python DB API下规范下cursor对象常用接口
