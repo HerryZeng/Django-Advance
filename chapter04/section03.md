@@ -10,3 +10,7 @@
 3. 设计灵活：可以轻松的写出复杂的查询。
 4. 可移植性：`Django`封装了底层的数据库实现，支持多个关系数的引擎，包括流行的`MySQL`、`PostgreSQL`和`SQLite`。可以非常轻松的切换数据库。
 ![ORM](http://ww1.sinaimg.cn/large/006k72Wegy1fpq8p75pnaj30go0akt9b.jpg)
+
+
+# 创建ORM模型
+
