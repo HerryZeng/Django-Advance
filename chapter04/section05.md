@@ -114,3 +114,9 @@
         school = models.CharField(blank=True,max_length=50)
         user = models.OneToOneField("User", on_delete=models.CASCADE)
 ```
+在 `UserExtension `模型上增加了一个一对一的关系映射。其实底层是在 `UserExtension `这个表上增加了一个 `user_id `，来和 `user `表进行关联，并且这个外键数据在表中必须是唯一的，来保证一对一。
+
+
+### 对多对
+
+
