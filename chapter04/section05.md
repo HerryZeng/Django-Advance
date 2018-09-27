@@ -33,13 +33,13 @@
 ```python
     # User模型在user这个app中
     class User(models.Model):
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=100)
+        username = models.CharField(max_length=20)
+        password = models.CharField(max_length=100)
     
     # Article模型在article这个app中
     class Article(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    
-    author = models.ForeignKey("user.User",on_delete=models.CASCADE)
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        
+        author = models.ForeignKey("user.User",on_delete=models.CASCADE)
 ```
