@@ -84,7 +84,6 @@
 类似于`CharField`，只不过只能用来存储`url`格式的字符串，并且默认的`max_length`是**200**。
 
 
-
 ## Field的常用参数
 
 ### null
