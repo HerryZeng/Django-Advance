@@ -67,3 +67,7 @@
     inner_qs = Article.objects.filter(title__contains='hello')
     categories = Category.objects.filter(article__in=inner_qs)
 ```
+以上代码的意思是获取那些文章标题包含 `hello `的所有分类。将翻译成以下 `SQL `语句，示例代码如下：
+```sql
+    select ...from category where article.id in (select id from article where title like '%hello%');
+```
