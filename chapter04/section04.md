@@ -88,6 +88,7 @@
 
 ### null
 
+如果设置为`True`，`Django`将会映射表的时候指定是否为空。默认是`False`。在使用字符串相关的`Field`**（CharField/TextField）**的时候，官方推荐尽量不要使用这个参数，也就是保持默认值`False`。因为`Django`在处理字符串相关的`Field`的时候，即使这个`Field`的`null=False`，如果你没有给这个`Field`传递任何值，那么`Django`也会傅一个空的字符串`""`来作为默认值存储进去。因此如果再使用`null=True`，`Django`会产生两种空值的情况(**NULL**或空字符串).如果想要在表单验证的时候允许这个字符串为空，那么建议使用`blank=True`。如果你的`Field`是`BooleanField`，那么对就的可空的字段则为`NullBooleanField`。
 
 ### blank
 
