@@ -305,3 +305,28 @@
     
     result = Book.objects.aggregate(book_num=Count('id'))
 ```
+以上的 `result `将返回 `Book `表中总共有多少本图书。`Count `类中，还有另外一个参数叫做 `distinct `，默认是等于 `False `，如果是等于 `True `，那么将去掉那些重复的值。比如要获取作者表中所有的不重复的邮箱总共有多少个，那么可以通过以下代码来实现：
+```python
+    from djang.db.models import Count
+    
+    result = Author.objects.aggregate(count=Count('email',distinct=True))
+```
+3. `Max `和 `Min `：获取指定对象的最大值和最小值。比如想要获取 `Author `表中，最大的年龄和最小的年龄分别是多少。那么可以通过以下代码来实现：
+```python
+    from django.db.models import Max,Min
+    result = Author.objects.aggregate(Max('age'),Min('age'))
+```
+如果最大的年龄是88,最小的年龄是18。那么以上的result将为：
+```python
+    {"age__max":88,"age__min":18}
+```
+4. `Sum `：求指定对象的总和。比如要求图书的销售总额。那么可以使用以下代码实现：
+```python
+    from djang.db.models import Sum
+    result = Book.objects.annotate(total=Sum("bookstore__price")).values("name","total")
+```
+以上的代码 `annotate `的意思是给 `Book `表在查询的时候添加一个字段叫做 `total `，这个字段的数据来源是从 `BookStore `模型的 `price `的总和而来。 `values `方法是只提取 `name `和 `total `两个字段的值。
+
+更多的聚合函数请参考官方文档:
+[https://docs.djangoproject.com/en/2.1/ref/models/querysets/#aggregation-functions](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#aggregation-functions)
+
