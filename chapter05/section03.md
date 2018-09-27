@@ -49,5 +49,4 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 
 我们平时用的 `request.GET` 和 `request.POST` 都是 `QueryDict`对象，这个对象继承自 `dict`，因此用法跟 `dict`相差无几。其中用得比较多的是 `get`方法和 `getlist`方法。
 1. `get`方法：用来获取指定 `key`的值，如果没有这个 `key`，那么会返回 `None`。
-2. getlist 方法：如果浏览器上传上来的 key 对应的值有多个，那么就需要通过这个方法获
-取。
+2. `getlist`方法：如果浏览器上传上来的 `key`对应的值有多个，那么就需要通过这个方法获取。
