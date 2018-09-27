@@ -33,3 +33,11 @@
     def index(request):
         return JsonResponse({"username":"zhiliao","age":18})
 ```
+默认情况下 `JsonResponse`只能对字典进行 `dump`，如果想要对非字典的数据进行 `dump`，那么需要给 `JsonResponse`传递一个 `safe=False` 参数。示例代码如下：
+```python
+    from django.http import JsonResponse
+    
+    def index(request):
+        persons = ['张三','李四','王五']
+        return HttpResponse(persons)
+```
