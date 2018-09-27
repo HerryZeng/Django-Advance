@@ -10,3 +10,9 @@
 
 ### BigAutoField
 
+64位的整形，类似于`AutoField`，只不过是产生的数据范围是从`1-9223372036854775807`。
+
+### BooleanField
+
+在模型层接收的是`True/False`，在数据库层而是`tinyint`类型。如果没有指定默认值，默认值是`None`。
+
