@@ -90,3 +90,11 @@
     article.author = author
     article.save()
 ```
+并且以后如果想要获取某个用户下所有的文章，可以通过 `article_set `来实现。示例代码如下：
+```python
+    user = User.objects.first()
+    # 获取第一个用户写的所有文章
+    articles = user.article_set.all()
+    for article in articles:
+    print(article)
+```
