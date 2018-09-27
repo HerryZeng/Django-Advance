@@ -36,3 +36,6 @@ books = Book.objects.filter(name='三国演义')
 books = Book.objects.filter(name='三国演义',desc='test')
 ```
 调用 filter ，会将所有满足条件的模型对象都返回。
+
+### 获取单个对象
+
