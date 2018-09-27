@@ -39,5 +39,5 @@
     
     def index(request):
         persons = ['张三','李四','王五']
-        return HttpResponse(persons)
+        return HttpResponse(persons,safe=False)
 ```
