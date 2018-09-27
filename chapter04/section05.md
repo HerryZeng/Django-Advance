@@ -119,4 +119,14 @@
 
 ### 对多对
 
+1. 应用场景：比如文章和标签的关系。一篇文章可以有多个标签，一个标签可以被多个文章所引用。因此标签和文章的关系是典型的多对多的关系。
+2. 实现方式： `Django `为这种多对多的实现提供了专门的 `Field `。叫做 `ManyToManyField `。还是拿文章和标签为例进行讲解。示例代码如下：
+```python
+    class Tag(models.Model):
+        name = models.CharField(max_length=50)
 
+    class Article(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        tags = models.ManyToManyField("Tag",related_name="articles")
+```
