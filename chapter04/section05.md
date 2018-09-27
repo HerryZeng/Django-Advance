@@ -65,3 +65,19 @@
 ## 表关系
 
 表之间的关系都是通过外键来进行关联的。而表之间的关系，无非就是三种关系：一对一、一对多（多对一）、多对多等。以下将讨论一下三种关系的应用场景及其实现方式。
+
+### 一对多
+
+1. 应用场景：比如文章和作者之间的关系。一个文章只能由一个作者编写，但是一个作者可以写多篇文章。文章和作者之间的关系就是典型的多对一的关系。
+2. 实现方式：一对多或者多对一，都是通过 ForeignKey 来实现的。还是以文章和作者的案例进行讲解。
+```python
+    class User(models.Model):
+        username = models.CharField(max_length=20)
+        password = models.CharField(max_length=100)
+        
+    class Article(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        
+        author = models.ForeignKey("User",on_delete=models.CASCADE)
+```
