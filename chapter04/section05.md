@@ -16,3 +16,14 @@
     
         author = models.ForeignKey("User",on_delete=models.CASCADE)
 ```
+以上使用`ForeignKey`来定义模型之间的关系。即在`article`的实例中可以通过`author`属性来操作对应的`User`模型。这样使用起来非常方便。示例如下：
+```python
+    from blog.models import User,Article
+    
+    author = User(username='张三',password='123456')
+    author.save()
+    
+    article = Article(title='abc',content='123')
+    article.author=author
+    article.save()
+```
