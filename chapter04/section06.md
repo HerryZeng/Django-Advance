@@ -67,3 +67,10 @@ book.pub_date = datetime.now()
 book.save()
 ```
 
+### 删除数据
+
+在查找到数据后，便可以进行删除了。删除数据非常简单，只需要调用这个对象的 `delete `方法即可。实例代码如下：
+```python
+book = Book.objects.get(name='三国演义')
+book.delete()
+```
