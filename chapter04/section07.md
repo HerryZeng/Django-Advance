@@ -330,3 +330,18 @@
 更多的聚合函数请参考官方文档:
 [https://docs.djangoproject.com/en/2.1/ref/models/querysets/#aggregation-functions](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#aggregation-functions)
 
+
+## aggregate和anotate的区别
+
+1. `aggregate `：返回使用聚合函数后的字段和值。
+2. `annotate `：在原来模型字段的基础之上添加一个使用了聚合函数的字段，并且在使用聚合函数的时候，会使用当前这个模型的主键进行分组（group by）。比如以上 `Sum `的例子，如果使用的是 `annotate `，那么将在每条图书的数据上都添加一个字段叫做 `total `，计算这本书的销售总额。而如果使用的是 `aggregate `，那么将求所有图书的销售总额。
+
+
+## F表达式和Q表达式
+
+
+### F表达式
+
+
+### Q表达式
+
