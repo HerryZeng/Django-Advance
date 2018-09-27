@@ -38,5 +38,5 @@
     rows = cursor.fetchall()
     # 遍历查询到的数据
     for row in rows:
-        print(now)
+        print(row)
 ```
