@@ -218,5 +218,14 @@
 
 # 根据关联的表进行查询
 
-
-
+假如现在有两个 `ORM `模型，一个是 `Article `，一个是 `Category `。代码如下：
+```python
+    class Category(models.Model):
+    """文章分类表"""
+        name = models.CharField(max_length=100)
+        
+    class Article(models.Model):
+    """文章表"""
+        title = models.CharField(max_length=100,null=True)
+        category = models.ForeignKey("Category",on_delete=models.CASCADE)
+```
