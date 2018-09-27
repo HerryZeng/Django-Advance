@@ -43,3 +43,12 @@
         
         author = models.ForeignKey("user.User",on_delete=models.CASCADE)
 ```
+如果模型的外键引用的是本身自己这个模型，那么`to`参数可以为`self` ，或者是这个模型的名字。在论坛开发中，一般评论都可以进行二级评论，即可以针对另外一个评论进行评论，那么在定义模型的时候就需要使用外键来引用自身。示例代码如下：
+```python
+    class Comment(models.Model):
+    content = models.TextField()
+    origin_comment = models.ForeignKey('self',on_delete=models.CASCADE,null=True)
+    
+    # 或者
+    # origin_comment = models.ForeignKey('Comment',on_delete=models.CASCADE,null=True)
+```
