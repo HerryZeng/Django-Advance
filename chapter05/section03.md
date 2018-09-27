@@ -34,3 +34,6 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 19. `REQUEST_METHOD`：请求方法。一个字符串类似于 `GET`或者 `POST`。
 20. `SRVER_NAME `：服务器域名。
 21. `SERVER_PORT`：服务器端口号，是一个字符串类型。
+
+### WSGIRequest对象常用方法
+
