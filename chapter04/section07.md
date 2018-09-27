@@ -362,6 +362,33 @@
         if author.name == author.email:
             print(author)
 ```
+如果使用 `F表达式` ，那么一行代码就可以搞定。示例代码如下：
+```python
+    from django.db.models import F
+    authors = Author.objects.filter(name=F("email"))
+```
 
 ### Q表达式
 
+如果想要实现所有价格高于100元，并且评分达到9.0以上评分的图书。那么可以通过以下代码来实现：
+```python
+    books = Book.objects.filter(price__gte=100,rating__gte=9)
+```
+以上这个案例是一个并集查询，可以简单的通过传递多个条件进去来实现。但是如果想要实现一些复杂的查询语句，比如要查询所有价格低于10元，或者是评分低于9分的图书。那就没有办法通过传递多个条件进去实现了。这时候就需要使用 `Q表达式` 来实现了。示例代码:
+```python
+    from django.db.models import Q
+    books = Book.objects.filter(Q(price__lte=10) | Q(rating__lte=9))
+```
+以上是进行或运算，当然还可以进行其他的运算，比如有 `& `和 `~`（非） 等。一些用 `Q表达式`的例子如下：
+```python
+    from django.db.models import Q
+    
+    # 获取id等于3的图书
+    books = Book.objects.filter(Q(id=3))
+    # 获取id等于3，或者名字中包含文字"记"的图书
+    books = Book.objects.filter(Q(id=3)|Q(name__contains("记")))
+    # 获取价格大于100，并且书名中包含"记"的图书
+    books = Book.objects.filter(Q(price__gte=100)&Q(name__contains("记")))
+    # 获取书名包含“记”，但是id不等于3的图书
+    books = Book.objects.filter(Q(name__contains='记') & ~Q(id=3))
+```
