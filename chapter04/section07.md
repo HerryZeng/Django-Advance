@@ -216,7 +216,7 @@
 `iregex `是大小写不敏感的。
 
 
-# 根据关联的表进行查询
+## 根据关联的表进行查询
 
 假如现在有两个 `ORM `模型，一个是 `Article `，一个是 `Category `。代码如下：
 ```python
@@ -228,4 +228,51 @@
     """文章表"""
         title = models.CharField(max_length=100,null=True)
         category = models.ForeignKey("Category",on_delete=models.CASCADE)
+```
+比如想要获取文章标题中包含"hello"的所有的分类。那么可以通过以下代码来实现：
+```python
+    categories = Category.object.filter(article__title__contains("hello"))
+```
+
+
+## 聚合函数
+
+如果你用原生 `SQL `，则可以使用聚合函数来提取数据。比如提取某个商品销售的数量，那么可以使用 `Count `，如果想要知道商品销售的平均价格，那么可以使用 `Avg `。
+聚合函数是通过 `aggregate `方法来实现的。在讲解这些聚合函数的用法的时候，都是基于以下的模型对象来实现的。
+```python
+    from django.db import models
+    class Author(models.Model):
+        """作者模型"""
+        name = models.CharField(max_length=100)
+        age = models.IntegerField()
+        email = models.EmailField()
+    
+        class Meta:
+        db_table = 'author'
+    
+    class Publisher(models.Model):
+        """出版社模型"""
+        name = models.CharField(max_length=300)
+        
+        class Meta:
+            db_table = 'publisher'
+    class Book(models.Model):
+        """图书模型"""
+        name = models.CharField(max_length=300)
+        pages = models.IntegerField()
+        price = models.FloatField()
+        rating = models.FloatField()
+        author = models.ForeignKey(Author,on_delete=models.CASCADE)
+        publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+        
+        class Meta:
+        db_table = 'book'
+        
+    class BookOrder(models.Model):
+        """图书订单模型"""
+        book = models.ForeignKey("Book",on_delete=models.CASCADE)
+        price = models.FloatField()
+        
+        class Meta:
+        db_table = 'book_order'
 ```
