@@ -31,3 +31,11 @@
     def my_view(request):
         pass
 ```
+4. `django.views.decorators.http.require_safe` ：这个装饰器相当于是 `require_http_methods(['GET','HEAD'])` 的简写形式，只允许使用相对安全的方式来访问视图。因为 `GET `和 `HEAD `不会对服务器产生增删改的行为。因此是一种相对安全的请求方式。示例代码如下：
+```python
+    from django.views.decorators.http import require_safe
+    
+    @require_safe
+    def my_view(request):
+        pass
+```
