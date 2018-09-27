@@ -28,3 +28,18 @@
     article.save()
 ```
 为什么使用了`ForeignKey`后，就能通过`author`访问到对应的`user`对象呢。因此在底层，`Django`为`Article`表添加一个`属性名_id`的字段（比如**author**的字段名称为**author_id**)，这个字段是一个外键，记录着对应的作者的主键。以后通过`article.author`访问的时候，实际上是先通`author_id`找到对应的数据，然后再提取`User`表中的这条数据，形成一个模型。
+
+如果想要引用另外一个`APP`的模型，那么应该在传递`to`参数的时候，使用`app.model_name`进行指定。以上例为例，如果`User`和`Article`不是在同一个`APP`中，那么在引用的时候示例代码如下：
+```python
+    # User模型在user这个app中
+    class User(models.Model):
+    username = models.CharField(max_length=20)
+    password = models.CharField(max_length=100)
+    
+    # Article模型在article这个app中
+    class Article(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    
+    author = models.ForeignKey("user.User",on_delete=models.CASCADE)
+```
