@@ -17,4 +17,9 @@
     select ... from article where id IS NULL;
 ```
 
+### iexact
 
+使用 `like `进行查找。示例代码如下：
+```python
+    article = Article.objects.filter(title__iexact='hello world')
+```
