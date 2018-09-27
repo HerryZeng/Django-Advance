@@ -163,3 +163,7 @@
         # 传递related_name参数，以后在方向引用的时候使用articles进行访问
         author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='+')
 ```
+以后将不能通过 `user.article_set` 来访问文章模型了。
+
+### related_query_name
+
