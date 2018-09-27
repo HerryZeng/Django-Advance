@@ -53,7 +53,7 @@ book = Book.objects.get(name='三国演义')
 ```python
 books = Book.objects.order_by("pub_date")
 ```
-以上代码在提取所有书籍的数据的时候，将会使用 pub_date 从小到大进行排序。如果想要进行倒序排序，那么可以在 pub_date 前面加一个负号。实例代码如下：
+以上代码在提取所有书籍的数据的时候，将会使用 `pub_date `从小到大进行排序。如果想要进行倒序排序，那么可以在 `pub_date `前面加一个负号。实例代码如下：
 ```
 books = Book.objects.order_by("-pub_date")
 ```
