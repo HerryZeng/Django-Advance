@@ -28,6 +28,7 @@
 
 ### DateTimeField
 
+日期时间类型，类似于`DateField`，不仅仅可以存储日期，还可以存储时间。映射到数据库中是`datetime`类型。这个`Field`也可以用`auto_now`和`auto_now_add`这两个属性。
 
 
 ## Field的常用参数
