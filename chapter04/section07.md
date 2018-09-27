@@ -354,7 +354,14 @@
     from djang.db.models import F
     Employee.object.update(salary=F("salary")+1000)
 ```
-
+`F表达式` 并不会马上从数据库中获取数据，而是在生成 `SQL `语句的时候，动态的获取传给 `F表达式` 的值。
+比如如果想要获取作者中， `name `和 `email `相同的作者数据。如果不使用 `F表达式` ，那么需要使用以下代码来完成：
+```python
+    authors = Author.objects.all()
+    for author in authors:
+        if author.name == author.email:
+            print(author)
+```
 
 ### Q表达式
 
