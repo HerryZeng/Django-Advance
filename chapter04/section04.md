@@ -34,6 +34,10 @@
 
 时间类型，在数据库中是`time`类型，在`Python`中是`datetime.datetime`类型。
 
+### EmailField
+
+类似于`CharField`，在数据库底层也是一个`varchar`类型，最大长度是**254**个字符。
+
 
 ## Field的常用参数
 
