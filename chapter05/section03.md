@@ -37,3 +37,11 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 
 ### WSGIRequest对象常用方法
 
+1. is_secure() ：是否是采用 https 协议。
+2. is_ajax() ：是否采用 ajax 发送的请求。原理就是判断请求头中是否存在 X-Requested-
+With:XMLHttpRequest 。
+3. get_host() ：服务器的域名。如果在访问的时候还有端口号，那么会加上端口号。比
+如 www.baidu.com:9000 。
+4. get_full_path() ：返回完整的path。如果有查询字符串，还会加上查询字符串。比
+如 /music/bands/?print=True 。
+5. get_raw_uri() ：获取请求的完整 url 。
