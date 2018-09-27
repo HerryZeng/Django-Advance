@@ -190,4 +190,27 @@
 ```
 以上的代码是获取每一天中12点12分12秒发表的所有文章。
 更多的关于时间的过滤，请参考 Django 官方文档:
-[https://docs.djangoproject.com/en/2.1/ref/models/querysets/](https://docs.djangoproject.com/en/2.1/ref/models/querysets/)
+[https://docs.djangoproject.com/en/2.1/ref/models/querysets/#time](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#time)
+
+### isnull
+
+根据值是否为空进行查找。示例代码如下：
+```python
+    articles = Article.objects.filter(pub_date__isnull=False)
+```
+以上的代码的意思是获取所有发布日期不为空的文章。将来翻译成 `SQL `语句如下：
+```sql
+    select ... where pub_date is not null;
+```
+
+### regex和iregex
+
+大小写敏感和大小写不敏感的正则表达式。示例代码如下：
+```python
+    articles = Article.objects.filter(title__regex=r'^hello')
+```
+以上代码的意思是提取所有标题以 `hello `字符串开头的文章。将翻译成以下的 `SQL `语句：
+```sql
+    select ... where title regexp binary '^hello';
+```
+`iregex `是大小写不敏感的。
