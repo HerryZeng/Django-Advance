@@ -183,3 +183,7 @@
         # 传递related_name参数，以后在方向引用的时候使用articles进行访问
         author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles',related_query_name='article')
 ```
+那么在做反向过滤查找的时候就可以使用以下代码：
+```python
+    users = User.objects.filter(article__title='abc')
+```
