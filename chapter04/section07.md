@@ -256,6 +256,7 @@
         
         class Meta:
             db_table = 'publisher'
+            
     class Book(models.Model):
         """图书模型"""
         name = models.CharField(max_length=300)
