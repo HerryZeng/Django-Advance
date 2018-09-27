@@ -295,3 +295,13 @@
     result = Book.objects.aggregate(my_avg=Avg('price'))
     print(result)
 ```
+那么以上的结果打印为:
+```python
+    {"my_avg":23}
+```
+2. Count ：获取指定的对象的个数。示例代码如下：
+```python
+    from django.db.models import Count
+    
+    result = Book.objects.aggregate(book_num=Count('id'))
+```
