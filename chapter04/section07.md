@@ -180,3 +180,14 @@
 
 ### week_day
 
+`Django 1.11` 新增的查找方式。同 `year `，根据星期几进行查找。1表示星期天，7表示星期六， 2-6 代表的是星期一到星期五。
+
+### time
+
+根据时间进行查找。示例代码如下：
+```python
+    articles = Article.objects.filter(pub_date__time=datetime.time(12,12,12));
+```
+以上的代码是获取每一天中12点12分12秒发表的所有文章。
+更多的关于时间的过滤，请参考 Django 官方文档:
+[https://docs.djangoproject.com/en/2.1/ref/models/querysets/](https://docs.djangoproject.com/en/2.1/ref/models/querysets/)
