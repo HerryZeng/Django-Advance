@@ -98,3 +98,19 @@
     for article in articles:
     print(article)
 ```
+
+### 一对一
+
+1. 应用场景：比如一个用户表和一个用户信息表。在实际网站中，可能需要保存用户的许多信息，但是有些信息是不经常用的。如果把所有信息都存放到一张表中可能会影响查询效率，因此可以把用户的一些不常用的信息存放到另外一张表中我们叫做 `UserExtension `。但是用户
+表 `User `和用户信息表 `UserExtension `就是典型的一对一了。
+2. 实现方式： `Django `为一对一提供了一个专门的 `Field `叫做 `OneToOneField `来实现一对一操作。示例代码如下：
+```python
+    class User(models.Model):
+        username = models.CharField(max_length=20)
+        password = models.CharField(max_length=100)
+        
+    class UserExtension(models.Model):
+        birthday = models.DateTimeField(null=True)
+        school = models.CharField(blank=True,max_length=50)
+        user = models.OneToOneField("User", on_delete=models.CASCADE)
+```
