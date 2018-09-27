@@ -342,6 +342,13 @@
 
 ### F表达式
 
+`F表达式` 是用来优化 ORM 操作数据库的。比如我们要将公司所有员工的薪水都增加1000元，如果按照正常的流程，应该是先从数据库中提取所有的员工工资到`Python`内存中，然后使用`Python`代码在员工工资的基础之上增加1000元，最后再保存到数据库中。这里面涉及的流程就是，首先从数据库中提取数据到`Python`内存中，然后在`Python`内存中做完运算，之后再保存到数据库中。示例代码如下：
+```python
+    employees = Employee.objects.all()
+    for employee in employees:
+    employee.salary += 1000
+    employee.save()
+```
 
 ### Q表达式
 
