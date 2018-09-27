@@ -27,3 +27,27 @@
 ```sql
     select ... from article where title like 'hello world';
 ```
+注意上面这个 `sql `语句，因为在 `MySQL `中，没有一个叫做 `ilike `的。所以 `exact `和 `iexact `的区别实际上就是 `LIKE `和 `= `的区别，在大部分 `collation=utf8_general_ci` 情况下都是一样的（ `collation `是用来对字符串比较的）。
+
+### contains
+
+**大小写敏感**，判断某个字段是否包含了某个数据。示例代码如下：
+```python
+    articles = Article.objects.filter(title__contains='hello')
+```
+在翻译成 `SQL `语句为如下：
+```sql
+    select ... where title like binary '%hello%';
+```
+要注意的是，在使用 `contains `的时候，翻译成的 `sql `语句左右两边是有百分号的，意味着使用的是模糊查询。而 `exact `翻译成 `sql `语句左右两边是没有百分号的，意味着使用的是精确的查询。
+
+### icontains
+
+**大小写不敏感**的匹配查询。示例代码如下：
+```python
+    articles = Article.objects.filter(title__icontains='hello')
+```
+在翻译成 `SQL `语句为如下：
+```sql
+    select ... where title like '%hello%';
+```
