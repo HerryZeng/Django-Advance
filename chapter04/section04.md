@@ -30,6 +30,10 @@
 
 日期时间类型，类似于`DateField`，不仅仅可以存储日期，还可以存储时间。映射到数据库中是`datetime`类型。这个`Field`也可以用`auto_now`和`auto_now_add`这两个属性。
 
+### TimeField
+
+时间类型，在数据库中是`time`类型，在`Python`中是`datetime.datetime`类型。
+
 
 ## Field的常用参数
 
