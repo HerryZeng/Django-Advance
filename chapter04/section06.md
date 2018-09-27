@@ -24,4 +24,15 @@
 ```python
     books = Book.objects.all()
 ```
-以上将返回 Book 模型下的所有数据。
+以上将返回 `Book `模型下的所有数据。
+
+### 数据过滤
+
+在查找数据的时候，有时候需要对一些数据进行过滤。那么这时候需要调用 `objects `的 `filter `方法。实例代码如下：
+```python
+books = Book.objects.filter(name='三国演义')
+> [<Book:三国演义>]
+# 多个条件
+books = Book.objects.filter(name='三国演义',desc='test')
+```
+调用 filter ，会将所有满足条件的模型对象都返回。
