@@ -37,7 +37,6 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 ```
 
 
-
 ### WSGIRequest对象常用方法
 
 1. is_secure() ：是否是采用 https 协议。
