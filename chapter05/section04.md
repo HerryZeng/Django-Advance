@@ -19,3 +19,17 @@
 
 ## 常用方法
 
+1. `set_cookie`：用来设置 `cookie`信息。后面讲到授权的时候会着重讲到。
+2. `delete_cookie`：用来删除 `cookie`信息。
+3. `write`： `HttpResponse`是一个类似于文件的对象，可以用来写入数据到数据体（**content**）中。
+
+
+# JsonResponse类
+
+用来对象 `dump`成 `json`字符串，然后返回将 `json` 字符串封装成 `Response`对象返回给浏览器。并且他的 `Content-Type` 是 `application/json` 。示例代码如下：
+```python
+    from django.http import JsonResponse
+    
+    def index(request):
+        return JsonResponse({"username":"zhiliao","age":18})
+```
