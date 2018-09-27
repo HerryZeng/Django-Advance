@@ -167,3 +167,19 @@
 
 ### related_query_name
 
+在查找数据的时候，可以使用 `filter `进行过滤。使用 `filter `过滤的时候，不仅仅可以指定本模型上的某个属性要满足什么条件，还可以指定相关联的模型满足什么属性。比如现在想要获取写过标题为 `abc `的所有用户，那么可以这样写：
+```python
+    users = User.objects.filter(article__title='abc')
+```
+如果你设置了 `related_name `为 `articles `，因为反转的过滤器的名字将使用 `related_name `的名字，那么上例代码将改成如下：
+```python
+    users = User.objects.filter(articles__title='abc')
+```
+可以通过 `related_query_name `将查询的反转名字修改成其他的名字。比如 `article `。示例代码如下：
+```python
+    class Article(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        # 传递related_name参数，以后在方向引用的时候使用articles进行访问
+        author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles',related_query_name='article')
+```
