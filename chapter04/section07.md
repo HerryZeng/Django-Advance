@@ -51,3 +51,14 @@
 ```sql
     select ... where title like '%hello%';
 ```
+
+### in
+
+提取那些给定的 `field `的值是否在给定的容器中。容器可以为 `list `、 `tuple `或者任何一个可以迭代的对象，包括 `QuerySet `对象。示例代码如下：
+```python
+    articles = Article.objects.filter(id__in=[1,2,3])
+```
+以上代码在翻译成 `SQL `语句为如下：
+```sql
+    select ... where id in (1,3,4)
+```
