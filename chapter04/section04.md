@@ -110,6 +110,9 @@
 
 在表中这个字段的值是否唯一，一般是设置手机号/邮箱等。
 
+更多`Feild`参数请参考官方文档：
+[https://docs.djangoproject.com/zh-hans/2.1/ref/models/fields/](https://docs.djangoproject.com/zh-hans/2.1/ref/models/fields/)
+
 # 模型中`Meta`配置
 
 
