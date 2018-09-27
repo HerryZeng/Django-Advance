@@ -23,3 +23,7 @@
 ```python
     article = Article.objects.filter(title__iexact='hello world')
 ```
+那么以上的查询就等价于以下的 `SQL `语句：
+```sql
+    select ... from article where title like 'hello world';
+```
