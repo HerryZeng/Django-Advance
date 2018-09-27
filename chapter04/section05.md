@@ -131,3 +131,14 @@
         tags = models.ManyToManyField("Tag",related_name="articles")
 ```
 在数据库层面，实际上 `Django `是为这种多对多的关系建立了一个中间表。这个中间表分别定义了两个外键，引用到 `article `和 `tag `两张表的主键。
+
+
+## related_name和related_query_name
+
+### related_name
+
+还是以 `User `和 `Article `为例来进行说明。如果一个 `article `想要访问对应的作者，那么可以通过 `author `来进行访问。但是如果有一个 `user `对象，想要通过这个 `user `对象获取所有的文章，该如何做呢？这时候可以通过 `user.article_set` 来访问，这个名字的规律是 `模型名字小写_set` 。示例代码如下：
+```python
+    user = User.objects.get(name='张三')
+    user.article_set.all()
+```
