@@ -115,5 +115,33 @@
 
 # 模型中`Meta`配置
 
+对于一些模型级别的配置，我们可以在模型中定义一个类，叫做`Meta`。然后在这个类中清加一些类属性来控制模型的作用。比如我们杨要在数据库映射的时候使用自己指定的表名，而不是使用模型的名称。那么我们可以在`Meta`类中添加一个`db_table`的属性。示例代码如下：
+```python
+    class Book(models.Model):
+        name = models.CharField(max_length=20,null=False)
+        desc = models.CharField(max_length=100,name='description',db_column='description1')
+        
+        class Meta:
+            db_table = 'book_model'
+```
+以下将对`Meta`类中的一些常用配置进行解释。
+
+
+### db_table
+
+这个模型映射到数据库中的表名，如果没有指定这个参数，那么在映射的时候会使用模型名来作为默认的表名。
+
+### ordering
+
+设置在提取数据的排序方式，后面章节中会讲到如何查找数据。比如我想在查找数据的时候根据添加的时间排序，示例如下：
+```python
+    class Book(models.Model):
+        name = models.CharField(max_length=20,null=False)
+        desc = models.CharField(max_length=100,name='description',db_column='description1')
+        
+        class Meta:
+            db_table = 'book_model'
+```
+
 
 
