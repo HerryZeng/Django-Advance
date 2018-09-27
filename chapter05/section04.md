@@ -8,11 +8,14 @@
 1. `content`：返回的内容。
 2. `status_code`：返回的HTTP响应状态码。
 3. `content_type`：返回的数据的MIME类型，默认为 `text/html` 。浏览器会根据这个属性，来显示数据。如果是 `text/html` ，那么就会解析这个字符串，如果`text/plain` ，那么就会显示一个纯文本。常用的 `Content-Type` 如下：
-+ text/html（默认的，html文件）
-+ text/plain（纯文本）
-+ text/css（css文件）
-+ text/javascript（js文件）
-+ multipart/form-data（文件提交）
-+ application/json（json传输）
-+ application/xml（xml文件）
-4. 设置请求头： response['X-Access-Token'] = 'xxxx' 。
+    + text/html（默认的，html文件）
+    + text/plain（纯文本）
+    + text/css（css文件）
+    + text/javascript（js文件）
+    + multipart/form-data（文件提交）
+    + application/json（json传输）
+    + application/xml（xml文件）
+4. 设置请求头： `response['X-Access-Token'] = 'xxxx'` 。
+
+## 常用方法
+
