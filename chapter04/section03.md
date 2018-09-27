@@ -14,3 +14,15 @@
 
 # 创建ORM模型
 
+`ORM`模型一般都放在`APP`的`models.py`文件中，每个`APP`都可以拥有自己的模型。并且如果这个模型想要映射到数据库中，那么这个`APP`必须放在`settings.py`的`INSTALLED_APP`中进行安装。示例如下：
+```python
+    from django.db import models
+    
+    class Book(models.Model):
+        name = models.CharField(max_length=20,null=False)
+        author = models.CharField(max_lenght=20,nullFalse)
+        pub_date = models.DataTimeField(default=datetime.now)
+        price = models.FloatField(default=0)
+```
+以上是定义了一个模型。这个模型继承`django.db.models.Model`，如果这个模型想要映射到数据库中，就必须继承自这个类。这个模型以后映射到数据库中，表名是模型名称的小写形式，为`book`。在这个表中，有四个字段，一个为`name`，这个字段保存是书的名称，是`varchar`类型，最长不能超过20个字符 ，并且不能为空。第二个字段是作者名字，同样是`varchar`类型，最长不能超过20个字符 ，并且不能为空。第三个字段是出版时间，数据类型是`datetime`类型，默认是保存这本书的时间。第五个字段是本书的价格，是浮点类型。
+还有一个字段我们没有写，就是主键`id`，在`Django`中，如果一模型没有定义主键，那么将会自动生成一个自动增长的`int`类型的主键，并且这个主键的名字为`id`。
