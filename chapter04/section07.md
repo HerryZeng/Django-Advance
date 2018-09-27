@@ -11,4 +11,10 @@
     article = Article.objects.get(id__exact=14)
     article = Article.objects.get(id__exact=None)
 ```
+以上的两个查找在翻译为 SQL 语句为如下：
+```sql
+    select ... from article where id=14;
+    select ... from article where id IS NULL;
+```
+
 
