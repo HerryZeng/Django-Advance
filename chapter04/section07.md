@@ -277,3 +277,10 @@
         class Meta:
         db_table = 'book_order'
 ```
+1. `Avg `：求平均值。比如想要获取所有图书的价格平均值。那么可以使用以下代码实现。
+```python
+    from django.db.models import Avg
+    
+    result = Book.objects.aggregate(Avg('price'))
+    print(result)
+```
