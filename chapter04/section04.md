@@ -59,6 +59,30 @@
 大整形，值的区间：`-9223372036854775808-9223372036854775807`。
 
 
+### PositiveIntegerField
+
+正整形，值的区间：`0-2147483647`。
+
+### SmallIntegerField
+
+小整形，值的区间：`-32768-32767`。
+
+### PositiveSmallIntegerField
+
+正小整形，值的区间：`0-32767`。
+
+### TextField
+
+大量的文本类型，映射到数据库中的是`longtext`类型。
+
+### UUIDField
+
+只能存储`uuid`格式的字符串，`uuid`是一个**32**位的全球唯一的字符串，一般用来作为主键。
+
+### URLField
+
+类似于`CharField`，只不过只能用来存储`url`格式的字符串，并且默认的`max_length`是**200**。
+
 ## Field的常用参数
 
 ### null
