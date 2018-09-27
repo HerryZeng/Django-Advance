@@ -27,3 +27,4 @@
     article.author=author
     article.save()
 ```
+为什么使用了`ForeignKey`后，就能通过`author`访问到对应的`user`对象呢。因此在底层，`Django`为`Article`表添加一个`属性名_id`的字段（比如**author**的字段名称为**author_id**)，这个字段是一个外键，记录着对应的作者的主键。以后通过`article.author`访问的时候，实际上是先通`author_id`找到对应的数据，然后再提取`User`表中的这条数据，形成一个模型。
