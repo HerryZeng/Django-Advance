@@ -81,3 +81,12 @@
         
         author = models.ForeignKey("User",on_delete=models.CASCADE)
 ```
+那么以后在给 `Article `对象指定 `author `，就可以使用以下代码来完成：
+```python
+    article = Article(title='abc',content='123')
+    author = User(username='zhiliao',password='111111')
+    # 要先保存到数据库中
+    author.save()
+    article.author = author
+    article.save()
+```
