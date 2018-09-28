@@ -35,3 +35,27 @@
     for row in rows:
     print(row)
 ```
+7. 查询所有课程成绩小于60分的同学的id和姓名
+```python
+    students = Student.objects.exclude(score__number__gt=60)
+    for student in students:
+        print(student)
+```
+8. 查询没有学全所有课的同学的id、姓名
+```python
+    students = Student.objects.annotate(num=Count(F("score__course"))).filter(num__lt=Course.objects.count()).values('id','name')
+    for student in students:
+    print(student)
+```
+9. 查询所有学生的姓名、平均分，并且按照平均分从高到低排序
+```python
+    students = Student.objects.annotate(avg=Avg("score__number")).order_by("-avg").values('name','avg')
+    for student in students:
+        print(student)
+```
+10. 查询各科成绩的最高和最低分，以如下形式显示：课程ID，课程名称，最高分，最低分
+```python
+    courses = Course.objects.annotate(min=Min("score__number"),max=Max("score__number")).values("id",'name','min','max')
+    for course in courses:
+        print(course)
+```
