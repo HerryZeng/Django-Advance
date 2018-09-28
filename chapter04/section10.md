@@ -59,3 +59,31 @@
     for course in courses:
         print(course)
 ```
+11. 查询每门课程的平均成绩，按照平均成绩进行排序
+```python
+    courses = Course.objects.annotate(avg=Avg("score__number")).order_by('avg').values('id','name','avg')
+    for course in courses:
+        print(course)
+```
+12. 统计总共有多少女生，多少男生
+```python
+    rows = Student.objects.aggregate(male_num=Count("gender",filter=Q(gender=1)),female_num=Count("gender",filter=Q(gender=2)))
+    print(rows)
+```
+13. 将“黄老师”的每一门课程都在原来的基础之上加5分
+```python
+    rows = Score.objects.filter(course__teacher__name='黄老师').update(number=F("number")+5)
+    print(rows)
+```
+14. 查询两门以上不及格的同学的id、姓名、以及不及格课程数
+```python
+    students = Student.objects.annotate(bad_count=Count("score__number",filter=Q(score__number__lt=60))).filter(bad_count__gte=2).values('id','name','bad_count')
+    for student in students:
+    print(student)
+```
+15. 查询每门课的选课人数
+```python
+    courses = Course.objects.annotate(student_nums=Count("score__student")).values('id','name','student_nums')
+    for course in courses:
+        print(course)
+```
