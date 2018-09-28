@@ -35,11 +35,6 @@
 ```
 使用之前学到过的操作实现下面的查询操作：
 1. 查询平均成绩大于60分的同学的id和平均成绩；
-```python
-    rows = Student.objects.annotate(avg=Avg("score__number")).filter(avg__gte=60).values("id","avg")
-    for row in rows:
-        print(row)
-```
 2. 查询所有同学的id、姓名、选课的数量、总成绩；
 3. 查询姓“李”的老师的个数；
 4. 查询没学过“李老师”课的同学的id、姓名；
