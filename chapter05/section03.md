@@ -23,10 +23,10 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 14. `HTTP_HOST`：客户端发送的HOST值。
 15. `HTTP_REFERER`：在访问这个页面上一个页面的url。
 16. `QUERY_STRING`：单个字符串形式的查询字符串（未解析过的形式）。
-17.  `REMOTE_HOST`：客户端的主机名。
-18.  `REQUEST_METHOD`：请求方法。一个字符串类似于 `GET`或者 `POST`。
-19.  `SRVER_NAME `：服务器域名。
-20.  `SERVER_PORT`：服务器端口号，是一个字符串类型。
+17. `REMOTE_HOST`：客户端的主机名。
+18. `REQUEST_METHOD`：请求方法。一个字符串类似于 `GET`或者 `POST`。
+19. `SRVER_NAME `：服务器域名。
+20. `SERVER_PORT`：服务器端口号，是一个字符串类型。
 21. `REMOTE_ADDR`：客户端的IP地址。如果服务器使用了 nginx 做反向代理或者负载均衡，那么这个值返回的是 127.0.0.1 ，这时候可以使用 `HTTP_X_FORWARDED_FOR`来获取，所以获取 `ip`地址的代码片段如下:
 
 ```python
