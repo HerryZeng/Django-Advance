@@ -39,3 +39,28 @@
 
 
 ## 常用验证器
+
+在验证某个字段的时候，可以传递一个 `validators`参数用来指定验证器，进一步对数据进行过滤。验证器有很多，但是很多验证器我们其实已经通过这个 Field 或者一些参数就可以指定了。比如 `EmailValidator`，我们可以通过 `EmailField`来指定，比如 `MaxValueValidator`，我们可以通过 `max_value`参数来指定。以下是一些常用的验证器：
+1. `MaxValueValidator`：验证最大值。
+2. `MinValueValidator`：验证最小值。
+3. `MinLengthValidator`：验证最小长度。
+4. `MaxLengthValidator`：验证最大长度。
+5. `EmailValidator`：验证是否是邮箱格式。
+6. `URLValidator`：验证是否是 URL 格式。
+7. `RegexValidator`：如果还需要更加复杂的验证，那么我们可以通过正则表达式的验证器： RegexValidator 。比如现在要验证手机号码是否合格，那么我们可以通过以下代码实现：
+```python
+    class MyForm(forms.Form):
+        telephone = forms.CharField(validators=[validators.RegexValidator("1[345678]\d{9}",message='请输入正确格式的手机号码！')])
+```
+
+## 自定义验证
+
+有时候对一个字段验证，不是一个长度，一个正则表达式能够写清楚的，还需要一些其他复杂的逻辑，那么我们可以对某个字段，进行自定义的验证。比如在注册的表单验证中，我们想要验证手机号码是否已经被注册过了，那么这时候就需要在数据库中进行判断才知道。对某个字段进行自定义的验证方式是，定义一个方法，这个方法的名字定义规则是： `clean_fieldname`。如果验证失败，那么就抛出一个验证错误。比如要验证用户表中手机号码之前是否在数据库中存在，那么可以通过以下代码实现：
+```python
+    class MyForm(forms.Form):
+    telephone = forms.CharField(validators=[validators.RegexValidator("1[345678]\d{9}",message='请输入正确格式的手机号码！')])
+    
+    def clean_telephone(self):
+        telephone = self.cleaned_data.get('telephone')
+        exists = User.objects.filter(telephone=telephone).exists()
+```
