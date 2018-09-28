@@ -38,3 +38,15 @@
 
 ## TemplateView
 
+`django.views.generic.base.TemplateView`，这个类视图是专门用来返回模版的。在这个类中，有两个属性是经常需要用到的，一个是 `template_name`，这个属性是用来存储模版的路径， `TemplateView`会自动的渲染这个变量指向的模版。另外一个是 `get_context_data`，这个方法是用来返回上下文数据的，也就是在给模版传的参数的。示例代码如下：
+```python
+    from django.views.generic.base import TemplateView
+    
+    class HomePageView(TemplateView):
+        template_name = "home.html"
+        
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['username'] = "黄老师"
+            return context
+```
