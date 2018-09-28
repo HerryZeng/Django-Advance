@@ -55,3 +55,19 @@
 
 ## 生成大的CSV文件
 
+以上的例子是生成的一个小的 `csv`文件，如果想要生成大型的 `csv`文件，那么以上方式将有可能会发生超时的情况（服务器要生成一个大型csv文件，需要的时间可能会超过浏览器默认的超时时间）。这时候我们可以借助另外一个类，叫做 `StreamingHttpResponse`对象，这个对象是将响应的数据作为一个流返回给客户端，而不是作为一个整体返回。示例代码如下：
+```python
+    class Echo:
+        """
+        定义一个可以执行写操作的类，以后调用csv.writer的时候，就会执行这个方法
+        """
+        def write(self, value):
+        return value
+    def large_csv(request):
+        rows = (["Row {}".format(idx), str(idx)] for idx in range(655360))    
+        pseudo_buffer = Echo()
+        writer = csv.writer(pseudo_buffer)
+        response = StreamingHttpResponse((writer.writerow(row) for row in rows),content_type="text/csv")
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        return response
+```
