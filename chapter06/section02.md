@@ -12,3 +12,8 @@
 + min_length：这个字段值的最小长度。
 + required：这个字段是否是必须的。默认是必须的。
 + error_messages：在某个条件验证失败的时候，给出错误信息。
+
+### EmailField
+
+用来接收邮件，会自动验证邮件是否合法。
+错误信息的key： required 、 invalid。
