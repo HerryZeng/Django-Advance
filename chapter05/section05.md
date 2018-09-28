@@ -72,3 +72,11 @@
         return response
 ```
 这里我们构建了一个非常大的数据集 `rows`，并且将其变成一个迭代器。然后因为 `StreamingHttpResponse`的第一个参数只能是一个生成器，因此我们使用圆括号 `(writer.writerow(row) for row in rows)` ，并且因为我们要写的文件是 csv 格式的文件，因此需要调用 `writer.writerow` 将 `row`变成一个 csv 格式的字符串。而调用 `writer.writerow` 又需要一个中间的容器，因此这里我们定义了一个非常简单的类 `Echo`，这个类只实现一个 `write`方法，以后在执行 `csv.writer(pseudo_buffer)` 的时候，就会调用 `Echo.writer` 方法。注意： `StreamingHttpResponse`会启动一个进程来和客户端保持长连接，所以会很消耗资源。所以如果不是特殊要求，尽量少用这种方法。
+
+### 关于StreamingHttpResponse
+
+这个类是专门用来处理流数据的。使得在处理一些大型文件的时候，不会因为服务器处理时间过长而到时连接超时。这个类不是继承自 `HttpResponse`，并且跟 `HttpResponse`对比有以下几点区别：
+1. 这个类没有属性 `content`，相反是 `streaming_content`。
+2. 这个类的 `streaming_content`必须是一个可以迭代的对象。
+3. 这个类没有 `write`方法，如果给这个类的对象写入数据将会报错。
+注意： `StreamingHttpResponse`会启动一个进程来和客户端保持长连接，所以会很消耗资源。所以如果不是特殊要求，尽量少用这种方法。
