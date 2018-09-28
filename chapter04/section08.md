@@ -19,7 +19,8 @@
 Article.objects.exclude(title__contains='hello')
 ```
 以上代码的意思是提取那些标题不包含 hello 的图书。
-3. annotate ：给 QuerySet 中的每个对象都添加一个使用查询表达式（聚合函数、F表达式、Q
-表达式、Func表达式等）的新字段。示例代码如下：
-articles = Article.objects.annotate(author_name=F("author__name"))
+3. `annotate`：给 `QuerySet`中的每个对象都添加一个使用查询表达式（聚合函数、F表达式、Q表达式、Func表达式等）的新字段。示例代码如下：
+```python
+    articles = Article.objects.annotate(author_name=F("author__name"))
+```
 以上代码将在每个对象中都添加一个 author__name 的字段，用来显示这个文章的作者的年
