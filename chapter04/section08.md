@@ -18,9 +18,24 @@
 ```python
 Article.objects.exclude(title__contains='hello')
 ```
-以上代码的意思是提取那些标题不包含 hello 的图书。
+以上代码的意思是提取那些标题不包含 `hello`的图书。
 3. `annotate`：给 `QuerySet`中的每个对象都添加一个使用查询表达式（聚合函数、F表达式、Q表达式、Func表达式等）的新字段。示例代码如下：
 ```python
     articles = Article.objects.annotate(author_name=F("author__name"))
 ```
-以上代码将在每个对象中都添加一个 author__name 的字段，用来显示这个文章的作者的年
+以上代码将在每个对象中都添加一个 author__name 的字段，用来显示这个文章的作者的年龄。
+4. `order_by`：指定将查询的结果根据某个字段进行排序。如果要倒叙排序，那么可以在这个字段的前面加一个**负号**。示例代码如下：
+```python
+    # 根据创建的时间正序排序
+    articles = Article.objects.order_by("create_time")
+    # 根据创建的时间倒序排序
+    articles = Article.objects.order_by("-create_time")
+    # 根据作者的名字进行排序
+    articles = Article.objects.order_by("author__name")
+    # 首先根据创建的时间进行排序，如果时间相同，则根据作者的名字进行排序
+    articles = Article.objects.order_by("create_time",'author__name')
+    一定要注意的一点是，多个 order_by ，会把前面排序的规则给打乱，而使用后面的排序方
+    式。比如以下代码：
+    articles = Article.objects.order_by("create_time").order_by("author__name")
+```
+他会根据作者的名字进行排序，而不是使用文章的创建时间。
