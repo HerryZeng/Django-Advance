@@ -34,8 +34,14 @@ Article.objects.exclude(title__contains='hello')
     articles = Article.objects.order_by("author__name")
     # 首先根据创建的时间进行排序，如果时间相同，则根据作者的名字进行排序
     articles = Article.objects.order_by("create_time",'author__name')
-    一定要注意的一点是，多个 order_by ，会把前面排序的规则给打乱，而使用后面的排序方
-    式。比如以下代码：
+    # 一定要注意的一点是，多个 order_by ，会把前面排序的规则给打乱，而使用后面的排序方式。比如以下代码：
     articles = Article.objects.order_by("create_time").order_by("author__name")
 ```
 他会根据作者的名字进行排序，而不是使用文章的创建时间。
+5. `values`：用来指定在提取数据出来，需要提取哪些字段。默认情况下会把表中所有的字段全部都提取出来，可以使用 `values`来进行指定，并且使用了 `values`方法后，提取出的 `QuerySet`中的数据类型不是模型，而是在 `values`方法中指定的字段和值形成的字典：
+```python
+articles = Article.objects.values("title",'content')
+for article in articles:
+print(article)
+```
+以上打印出来的 `article`是类似于 `{"title":"abc","content":"xxx"}` 的形式。如果在 `values`中没有传递任何参数，那么将会返回这个恶模型中所有的属性。
