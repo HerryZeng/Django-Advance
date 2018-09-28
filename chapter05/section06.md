@@ -50,3 +50,21 @@
             context['username'] = "黄老师"
             return context
 ```
+在 `urls.py` 中的映射代码如下：
+```python
+    from django.urls import path
+    from myapp.views import HomePageView
+    
+    urlpatterns = [
+        path('', HomePageView.as_view(), name='home'),
+    ]
+```
+如果在模版中不需要传递任何参数，那么可以直接只在 `urls.py` 中使用 `TemplateView`来渲染模版。示例代码如下：
+```python
+    from django.urls import path
+    from django.views.generic import TemplateView
+    
+    urlpatterns = [
+        path('about/', TemplateView.as_view(template_name="about.html")),
+    ]
+```
