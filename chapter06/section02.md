@@ -17,3 +17,25 @@
 
 用来接收邮件，会自动验证邮件是否合法。
 错误信息的key： required 、 invalid。
+
+### FloatField
+
+用来接收浮点类型，并且如果验证通过后，会将这个字段的值转换为浮点类型。参数：
++ max_value：最大的值。
++ min_value：最小的值。
+错误信息的key： `required`、 `invalid`、 `max_value`、 `min_value`。
+
+### IntegerField
+
+用来接收整形，并且验证通过后，会将这个字段的值转换为整形。参数：
++ max_value：最大的值。
++ min_value：最小的值。
+错误信息的key： `required`、 `invalid`、 `max_value`、 `min_value`。
+
+### URLField
+
+用来接收 url 格式的字符串。
+错误信息的key： `required`、 `invalid `。
+
+
+## 常用验证器
