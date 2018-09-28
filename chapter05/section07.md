@@ -18,4 +18,15 @@
 
 ## 错误处理的解决方案
 
+对于 `404`和 `500`这种自动抛出的错误。我们可以直接在 `templates`文件夹下新建相应错误代码的模板文件。而对于其他的错误，我们可以专门定义一个 `app`，用来处理这些错误。
+```python
+    from django.shortcuts import render
+    
+    def view_403(request):
+        return render(request,'errors/403.html',status=403)
+        
+    def view_400(request):
+        return render(request,'errors/400.html',status=400)
+```
+
 
