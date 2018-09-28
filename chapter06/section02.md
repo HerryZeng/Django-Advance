@@ -63,4 +63,7 @@
     def clean_telephone(self):
         telephone = self.cleaned_data.get('telephone')
         exists = User.objects.filter(telephone=telephone).exists()
+        if exists:
+            raise forms.ValidationError("手机号码已经存在！")
+        return telephone
 ```
