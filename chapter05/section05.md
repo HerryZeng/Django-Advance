@@ -25,3 +25,33 @@
 
 ## 将`csv`文件定义成模板
 
+我们还可以将 `csv`格式的文件定义成模板，然后使用 `Django`内置的模板系统，并给这个模板传入一个 `Context`对象，这样模板系统就会根据传入的 `Context`对象，生成具体的 `csv`文件。示例代码如下：
+```python
+    # 模板文件
+    {% for row in data %}
+        "{{ row.0|addslashes }}", 
+        "{{ row.1|addslashes }}", 
+        "{{ row.2|addslashes }}", 
+        "{{ row.3|addslashes }}", 
+        "{{ row.4|addslashes }}"
+    {% endfor %}
+    
+    # 视图函数
+    from django.http import HttpResponse
+    from django.template import loader, Context
+    
+    def some_view(request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        csv_data = (
+            ('First row', 'Foo', 'Bar', 'Baz'),
+            ('Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"),
+        )
+        
+        t = loader.get_template('my_template_name.txt')
+        response.write(t.render({"data": csv_data}))
+        return response
+```
+
+## 生成大的CSV文件
+
