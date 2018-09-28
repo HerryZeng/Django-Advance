@@ -13,3 +13,9 @@
         def get(self,request,*args,**kwargs):
             return render(request,'detail.html')
 ```
+类视图写完后，还应该在 `urls.py` 中进行映射，映射的时候就需要调用 `View`的类方法 `as_view()` 来进行转换。示例代码如下：
+```python
+    urlpatterns = [
+        path("detail/<book_id>/",views.BookDetailView.as_view(),name='detail'),
+    ]
+```
