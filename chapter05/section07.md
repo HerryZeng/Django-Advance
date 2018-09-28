@@ -28,5 +28,3 @@
     def view_400(request):
         return render(request,'errors/400.html',status=400)
 ```
-
-
