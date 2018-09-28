@@ -11,5 +11,5 @@
     
     class BookDetailView(View):
         def get(self,request,*args,**kwargs):
-        return render(request,'detail.html')
+            return render(request,'detail.html')
 ```
