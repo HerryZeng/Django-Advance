@@ -68,3 +68,102 @@
         path('about/', TemplateView.as_view(template_name="about.html")),
     ]
 ```
+
+## ListView
+
+在网站开发中，经常会出现需要列出某个表中的一些数据作为列表展示出来。比如文章列表，图书列表等等。在 `Django`中可以使用 `ListView`来帮我们快速实现这种需求。示例代码如下：
+```python
+    class ArticleListView(ListView):
+        model = Article
+        template_name = 'article_list.html'
+        paginate_by = 10
+        context_object_name = 'articles'
+        ordering = 'create_time'
+        page_kwarg = 'page'
+        
+        def get_context_data(self, **kwargs):
+            context = super(ArticleListView, self).get_context_data(**kwargs)
+            print(context)
+            return context
+        
+        def get_queryset(self):
+            return Article.objects.filter(id__lte=89)
+```
+对以上代码进行解释：
+1. 首先 `ArticleListView`是继承自 `ListView`。
+2. `model`：重写 `model`类属性，指定这个列表是给哪个模型的。
+3. `template_name`：指定这个列表的模板。
+4. `paginate_by`：指定这个列表一页中展示多少条数据。
+5. `context_object_name`：指定这个列表模型在模板中的参数名称。
+6. `ordering`：指定这个列表的排序方式。
+7. `page_kwarg`：获取第几页的数据的参数名称。默认是 page 。
+8. `get_context_data`：获取上下文的数据。
+9. `get_queryset`：如果你提取数据的时候，并不是要把所有数据都返回，那么你可以重写这个方法。将一些不需要展示的数据给过滤掉。
+
+## Paginator和Page类
+
+`Paginator`和 `Page`类都是用来做分页的。他们在 `Django`中的路径为 `django.core.paginator.Paginator` 和 django.core.paginator.Page 。以下对这两个类的常用属性和方法做解释：
+
+### Paginator常用属性和方法
+
+1. `count`：总共有多少条数据。
+2. `num_pages`：总共有多少页。
+3. `page_range`：页面的区间。比如有三页，那么就 range(1,4) 。
+
+### Page常用属性和方法
+
+1. `has_next`：是否还有下一页。
+2. `has_previous`：是否还有上一页。
+3. `next_page_number`：下一页的页码。
+4. `previous_page_number`：上一页的页码。
+5. `number`：当前页。
+6. `start_index`：当前这一页的第一条数据的索引值。
+7. `end_index`：当前这一页的最后一条数据的索引值。
+
+# 给类视图添加装饰器
+
+在开发中，有时候需要给一些视图添加装饰器。如果用函数视图那么非常简单，只要在函数的上面写上装饰器就可以了。但是如果想要给类添加装饰器，那么可以通过以下两种方式来实现：
+
+## 装饰dispatch方法
+
+```python
+    from django.utils.decorators import method_decorator
+    
+    def login_required(func):
+        def wrapper(request,*args,**kwargs):
+            if request.GET.get("username"):
+                return func(request,*args,**kwargs)
+            else:
+                return redirect(reverse('index'))
+        return wrapper
+        
+    class IndexView(View):
+        def get(self,request,*args,**kwargs):
+            return HttpResponse("index")
+            
+        @method_decorator(login_required)
+        def dispatch(self, request, *args, **kwargs):
+            super(IndexView, self).dispatch(request,*args,**kwargs)
+```
+
+## 直接装饰在整个类上
+
+```python
+    from django.utils.decorators import method_decorator
+    
+    def login_required(func):
+        def wrapper(request,*args,**kwargs):
+            if request.GET.get("username"):
+                return func(request,*args,**kwargs)
+            else:
+                return redirect(reverse('login'))
+        return wrapper
+        
+    @method_decorator(login_required,name='dispatch')
+    class IndexView(View):
+        def get(self,request,*args,**kwargs):
+            return HttpResponse("index")
+            
+        def dispatch(self, request, *args, **kwargs):
+            super(IndexView, self).dispatch(request,*args,**kwargs)
+```
