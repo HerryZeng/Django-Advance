@@ -31,3 +31,13 @@
             model = Article
             fields = ['title','content']
 ```
+如果要验证的字段比较多，只是除了少数几个字段不需要验证，那么可以使用 `exclude`来代替 `fields`。比如我不想验证 `category`，那么示例代码如下：
+```python
+    class MyForm(forms.ModelForm):
+        class Meta:
+            model = Article
+            exclude = ['category']
+```
+
+## 自定义错误消息
+
