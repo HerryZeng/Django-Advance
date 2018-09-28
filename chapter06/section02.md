@@ -67,3 +67,44 @@
             raise forms.ValidationError("手机号码已经存在！")
         return telephone
 ```
+以上是对某个字段进行验证，如果验证数据的时候，需要针对多个字段进行验证，那么可以重写 `clean`方法。比如要在注册的时候，要判断提交的两个密码是否相等。那么可以使用以下代码来完成：
+```python
+    class MyForm(forms.Form):
+        telephone = forms.CharField(validators=[validators.RegexValidator("1[345678]\d{9}",message='请输入正确格式的手机号码！')])
+        pwd1 = forms.CharField(max_length=12)
+        pwd2 = forms.CharField(max_length=12)
+    
+        def clean(self):
+            cleaned_data = super().clean()
+            pwd1 = cleaned_data.get('pwd1')
+            pwd2 = cleaned_data.get('pwd2')
+            if pwd1 != pwd2:
+            raise forms.ValidationError('两个密码不一致！')
+```
+
+## 提取错误信息
+
+如果验证失败了，那么有一些错误信息是我们需要传给前端的。这时候我们可以通过以下属性来获取：
+1. `form.errors` ：这个属性获取的错误信息是一个包含了 `html`标签的错误信息。
+2. `form.errors.get_json_data()` ：这个方法获取到的是一个字典类型的错误信息。将某个字段的名字作为 key ，错误信息作为值的一个字典。
+3. `form.as_json()` ：这个方法是将 `form.get_json_data()` 返回的字典 dump 成 json 格式的字符串，方便进行传输。
+4. 上述方法获取的字段的错误值，都是一个比较复杂的数据。比如以下：
+```python
+    {'username': [{'message': 'Enter a valid URL.', 'code': 'invalid'}, {'message': 'Ensure this value has at most 4 characters (it has 22).', 'code': 'max_length'}]}
+```
+那么如果我只想把错误信息放在一个列表中，而不要再放在一个字典中。这时候我们可以定义一个方法，把这个数据重新整理一份。实例代码如下：
+```python
+    class MyForm(forms.Form):
+        username = forms.URLField(max_length=4)
+        
+        def get_errors(self):
+            errors = self.errors.get_json_data()
+            new_errors = {}
+            for key,message_dicts in errors.items():
+                messages = []
+                    for message in message_dicts:
+                        messages.append(message['message'])
+                    new_errors[key] = messages
+            return new_errors
+```
+这样就可以把某个字段所有的错误信息直接放在这个列表中。
