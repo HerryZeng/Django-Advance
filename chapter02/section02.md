@@ -214,3 +214,42 @@
 ```python
     login_url = reverse("login") + "?next=/"
 ```
+
+### 自定义URL转换器
+
+之前忆经学到过一些`django`内置的`url`转换器，包括有`int`、`uuid`等。有时候这些内置的`url转换器`并不能满足我们的需求，因此`django`给我们提供了一个接口可以让我们自己定义自己的url转换器。
+
+自定义`url`转换器按照以下五个步骤来走就可以了：
+1. 定义一个类
+2. 在类中定义一个属性`regex`，这个属性是用来保存`url`转换器规则的正则表达式。
+3. 实现`to_python(self,value)`方法，这个方法是将`url`中的值转换一下，然后传给视图函数的。
+4. 实现`to_url(self,value)`方法，这个方法是在做`url`反转的时候，将传进来的参数转换后拼接成一个正确的`url`。
+5. 将定义好的转换器，注册到`django`中。
+
+比如写一个匹配四个数字年份的`url`转换器，示例如下：
+```python
+    # 1. 定义一下类
+    class FourDigitYearConverter:
+        # 2. 定义一个正则表达式
+        regex = '[0-9]{4}'
+        
+        # 3. 定义to_python方法
+        def to_python(self,value):
+            return int(value)
+            
+        # 4. 定义to_url方法
+        def to_url(self,value):
+            return '%04d' % value
+            
+    # 5. 注册到django中
+    from django.urls import register_converter
+    
+    register_converter(converters.FourDigitYearConverter,'yyyy')
+    
+    urlpatterns = [
+        path('articles/2003/',views.specical_case_2013),
+        # 使用注册的转换器
+        path('articles/<yyyy:year>/',views.year_archive),
+    ]
+        
+```
