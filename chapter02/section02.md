@@ -40,7 +40,7 @@
 ```
 而在`views.py`中的代码如下：
 ```python
-    def book_detail(request):
+    def book_detail(request,book_id):
         text = "你输入的书籍的ID是: %s" % book_id
         return HttpResponse(text)
 ```
