@@ -162,3 +162,5 @@
         path('list/',views.movie_list,name='list'),
     ]
 ```
+2. `include(pattern_list)`：可以包含一个列表或一个元组，这个元组或列表中又包含的是`path`或`re_path`函数。
+3. `include((pattern,app_namespace),namespace=None)`：在包含某个`APP`的`urls`的时候，可以指定命名空间， 这样做的目的是为了防止不同的`APP`出现机同的`url`
