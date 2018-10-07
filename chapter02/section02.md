@@ -163,4 +163,54 @@
     ]
 ```
 2. `include(pattern_list)`：可以包含一个列表或一个元组，这个元组或列表中又包含的是`path`或`re_path`函数。
-3. `include((pattern,app_namespace),namespace=None)`：在包含某个`APP`的`urls`的时候，可以指定命名空间， 这样做的目的是为了防止不同的`APP`出现机同的`url`
+3. `include((pattern,app_namespace),namespace=None)`：在包含某个`APP`的`urls`的时候，可以指定命名空间， 这样做的目的是为了防止不同的`APP`出现机同的`url`,这时候就可以通过命名空间进行区别。示例如下：
+```python
+    from django.contrib import admin
+    from django.urls import path,include
+    
+    urlpatterns = [
+        path('admin/',admin.site.urls),
+        path('book/',include(("book.urls","book")),namespace="book"),
+    ]
+```
+但是这样的前提是已经包含了应用命名空间。即在`myapp.urls.py`中添加一个和`urlpatterns`同级别的变量`app_name`。
+
+### 指定默认的参数
+
+使用`path`或`re_path`之后，在`route`中都可以包含参数，而有时候想指定默认的参数，这时候可以通过以下方式来完成。示例代码如下：
+```python
+    from django.urls import path
+    form . import views
+    
+    urlpatterns = [
+        path('blog/',views.page),
+        path('blog/page<int:num>/',views.page),
+    ]
+    
+    # blog/views.py
+    def page(request,num=1):
+        pass
+```
+当在访问`blog/`的时候，因为没有传递`num`参数，所以会匹配到第一个`url`，这时候就执行`views.page`这个视图函数，而在`page`函数中，又有 `num=1`这个默认参数。因此这时候就可以不用传递参数。而如果访问`blog/1`的时候，因为在传递参数的时候传递了`num`，因此会匹配到第二个`url`，这时也会执行`views.page`，然后把传递进行的参数传递给`page`函数中的`num`。
+
+### url反转
+
+之前我们都是通过url来访问视图函数，有时候我们知道这个视图函数，但是想反转回他的url。这个时候可以通过`reverse`来实现。示例如下
+```python
+    reverse("list")
+    > /book/list/
+```
+如果有应用命名空间或实例命名空间，那么应该在反转的时候加上命名空间。示例如下：
+```python
+    reverse("book:list")
+    > /book/list/
+```
+如果这个url需要传递参数，那么可以通过`kwargs`来传递参数，示例如下：
+```python
+    reverse('book:detail',kwargs={"book_id":1})
+    > /book/detail/1
+```
+因为`django`中的`reverse`反转`url`的时候不区别GET或POST,因此不能在反转的时候添加查询 字符串的参数。如果想要添加查询 字符串的参数，只能手动的添加。示例代码如下:
+```python
+    login_url = reverse("login") + "?next=/"
+```
