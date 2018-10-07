@@ -101,4 +101,64 @@
 2. `view`参数：可以为一个视图函数或是`类视图.as_view()`或是`django.urls.include()`函数的返回值。
 3. `name`参数：这个参数是给这个`url`取个名字，在项目比较大，`url`比较多的时候用处很大。
 4. `kwargs`参数：有时候想给视图传递一个额外的参数，就可以通过`kwargs`参数进行传递。这个参数接收一个字典。传到视图函数的时候，会作为一个关键字传递过去。如下`url`规则：
-```pyto
+```python
+    from django.urls import path
+    from . import views
+    
+    urlpatterns = [
+        path('blog/<int:year>/',views.year_archive,{'foo':'bar'}),
+    ]
+```
+以后在访问`blog/1991/`这个`url`的时候，会将`foo=bar`作为关键寄出了参数传递给`year_archive`函数。
+
+### re_path函数
+
+有时候我们在写`url`匹配的时候，想要定使用正则表达式来实现一些复杂的需求，那么这时候我们可以使用`re_path`来实现。`re_path`的参数和`path`参数一模一样，只不过第一个参数也就是`route`参数可以为一个正则表达式。一些使用`re_path`示例代码如下:
+```python
+    from django.urls import path,re_path
+    from . import views
+    
+    urlpatterns = [
+        path('articles/2003',views.special_case_2003),
+        re_path(r'articles/(?P<year>[0-9]{4})/',views.year_archive),
+        re_path(r'articles/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/',views.month_archive),
+    ]
+```
+以上例子中我们可以看到，所有的`route`字符串前面都加了一个`r`，表示这个字符串是一个原生字符串。在写正则表达式中是推荐使用原生字符串的，这样可以避免在`python`这一层面进转义。而且，使用正则表达式捕获参数的时候，是用一个圆操作进行包裹，然后这个参数的名称是通过尖操作`<year>`进行包裹，之后才是写正则表达式的语法。
+
+### include函数
+
+在项目变大以后，经学不会把所有的`url`匹配规则都放在项目的`urls.py`文件中，而是每个`APP`都有自己的`urls.py`文件，在这个文件中存储的都是当前这个`APP`的所有`url`匹配规则。然后再统一注册到项目的`urls.py`文件中。`include`函数有多种用法，这里讲一下两种常用的用法。
+1. `include(pattern,namespace=None)`：直接把其他`APP`的`urls`包含进来。示例代码如下：
+```python
+    from django.contrib import admin
+    from django.urls import path,include
+    
+    urlpatterns = [
+        path('admin/',admin.site.urls),
+        path('book/',include("book.urls")),
+    ]
+```
+当然也可以传递`namespace`参数来指定一个实例命名空间，但是在使用实例命名空间之前，必须指定一个应用命名空间。示例代码如下：
+```python
+    # 主urls.py
+    
+    from django.urls import path,include
+    
+    urlpatterns = [
+        path('movie/',include("movie.urls",namespace='movie')),
+    ]
+```
+然后在`movie/urls.py`中指定应用命名空间。示例代码如下：
+```python
+    from django.urls import path
+    from . import views
+    
+    # 应用命名空间
+    app_name = 'movie'
+    
+    urlpatterns = [
+        path('',views.movie,name='index'),
+        path('list/',views.movie_list,name='list'),
+    ]
+```
