@@ -43,16 +43,16 @@
     def simple_middleware(get_response):
       # 这个中间件初始化的代码
 
-      def middleware(request):
-          # request到达view的执行代码
+        def middleware(request):
+            # request到达view的执行代码
 
-          response = get_response(request)
+            response = get_response(request)
 
-          # response到达浏览器的执行代码
+            # response到达浏览器的执行代码
 
-          return response
+            return response
 
-    return middleware
+        return middleware
 ```
 
 ### 使用类的中间件
