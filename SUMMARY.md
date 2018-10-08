@@ -48,4 +48,5 @@
   * [第一节：CSRF攻击](chapter09/section01.md)
   * [第二节：XSS攻击](chapter09/section02.md)
   * [第三节：点击劫持攻击](chapter09/section03.md)
+  * [第四节：SQL注入](chapter09/section04.md)
 
