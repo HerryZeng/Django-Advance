@@ -307,6 +307,27 @@
 
 有时间经学会在朋友圈中可以看到条信息发表的时间，并不是具体的时间，而是距离现在多久，比如`刚刚`，`1分钟前`等。这个功能`DTL`是没有内置这样的过滤器的，因此我们可以自定义一个这样过滤器。示例代码如下：
 ```python
-    # 
-```
+    # time_filter.py file
+    
+    from datetime import datetime
+    from django import template
+    
+    register = template.Library()
+    
+    def time_since(value):
+        """
+        time距离现在的时间间隔
+        1. 如果时间间隔小于1分钟以内，那么就显示'刚刚'
+        2. 如果是大于1分钟小于1小时，那么就显示'xx分钟前'
+        3. 如果是大于1小时小于24小时，那么就显示'xx小时前'
+        4. 如果是大于24小时小于30天以内，那么就显示'xx天前'
+        5. 否则就是显示具体的时候 '2018/10/10 13:14'
+        """
+        if isinstance(value,datetime):
+            now = datetime.now()
+````
+
+
+
+
 
