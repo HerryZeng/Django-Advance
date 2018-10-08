@@ -40,4 +40,5 @@
   * [第二节：用表单验证数据](chapter06/section02.md)
   * [第三节：ModelForm](chapter06/section03.md)
   * [文件上传](chapter06/section04.md)
+* [第七章：Cookie和Session](chapter07.md)
 
