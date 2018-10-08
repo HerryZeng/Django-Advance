@@ -49,4 +49,9 @@
   * [第二节：XSS攻击](chapter09/section02.md)
   * [第三节：点击劫持攻击](chapter09/section03.md)
   * [第四节：SQL注入](chapter09/section04.md)
+* [第十章：信号](chapter10.md)
+  * [第一节：什么是信号](chapter10/section01.md)
+* [第十一章：验证和授权](chapter11.md)
+  * [第一节：概述](chapter11/section01.md)
+  * [第二节：用户对象](chapter11/section02.md)
 
