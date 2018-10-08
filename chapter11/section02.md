@@ -127,3 +127,5 @@
         # password，而不是使用username和password
         objects = UserManager()
 ```
+然后再在`settings`中配置好`AUTH_USER_MODEL=youapp.User`。
+**这种方式因为破坏了原来`User`模型的表结构，所以必须要在第一次`migrate`前就先定义好。**
