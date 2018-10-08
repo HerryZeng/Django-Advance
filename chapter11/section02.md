@@ -152,9 +152,9 @@
         def get_short_name(self):
             return self.username
 ```
-其中`password`和`last_login`是在`AbstractBaseUser`中已经添加好了的，我们直接继承就可以了。然后我们再添加我们想要的字段。比如`email`、`username`、`telephone`等。这样就可以实现自己想要的字段了。但是因为我们重写了`User`，所以应该尽可能的模拟User模型：
-`USERNAME_FIELD`：用来描述User模型名字字段的字符串，作为唯一的标识。如果没有修改，那么会使用USERNAME来作为唯一字段。
-REQUIRED_FIELDS：一个字段名列表，用于当通过createsuperuser管理命令创建一个用户时的提示。
-is_active：一个布尔值，用于标识用户当前是否可用。
-get_full_name()：获取完整的名字。
-get_short_name()：一个比较简短的用户名。
+    + 其中`password`和`last_login`是在`AbstractBaseUser`中已经添加好了的，我们直接继承就可以了。然后我们再添加我们想要的字段。比如`email`、`username`、`telephone`等。这样就可以实现自己想要的字段了。但是因为我们重写了`User`，所以应该尽可能的模拟User模型：
+    + `USERNAME_FIELD`：用来描述`User`模型名字字段的字符串，作为唯一的标识。如果没有修改，那么会使用USERNAME来作为唯一字段。
+    + `REQUIRED_FIELDS`：一个字段名列表，用于当通过`createsuperuser`管理命令创建一个用户时的提示。
+    + `is_active`：一个布尔值，用于标识用户当前是否可用。
+    + `get_full_name()`：获取完整的名字。
+    + `get_short_name()`：一个比较简短的用户名。
