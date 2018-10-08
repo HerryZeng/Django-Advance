@@ -1,4 +1,4 @@
-# 目录
+# Summary
 
 * [介绍](README.md)
 * [第一章：学前准备](chapter01.md)
@@ -39,4 +39,5 @@
   * [第一节：表单概述](chapter06/section01.md)
   * [第二节：用表单验证数据](chapter06/section02.md)
   * [第三节：ModelForm](chapter06/section03.md)
+  * [文件上传](chapter06/section04.md)
 
