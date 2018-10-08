@@ -54,4 +54,5 @@
 * [第十一章：验证和授权](chapter11.md)
   * [第一节：概述](chapter11/section01.md)
   * [第二节：用户对象](chapter11/section02.md)
+  * [第三节：权限和分组](chapter11/section03.md)
 
