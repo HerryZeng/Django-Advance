@@ -46,4 +46,5 @@
   * [第二节：中间件](chapter08/section02.md)
 * [第九章：安全](chapter09.md)
   * [第一节：CSRF攻击](chapter09/section01.md)
+  * [第二节：XSS攻击](chapter09/section02.md)
 
