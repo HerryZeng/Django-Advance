@@ -1,4 +1,4 @@
-## 权限和分组
+## 权限
 
 ###登录
 
@@ -58,3 +58,15 @@
     content_type = ContentType.objects.get_for_model(Article)
     permission = Permission.objects.create(name='可以编辑的权限',codename='edit_article',content_type=content_type)
 ```
+
+### 用户与权限管理
+
+权限本身只是一个数据，必须和用户进行绑定，才能起到作用。`User`模型和权限之间的管理，可以通过以下几种方式来管理：
+1. `myuser.user_permissions.set(permission_list)`：直接给定一个权限的列表。
+2. `myuser.user_permissions.add(permission,permission,...)`：一个个添加权限。
+3. `myuser.user_permissions.remove(permission,permission,...)`：一个个删除权限。
+4. `myuser.user_permissions.clear()`：清除权限。
+5. `myuser.has_perm('<app_name>.<codename>')`：判断是否拥有某个权限。权限参数是一个字符串，格式是`app_name.codename`。
+6. `myuser.get_all_permissons()`：获取所有的权限。
+
+### 权限限定装饰器
