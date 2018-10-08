@@ -325,9 +325,19 @@
         """
         if isinstance(value,datetime):
             now = datetime.now()
-````
-
-
-
-
-
+```
+在模板中使用的示例代码如下：
+```html
+    {% load time_filter %}
+    ...
+    {% value | time_since %}
+```
+为了更加方便的将函数注册到模板库中当作过滤器，也可以使用装饰器来将一个函数包装成过滤器。示例代码如下：
+```python
+    from django import template
+    register = template.Library()
+    
+    @register.filter(name='mycut')
+    def mycut(value,mystr):
+        return value.replace(mystr,"")
+```
