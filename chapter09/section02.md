@@ -20,3 +20,47 @@
         Comment.objects.create(content=escaped_content)
         return HttpResponse('success')
 ```
+2. 如果对于用户提交上来的数据包含了一些富文本（比如：给字体换色，字体加粗等），那么这时候我们在渲染的时候也要以富文本的形式进行渲染，也即需要使用`safe`过滤器将其标记为安全的，这样才能显示出富文本样式。但是这样又会存在一个问题，如果用户提交上来的数据存在攻击的代码呢，那将其标记为安全的肯定是有问题的。示例代码如下：
+```python
+    # views.py
+    
+    def index(request):
+        message = "<span style='color:red;'>红色字体</span><script>alert('hello world');</script>";
+        return render_template(request,'index.html',context={"message":message})
+```
+那么这时候该怎么办呢？这时候我们可以指定某些标签我们是需要的（比如：span标签），而某些标签我们是不需要的（比如：script）那么我们在服务器处理数据的时候，就可以将这些需要的标签保留下来，把那些不需要的标签进行转义，或者干脆移除掉，这样就可以解决我们的问题了。这个方法是可行的，包括很多线上网站也是这样做的，在`Python`中，有一个库可以专门用来处理这个事情，那就是`sanitizer`。接下来讲下这个库的使用。
+
+### bleach库
+
+`bleach`库是用来清理包含`html`格式字符串的库。他可以指定哪些标签需要保留，哪些标签是需要过滤掉的。也可以指定标签上哪些属性是可以保留，哪些属性是不需要的。想要使用这个库，可以通过以下命令进行安装：
+```python
+    pip install bleach
+```
+这个库最重要的一个方法是`bleach.clean`方法，`bleach.clean`示例代码如下:
+```python
+    import bleach
+    from bleach.sanitizer import ALLOWED_TAGS,ALLOWED_ATTRIBUTES
+
+    @require_http_methods(['POST'])
+    def message(request):
+        # 从客户端中获取提交的数据
+        content = request.POST.get('content')
+    
+        # 在默认的允许标签中添加img标签
+        tags = ALLOWED_TAGS + ['img']
+        # 在默认的允许属性中添加src属性
+        attributes = {**ALLOWED_ATTRIBUTES,'img':['src']}
+    
+        # 对提交的数据进行过滤
+        cleaned_content=bleach.clean(content,tags=tags,attributes=attributes)
+```
+相关介绍如下
+1. `tags`：表示允许哪些标签。
+2. `attributes`：表示标签中允许哪些属性。
+3. `ALLOWED_TAGS`：这个变量是`bleach`默认定义的一些标签。如果不符合要求，可以对其进行增加或者删除。
+4. `ALLOWED_ATTRIBUTES`：这个变量是`bleach`默认定义的一些属性。如果不符合要求，可以对其进行增加或者删除。
+
+bleach更多资料：
+github地址： [https://github.com/mozilla/bleach](https://github.com/mozilla/bleach
+)
+文档地址： [https://bleach.readthedocs.io/](https://bleach.readthedocs.io/)
