@@ -186,3 +186,14 @@
         content = models.TextField()
         author = models.ForeignKey(User, on_delete=models.CASCADE)
 ```
+这种方式是可以行得通的。但是为了更好的使用性，建议还是将`User`抽象出来，使用`settings.AUTH_USER_MODEL`来表示。示例代码如下：
+```python
+    from django.db import models
+    from django.conf import settings
+    
+    class Article(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+```
+**这种方式因为破坏了原来`User`模型的表结构，所以必须要在第一次`migrate`前就先定义好。**
