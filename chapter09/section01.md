@@ -35,7 +35,7 @@
 
 ### 使用ajax处理csrf防御
 
-如果用ajax来处理csrf防御，那么需要手动的在form中添加csrfmiddlewaretoken，或者是在请求头中添加X-CSRFToken。我们可以从返回的cookie中提取csrf token，再设置进去。示例代码如下：
+如果用`ajax`来处理`csrf`防御，那么需要手动的在`form`中添加`csrfmiddlewaretoken`，或者是在请求头中添加`X-CSRFToken`。我们可以从返回的`cookie`中提取`csrf token`，再设置进去。示例代码如下：
 ```python
     function getCookie(name) {
     var cookieValue = null;
@@ -61,6 +61,6 @@
     <iframe src="http://www.baidu.com/">
     </ifrmae>
 ```
-2. 因为iframe加载的是别的域名下的网页。根据同源策略，js只能操作属于本域名下的代码，因此js不能操作通过iframe加载来的DOM元素。
-3. 如果ifrmae的src属性为空，那么就没有同源策略的限制，这时候我们就可以操作iframe下面的代码了。并且，如果src为空，那么我们可以在iframe中，给任何域名都可以发送请求。
-4. 直接在iframe中写html代码，浏览器是不会加载的。
+2. 因为`iframe`加载的是别的域名下的网页。根据同源策略，`js`只能操作属于本域名下的代码，因此`js`不能操作通过`iframe`加载来的`DOM`元素。
+3. 如果`ifrmae`的`src`属性为空，那么就没有同源策略的限制，这时候我们就可以操作`iframe`下面的代码了。并且，如果`src`为空，那么我们可以在`iframe`中，给任何域名都可以发送请求。
+4. 直接在`iframe`中写`html`代码，浏览器是不会加载的。
