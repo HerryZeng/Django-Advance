@@ -158,3 +158,21 @@
     + `is_active`：一个布尔值，用于标识用户当前是否可用。
     + `get_full_name()`：获取完整的名字。
     + `get_short_name()`：一个比较简短的用户名。
+    
+2. 重新定义`UserManager`：我们还需要定义自己的`UserManager`，因为默认的`UserManager`在创建用户的时候使用的是`username`和`password`，那么我们要替换成`telephone`。示例代码如下：
+```python
+    class UserManager(BaseUserManager):
+        use_in_migrations = True
+        
+        def _create_user(self,telephone,password,**extra_fields):
+            if not telephone:
+                raise ValueError("请填入手机号码！")
+            user = self.model(telephone=telephone,*extra_fields)
+            user.set_password(password)
+            user.save()
+            return user
+        
+        def create_user(self,telephone,password,**extra_fields):
+            extra_fields.setdefault('is_superuser',False)
+            return self._create_user
+```
