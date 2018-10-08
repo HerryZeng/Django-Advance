@@ -61,6 +61,6 @@
 4. `ALLOWED_ATTRIBUTES`：这个变量是`bleach`默认定义的一些属性。如果不符合要求，可以对其进行增加或者删除。
 
 bleach更多资料：
-github地址： [https://github.com/mozilla/bleach](https://github.com/mozilla/bleach
+github地址： [https://github.com/mozilla/bleach/](https://github.com/mozilla/bleach
 )
 文档地址： [https://bleach.readthedocs.io/](https://bleach.readthedocs.io/)
