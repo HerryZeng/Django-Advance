@@ -176,3 +176,13 @@
             extra_fields.setdefault('is_superuser',False)
             return self._create_user
 ```
+3. 在创建了新的`User`模型后，还需要在`settings`中配置好。配置`AUTH_USER_MODEL='appname.User'`。
+4. 如何使用这个自定义的模型：比如以后我们有一个`Article`模型，需要通过外键引用这个`User`模型，那么可以通过以下两种方式引用。第一种就是直接将User导入到当前文件中。示例代码如下：
+```python
+    from django.db import models
+    from myauth.models import User
+    class Article(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField()
+        author = models.ForeignKey(User, on_delete=models.CASCADE)
+```
