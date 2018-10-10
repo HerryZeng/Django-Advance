@@ -217,7 +217,6 @@
 
 ### 应用命名空间和实例命名空间
 
-
 一个`APP`，可以创建多个实例，可以使用我个`url`映射同一个`APP`，所以这就产生一个问题，以后在做反转的时候，如果使用应用命名空间，那么就会发性混淆，为了避免这个问题，我们可以使用实例命名空间。实例命名空间也是非常简单，只要在`include`函数中传递一个`namespace`变量即可。
 ```python
     path('cms1/' include('cms.urls',namespace='cms1'),
@@ -228,6 +227,7 @@
     current_namespace = request.resolver_match.namespace
     return redirect(reverse("%s:login%current_namespace")
 ```
+**注意：使用实例命名空间，必须先配置应用命名空间**
 
 ### 自定义URL转换器
 
