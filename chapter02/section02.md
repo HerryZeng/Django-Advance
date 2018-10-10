@@ -215,6 +215,20 @@
     login_url = reverse("login") + "?next=/"
 ```
 
+### 应用命名空间和实例命名空间
+
+
+一个`APP`，可以创建多个实例，可以使用我个`url`映射同一个`APP`，所以这就产生一个问题，以后在做反转的时候，如果使用应用命名空间，那么就会发性混淆，为了避免这个问题，我们可以使用实例命名空间。实例命名空间也是非常简单，只要在`include`函数中传递一个`namespace`变量即可。
+```python
+    path('cms1/' include('cms.urls',namespace='cms1'),
+    path('cms2/' include('cms.urls',namespace='cms2'),
+```
+以后在做反转的时候，就可以根据实例命名空间来批定具体的`url`。
+```python
+    current_namespace = request.resolver_match.namespace
+    return redirect(reverse("%s:login%current_namespace")
+```
+
 ### 自定义URL转换器
 
 之前忆经学到过一些`django`内置的`url`转换器，包括有`int`、`uuid`等。有时候这些内置的`url转换器`并不能满足我们的需求，因此`django`给我们提供了一个接口可以让我们自己定义自己的url转换器。
