@@ -163,7 +163,7 @@
     ]
 ```
 2. `include(pattern_list)`：可以包含一个列表或一个元组，这个元组或列表中又包含的是`path`或`re_path`函数。
-3. `include((pattern,app_namespace),namespace=None)`：在包含某个`APP`的`urls`的时候，可以指定命名空间， 这样做的目的是为了防止不同的`APP`出现机同的`url`,这时候就可以通过命名空间进行区别。示例如下：
+3. `include((pattern,app_namespace),namespace=None)`：在包含某个`APP`的`urls`的时候，可以指定命名空间， 这样做的目的是为了防止不同的`APP`出现相同的`url`,这时候就可以通过命名空间进行区别。示例如下：
 ```python
     from django.contrib import admin
     from django.urls import path,include
@@ -214,6 +214,20 @@
 ```python
     login_url = reverse("login") + "?next=/"
 ```
+
+### 应用命名空间和实例命名空间
+
+一个`APP`，可以创建多个实例，可以使用我个`url`映射同一个`APP`，所以这就产生一个问题，以后在做反转的时候，如果使用应用命名空间，那么就会发性混淆，为了避免这个问题，我们可以使用实例命名空间。实例命名空间也是非常简单，只要在`include`函数中传递一个`namespace`变量即可。
+```python
+    path('cms1/' include('cms.urls',namespace='cms1'),
+    path('cms2/' include('cms.urls',namespace='cms2'),
+```
+以后在做反转的时候，就可以根据实例命名空间来批定具体的`url`。
+```python
+    current_namespace = request.resolver_match.namespace
+    return redirect(reverse("%s:login%current_namespace")
+```
+**注意：使用实例命名空间，必须先配置应用命名空间**
 
 ### 自定义URL转换器
 
