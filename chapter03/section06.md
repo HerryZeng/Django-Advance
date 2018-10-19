@@ -16,7 +16,7 @@
     <link ref="stylesheet" href="{% static 'style.css' %}"
 ```
 6. 如果不想每次在模板中加载静态文件都使用`load`加载`static`标签，那么可以在`settings.py`中的`TEMPLATES/OPTIONS`添加`builtins：['django.templatetags.static']`，这样以后在模板中变可以直接使用`static`标签，而不用手动的`load`了。
-7. 如果没有在`settings.INSTALLED_APPS`中添加`django.contrib.staticfiles`。那么我们就需要手动的将请求静态文件的`url`与静态文件的路径进行映射了。示例代码如下：
+7. 如果没有在`settings.INSTALLED_APPS`中添加`django.contrib.staticfiles`。那么我们就南非要手动的将请求静态文件的`url`与静态文件的路径进行映射了。示例代码如下：
 ```python
     from django.conf import settings
     from django.conf.urls.static import static
