@@ -278,7 +278,7 @@
 
 虽然`DTL`给我们内置了许多好用的过滤器。但是有些时候还是不能满足我们的需求。因此`Django`给我们提供了一个接口，可以让我们自定义过滤器，实现自己的需求。
 
-模板过滤器必须要放在`APP`中，并且这个`APP`必须 要在`INSTALLED_APPS`中进行安装。然后再在这个`APP`下面创建一个`Python包`叫做`templagetags`。再在这个包下面创建一个`python`文件。比如`APP`的名字叫做`book`，那么项目结构如下：
+模板过滤器必须要放在`APP`中，并且这个`APP`必须 要在`INSTALLED_APPS`中进行安装。然后再在这个`APP`下面创建一个`Python包`叫做`templatetags`。再在这个包下面创建一个`python`文件。比如`APP`的名字叫做`book`，那么项目结构如下：
 ```python
     - book
         - views.py
