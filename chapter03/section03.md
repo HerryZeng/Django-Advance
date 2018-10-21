@@ -171,4 +171,7 @@
    [https://docs.djangoproject.com/en/2.1/ref/templates/builtins/](https://docs.djangoproject.com/en/2.1/ref/templates/builtins/)
 
 
+###默认的标签
+
+`django.template.defaulttags`
 
