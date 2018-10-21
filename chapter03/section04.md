@@ -341,3 +341,7 @@
     def mycut(value,mystr):
         return value.replace(mystr,"")
 ```
+
+###默认的过滤器
+
+`django.template.defaultfilters`
