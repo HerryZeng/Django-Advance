@@ -21,7 +21,7 @@
     class Book(models.Model):
         name = models.CharField(max_length=20,null=False)
         author = models.CharField(max_lenght=20,nullFalse)
-        pub_date = models.DataTimeField(default=datetime.now)
+        pub_date = models.DateTimeField(default=datetime.now)
         price = models.FloatField(default=0)
 ```
 以上是定义了一个模型。这个模型继承`django.db.models.Model`，如果这个模型想要映射到数据库中，就必须继承自这个类。这个模型以后映射到数据库中，表名是模型名称的小写形式，为`book`。在这个表中，有四个字段，一个为`name`，这个字段保存是书的名称，是`varchar`类型，最长不能超过20个字符 ，并且不能为空。第二个字段是作者名字，同样是`varchar`类型，最长不能超过20个字符 ，并且不能为空。第三个字段是出版时间，数据类型是`datetime`类型，默认是保存这本书的时间。第五个字段是本书的价格，是浮点类型。
