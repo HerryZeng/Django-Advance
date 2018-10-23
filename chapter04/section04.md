@@ -67,9 +67,25 @@ Out[25]: datetime.datetime(2018, 10, 23, 14, 53, 29, 361613, tzinfo=<DstTzInfo '
 
 #### django.utils.timezone.now()方法
 
+1. 在`settings.py`配置文件中，如果`USE_TZ = True`, 此方法获取的是`aware`类型的时间，时间的时区是`UTC`，即
+`2018-10-23 07:47:03.751990+00:00`。
+
+2. 在`settings.py`配置文件中，如果`USE_TZ = False`,此方法获取的是`navie`类型的时间，即`datetime.now()`。
+
 #### django.utils.timezone.localtime方法
 
+1. 在`settings.py`配置文件中，如果`USE_TZ = True`, 此方法获取的是`aware`类型的时间，时间的时区是`settingspy`中设置的`TIME_ZONE`，即
+`2018-10-23 15:47:03.751990+08:00`。
+
+2. 在`settings.py`配置文件中，如果`USE_TZ = False`,此方法不可用。
+
 #### navie和aware介绍以及在django中的用法
+
+```python
+# 如果USE_TZ设置为False,那么Django获取的时间为`navie`时间
+
+USE_TZ = False    #
+```
 
 [https://docs.djangoproject.com/en/2.1/topics/i18n/timezones/](https://docs.djangoproject.com/en/2.1/topics/i18n/timezones/)
 
