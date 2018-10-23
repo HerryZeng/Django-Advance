@@ -81,12 +81,6 @@ Out[25]: datetime.datetime(2018, 10, 23, 14, 53, 29, 361613, tzinfo=<DstTzInfo '
 
 #### navie和aware介绍以及在django中的用法
 
-```python
-# 如果USE_TZ设置为False,那么Django获取的时间为`navie`时间
-
-USE_TZ = False    #
-```
-
 [https://docs.djangoproject.com/en/2.1/topics/i18n/timezones/](https://docs.djangoproject.com/en/2.1/topics/i18n/timezones/)
 
 日期类型，在`Python`中是`datetime.date`类型，可以记录年月日。在映射到数据库中也`date`类型，使用这个`Field`可以传递以下几个参数：
