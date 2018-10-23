@@ -91,6 +91,10 @@ Out[25]: datetime.datetime(2018, 10, 23, 14, 53, 29, 361613, tzinfo=<DstTzInfo '
 
 日期时间类型，类似于`DateField`，不仅仅可以存储日期，还可以存储时间。映射到数据库中是`datetime`类型。这个`Field`也可以用`auto_now`和`auto_now_add`这两个属性。
 
+1. `auto_now_add=True`: 是在第一交从汪厍数据进去的时候自动获取当前的时间
+
+2. `auto_now=True`: 每次这个对象调用save方法的时候都会将当前的时间更新
+
 ### TimeField
 
 时间类型，在数据库中是`time`类型，在`Python`中是`datetime.datetime`类型。
