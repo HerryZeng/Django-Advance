@@ -41,6 +41,9 @@
 将一个时区的时间转换成另一个时区的时间。这个方法只能被`aware`类型的时间调用，不能被`navie`类型的时间调用。
 
 ```python
+import pytz
+from datetime import datetime
+
 now = datetime.now()
 utc_timezone=pytz.timezone('UTC')
 bj_timezone=pytz.timezone('Asia/Shanghai')
@@ -49,6 +52,8 @@ now_utc.astimezone(bj_timezone)
 ```
 
 #### replace方法
+
+可以将一个时间的某些属性进行更改
 
 ```python
 In [23]: now                                                                                                
