@@ -26,18 +26,36 @@
 
 #### navie时间
 
-
+`navie`时间：不知道自己的时间表示的是哪个时区的。
 
 #### aware时间
 
+`aware`时间：
 
 #### pytz库
 
 
 #### astimezone方法
 
+```python
+now = datetime.now()
+utc_timezone=pytz.timezone('UTC')
+bj_timezone=pytz.timezone('Asia/Shanghai')
+now_utc.astimezone(bj_timezone)
+
+```
 
 #### replace方法
+
+```python
+In [23]: now                                                                                                
+Out[23]: datetime.datetime(2018, 10, 23, 14, 53, 29, 361613)
+
+In [24]: now = now.replace(tzinfo=pytz.timezone("Asia/Shanghai"))                                           
+
+In [25]: now                                                                                                
+Out[25]: datetime.datetime(2018, 10, 23, 14, 53, 29, 361613, tzinfo=<DstTzInfo 'Asia/Shanghai' LMT+8:06:00 STD>)
+```
 
 #### django.utils.timezone.now()方法
 
