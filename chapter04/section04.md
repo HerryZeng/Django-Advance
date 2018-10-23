@@ -77,7 +77,7 @@ Out[25]: datetime.datetime(2018, 10, 23, 14, 53, 29, 361613, tzinfo=<DstTzInfo '
 1. 在`settings.py`配置文件中，如果`USE_TZ = True`, 此方法获取的是`aware`类型的时间，时间的时区是`settingspy`中设置的`TIME_ZONE`，即
 `2018-10-23 15:47:03.751990+08:00`。
 
-2. 在`settings.py`配置文件中，如果`USE_TZ = False`,此方法不可用。
+2. 在`settings.py`配置文件中，如果`USE_TZ = False`,此方法不可用。如果用会报错`localtime() cannot be applied to a naive datetime`
 
 #### navie和aware介绍以及在django中的用法
 
