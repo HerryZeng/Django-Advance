@@ -22,6 +22,31 @@
 
 ### DateField
 
+在使用`DataeField`之前，先需要了解两个概念
+
+#### navie时间
+
+
+
+#### aware时间
+
+
+#### pytz库
+
+
+#### astimezone方法
+
+
+#### replace方法
+
+#### django.utils.timezone.now()方法
+
+#### django.utils.timezone.localtime方法
+
+#### navie和aware介绍以及在django中的用法
+
+[https://docs.djangoproject.com/en/2.1/topics/i18n/timezones/](https://docs.djangoproject.com/en/2.1/topics/i18n/timezones/)
+
 日期类型，在`Python`中是`datetime.date`类型，可以记录年月日。在映射到数据库中也`date`类型，使用这个`Field`可以传递以下几个参数：
 1. `auto_now`：在每次这个数据保存的时候，都使用当前的时间。比如做为一个记录修改日期的字段，可以将这个属性设置为`True`。
 2. `auto_now_add`：在每次数据第一次被添加进行的时候，都使用当前的时间，比如作为一个记录第一次入库的字段，可以将这个属性设置为`True`。
