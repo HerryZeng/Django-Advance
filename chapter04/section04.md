@@ -30,7 +30,7 @@
 
 #### aware时间
 
-`aware`时间：
+`aware`时间：带时区的时间
 
 #### pytz库
 
