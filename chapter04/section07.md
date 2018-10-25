@@ -173,7 +173,7 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 ```sql
     select ... from article where pub_time between '2018-01-01' and '2018-12-12';
 ```
-需要注意的是，以上提取数据，**不会包含最后一个值**。也就是不会包含 2018/12/12 的文章。而且另外一个重点，因为我们在 `settings.py` 中指定了 `USE_TZ=True` ，并且设置了 `TIME_ZONE='Asia/Shanghai'` ，因此我们在提取数据的时候要使用 `django.utils.timezone.make_aware` 先将 `datetime.datetime` 从 `navie `时间转换为 `aware `时间。 `make_aware `会将指定的时间转换为 `TIME_ZONE `中指定的时区的时间。
+需要注意的是，以上提取数据，**不会包含最后一个值**。也就是不会包含 2018/12/12 的文章。而且另外一个重点，因为我们在 `settings.py` 中指定了 `USE_TZ=True` ，并且设置了 `TIME_ZONE='Asia/Shanghai'` ，因此我们在提取数据的时候要使用 `django.utils.timezone.make_aware` 先将 `datetime.datetime` 从 `navie `时间转换为 `aware `时间。 `make_aware `会将指定的时间转换为 `TIME_ZONE `中指定的时区的时间。`range`接受的参数时间为须为`aware`时间类型。
 
 ### date
 
