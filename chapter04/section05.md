@@ -201,7 +201,7 @@
 ```
 某个`user`的所有`articles`。
 
-2. `related_query_name`,反向过滤（反向查询），默认是`模型`小写化`article`，即
+2. `related_query_name`,反向过滤（反向查询），默认是`模型`小写化`article__in`，即
 ```python
     # models.py
     Article(models.Model)
