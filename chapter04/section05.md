@@ -187,3 +187,26 @@
 ```python
     users = User.objects.filter(article__title='abc')
 ```
+
+**注意**
+
+1. `related_name`,反向引用，即
+```python
+    # models.py
+    author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles')
+    
+    # views.py
+    user.articles.all()
+```
+某个`user`的所有`article`
+
+2. `related_query_name`,反向过滤，即
+```python
+    # models.py
+    author = models.ForeignKey("User",on_delete=models.SET_NULL,related_query_name='article')
+    
+    # views.py
+    users = User.objects.filter(article__title__contains='abc')
+```
+查询文章`title`包含`abc`的所有`user`。
+
