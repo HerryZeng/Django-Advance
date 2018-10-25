@@ -198,7 +198,7 @@
     # views.py
     user.articles.all()
 ```
-某个`user`的所有`article`
+某个`user`的所有`articles`。
 
 2. `related_query_name`,反向过滤，即
 ```python
