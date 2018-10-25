@@ -3,6 +3,21 @@
 查找是数据库操作中一个非常重要的技术。查询一般就是使用 `filter `、 `exclude `以及 `get `三个方法来实现。我们可以在调用这些方法的时候传递不同的参数来实现查询需求。在 `ORM `层面，这、些查询条件都是使用 `field + __ + condition` 的方式来使用的。以下将那些常用的查询条件来一一解释。
 
 如果使用`filter`则返回的是`QuerySet`，如果使用的是`get`则返回的是`Model`。
+访问`Model`实例的`query`属性，可以查看`ORM`将些查询转换的`SQL`。
+```python
+def index(request):
+    article = Article.objects.filter(id__exact=1)
+    print(article)
+    print('*'*30)
+    print(article.query)
+    return HttpResponse("Success!")
+    
+# 显示的结果如下：
+<QuerySet [<Article: 港珠澳大桥>]>
+[25/Oct/2018 09:51:47] "GET / HTTP/1.1" 200 8
+******************************
+SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`content` FROM `article_article` WHERE `article_article`.`id` = 1
+```
 
 ## 查询条件
 
