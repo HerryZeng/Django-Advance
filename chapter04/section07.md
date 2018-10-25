@@ -150,7 +150,7 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 ```
 以上代码的意思是提取所有标题以 `world `结尾的文章。将翻译成以下 `SQL `语句：
 ```sql
-    select ... where title LIKE '%world';
+    select ... where title LIKE BINARY  '%world';
 ```
 
 ### iendswith
