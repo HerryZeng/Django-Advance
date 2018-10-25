@@ -63,9 +63,9 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 ```
 在翻译成 `SQL `语句为如下：
 ```sql
-    select ... where title like binary '%hello%';
+    select ... where title like LIKE BINARY '%hello%';
 ```
-要注意的是，在使用 `contains `的时候，翻译成的 `sql `语句左右两边是有百分号的，意味着使用的是模糊查询。而 `exact `翻译成 `sql `语句左右两边是没有百分号的，意味着使用的是精确的查询。
+要注意的是，在使用 `contains `的时候，翻译成的 `sql `语句左右两边是有百分号的，意味着使用的是模糊查询。而 `iexact `翻译成 `sql `语句左右两边是没有百分号的，意味着使用的是精确的查询。
 
 ### icontains
 
