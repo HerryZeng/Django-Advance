@@ -78,6 +78,8 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
     select ... where title like '%hello%';
 ```
 
+在`SQL`中`LIKE BINARY`是**区别大小写**的，而`LIKE`是**不区别分大小写**的
+
 ### in
 
 提取那些给定的 `field `的值是否在给定的容器中。容器可以为 `list `、 `tuple `或者任何一个可以迭代的对象，包括 `QuerySet `对象。示例代码如下：
