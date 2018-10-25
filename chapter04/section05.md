@@ -190,23 +190,25 @@
 
 **注意**
 
-1. `related_name`,反向引用，即
+1. `related_name`,反向引用（默认是`模型`小写化加上`_set`），即
 ```python
     # models.py
-    author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles')
+    Article(models.Model)
+        author = models.ForeignKey("User",on_delete=models.SET_NULL,null=True,related_name='articles')
     
     # views.py
     user.articles.all()
 ```
 某个`user`的所有`articles`。
 
-2. `related_query_name`,反向过滤（反向查询），即
+2. `related_query_name`,反向过滤（反向查询），默认是`模型`小写化`article`，即
 ```python
     # models.py
-    author = models.ForeignKey("User",on_delete=models.SET_NULL,related_query_name='article')
+    Article(models.Model)
+        author = models.ForeignKey("User",on_delete=models.SET_NULL,related_query_name='articles')
     
     # views.py
-    users = User.objects.filter(article__title__contains='abc')
+    users = User.objects.filter(articles__title__contains='abc')
 ```
 查询文章`title`包含`abc`的所有`user`。
 
