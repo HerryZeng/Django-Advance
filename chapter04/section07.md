@@ -221,6 +221,8 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 以上的代码是获取每一天中12点12分12秒发表的所有文章。
 如果涉及到秒的可以参考如下代码
 ```python
+    from datatime import time
+    
     s_time = time(15,46,25)
     e_time = time(15,46,26)
     articles = Article.objects.filter(create_time__time__range=(s_time,e_time))
