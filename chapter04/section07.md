@@ -270,7 +270,7 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 ```
 比如想要获取文章标题中包含"hello"的所有的分类。那么可以通过以下代码来实现：
 ```python
-    categories = Category.object.filter(article__title__contains="hello")
+    categories = Category.object.filter(article__title__contains("hello"))
 ```
 
 
