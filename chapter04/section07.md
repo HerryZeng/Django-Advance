@@ -2,6 +2,22 @@
 
 查找是数据库操作中一个非常重要的技术。查询一般就是使用 `filter `、 `exclude `以及 `get `三个方法来实现。我们可以在调用这些方法的时候传递不同的参数来实现查询需求。在 `ORM `层面，这、些查询条件都是使用 `field + __ + condition` 的方式来使用的。以下将那些常用的查询条件来一一解释。
 
+
+## 查询条件
+
+### exact
+
+使用精确的`= `进行查找。如果提供的是一个 `None `，那么在 `SQL `层面就是被解释为 `NULL `。示例代码如下：
+```python
+    article = Article.objects.get(id__exact=14)
+    article = Article.objects.get(id__exact=None)
+```
+以上的两个查找在翻译为 SQL 语句为如下：
+```sql
+    select ... from article where id=14;
+    select ... from article where id IS NULL;
+```
+
 如果使用`filter`则返回的是`QuerySet`，如果使用的是`get`则返回的是`Model`。
 访问`Model`实例的`query`属性，可以查看`ORM`将些查询转换的`SQL`。
 ```python
@@ -19,20 +35,9 @@ def index(request):
 SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`content` FROM `article_article` WHERE `article_article`.`id` = 1
 ```
 
-## 查询条件
-
-### exact
-
-使用精确的`= `进行查找。如果提供的是一个 `None `，那么在 `SQL `层面就是被解释为 `NULL `。示例代码如下：
-```python
-    article = Article.objects.get(id__exact=14)
-    article = Article.objects.get(id__exact=None)
-```
-以上的两个查找在翻译为 SQL 语句为如下：
-```sql
-    select ... from article where id=14;
-    select ... from article where id IS NULL;
-```
+**注意**
+在Windows操作系统上，`MySQL`的排序规则`collation`无论是什么都是大小写不敏感的。
+在Linux操作系统上，`MySQL`的排序规则 `collation`是`utf8_bin`，那么是大小写敏感的。
 
 ### iexact
 
