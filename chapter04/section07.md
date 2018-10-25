@@ -100,6 +100,8 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
     select ...from category where article.id in (select id from article where title like '%hello%');
 ```
 
+如果在做反向过滤的时候，过滤的字段是模型的主键，可以直接省略主键的字段，`article__id__in`可以写成`article__in` 。
+
 ### gt
 
 某个 `field `的值要大于给定的值。示例代码如下：
