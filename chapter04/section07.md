@@ -18,8 +18,8 @@
     select ... from article where id IS NULL;
 ```
 
-如果使用`filter`则返回的是`QuerySet`，如果使用的是`get`则返回的是`Model`。
-访问`Model`实例的`query`属性，可以查看`ORM`将些查询转换的`SQL`。
+如果使用`filter`则返回的是`QuerySet`，如果使用的是`get`则返回的是`Model`，没有`query`属性。
+访问`QuerySet`实例的`query`属性，可以查看`ORM`将些查询转换的`SQL`。
 ```python
 def index(request):
     article = Article.objects.filter(id__exact=1)
