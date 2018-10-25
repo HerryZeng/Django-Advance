@@ -51,6 +51,10 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 ```
 注意上面这个 `sql `语句，因为在 `MySQL `中，没有一个叫做 `ilike `的。所以 `exact `和 `iexact `的区别实际上就是 `LIKE `和 `= `的区别，在大部分 `collation=utf8_general_ci` 情况下都是一样的（ `collation `是用来对字符串比较的）。
 
+> `LIKE`和`=`:大部分情况下都是等价的，只有少数情况下是不等价的。
+> `exact`和`iexact`: 区别就是`=`和`LIKE`的区别，因为`exact`会被`ORM`转换成`=`,`iexact`会被`ORM`转换成`LIKE`。
+
+
 ### contains
 
 **大小写敏感**，判断某个字段是否包含了某个数据。示例代码如下：
