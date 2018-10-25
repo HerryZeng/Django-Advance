@@ -200,7 +200,7 @@
 ```
 某个`user`的所有`articles`。
 
-2. `related_query_name`,反向过滤，即
+2. `related_query_name`,反向过滤（反向查询），即
 ```python
     # models.py
     author = models.ForeignKey("User",on_delete=models.SET_NULL,related_query_name='article')
