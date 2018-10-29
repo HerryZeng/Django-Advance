@@ -103,3 +103,60 @@ INFO:root:Started
 INFO:root:Doing something
 INFO:root:Finished
 ```
+
+### 日志的变量数据
+
+在logging模块中通过百分符%方式的格式化控制，生成消息字符串，类同于字符串数据类型的格式化输出，但也有不同之处。
+```python
+import logging
+logging.warning('%s before you %s', 'Look', 'leap!')
+```
+结果
+```log
+WARNING:root:Look before you leap!
+```
+可以看到两个%s分别被‘Look’和‘leap！’替代了。
+
+### 消息格式
+
+要控制消息格式，获得更多的花样，可以提供format参数：
+```python
+import logging
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.debug('This message should appear on the console')
+logging.info('So should this')
+logging.warning('And this, too')
+```
+输出结果
+```log
+DEBUG:This message should appear on the console
+INFO:So should this
+WARNING:And this, too
+```
+对于`%(levelname)s`这种东西，是`logging`模块内置的，可以被输出到日志中的对象，更多的内容在下面将会列举。
+
+### 附加时间信息
+要在日志内容中附加时间信息，可以在format字符串中添加%(asctime)s
+```python
+import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
+logging.warning('is when this event was logged.')
+```
+输出结果
+```log
+2010-12-12 11:41:42,612 is when this event was logged.
+```
+默认情况下，时间的显示使用`ISO8601`格式。如果想做更深入的定制，可以提供`datefmt`参数，如下所示：
+```python
+import logging
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.warning('is when this event was logged.')
+```
+输出结果:
+```log
+12/12/2010 11:46:36 AM is when this event was logged.
+```
+`datefmt`参数的定制和`time`模块的`time.strftime()`一样！
+
+## 高级用法
+
