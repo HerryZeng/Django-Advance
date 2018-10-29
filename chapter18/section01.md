@@ -38,3 +38,16 @@
 ```log
     WARNING:root:Watch out！
 ```
+默认情况下，打印出来的内容包括日志级别，调用者和具体的日志信息。所有的这些内容都可以自定义的，在后面再细说。
+
+### 记录到文件内
+
+要把日志界内到文件内，就不能使用上面的方法了，但是`logging`模块同样给我们提供了一个相对便捷的方法。那就是`logging.basicConfig()`方法。示例如下：
+```python
+    import logging
+    
+    logging.basicConfig(filename='example.log',level=logging.DEBUG)
+    logging.debug('This message should go to the log file')
+    logging.info('So should this')
+    logging.warning('And this,too')
+```
