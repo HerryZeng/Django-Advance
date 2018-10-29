@@ -58,3 +58,27 @@ LOGGING = {
     },
 }
 ```
+如果你使用上面的样例，请确保`Django`用户对'`filename`'对应目录和文件的写入权限。
+
+例二：
+
+下面这个示例配置，让Django将日志打印到控制台，通常用做开发期间的信息展示。
+```yaml
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+```
