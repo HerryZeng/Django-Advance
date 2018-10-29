@@ -136,7 +136,7 @@ print(article)
     # 下面这行代码相当于以上两行代码
     article = Article.objects.create(title='abc')
 ```
-14. `get_or_create`：根据某个条件进行查找，如果找到了那么就返回这条数据，如果没有查找到，那么就创建一个。示例代码如下：
+14 . `get_or_create`：根据某个条件进行查找，如果找到了那么就返回这条数据，如果没有查找到，那么就创建一个。示例代码如下：
 ```python
     obj,created= Category.objects.get_or_create(title='默认分类')
 ```
@@ -148,7 +148,7 @@ print(article)
         Tag(name='222'),
     ])
 ```
-16. `count`：获取提取的数据的个数。如果想要知道总共有多少条数据，那么建议使用`count`，而不是使用`len(articles)`这种。因为`count`在底层是使用`select count(*)`来实现的，这种方式比使用`len`函数更加的高效。
+16 . `count`：获取提取的数据的个数。如果想要知道总共有多少条数据，那么建议使用`count`，而不是使用`len(articles)`这种。因为`count`在底层是使用`select count(*)`来实现的，这种方式比使用`len`函数更加的高效。
 17. `first`和`last`：返回`QuerySet`中的第一条和最后一条数据。
 18. `aggregate`：使用聚合函数。
 19. `exists`：判断某个条件的数据是否存在。如果要判断某个条件的元素是否存在，那么建议使用`exists`，这比使用`count`或者直接判断`QuerySet`更有效得多。示例代码如下：
@@ -164,7 +164,7 @@ print(article)
     if Article.objects.filter(title__contains='hello'):
         print(True)
 ```
-20. `distinct`：去除掉那些重复的数据。这个方法如果底层数据库用的是`MySQL`，那么不能传递任何的参数。比如想要提取所有销售的价格超过80元的图书，并且删掉那些重复的，那么可以使用`distinct`来帮我们实现，示例代码如下：
+20 . `distinct`：去除掉那些重复的数据。这个方法如果底层数据库用的是`MySQL`，那么不能传递任何的参数。比如想要提取所有销售的价格超过80元的图书，并且删掉那些重复的，那么可以使用`distinct`来帮我们实现，示例代码如下：
 ```python
     books = Book.objects.filter(bookorder__price__gte=80).distinct()
 ```
