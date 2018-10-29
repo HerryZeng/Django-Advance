@@ -51,3 +51,55 @@
     logging.info('So should this')
     logging.warning('And this,too')
 ```
+然后打开`example.log`文件，可以看到下面的日志消息：
+```log
+    DEBUG:root:This message should go to the log file
+    INFO:root:So should this
+    WARNING:root:And this, too
+```
+我们通过`level=logging.DEBUG`参数，设定了日志记录的门槛。如果想在命令行调用时设置日志级别，可以使用下面的选项：
+```python
+    --log=INFO
+```
+可以通过下面的方法来获取用户输入的日志级别参数：
+```python
+    numeric_level = getattr(logging, loglevel.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError('Invalid log level: %s' % loglevel)
+    logging.basicConfig(level=numeric_level, ...)
+```
+默认情况下，日志会不断的追加到文件的后面。如果你不想保存之前的日志，每次都清空文件，然后写入当前日志，则可以如下设置：
+```python
+    logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
+```
+关键是将`filemode`设置为'w'。
+
+### 多模块中同时使用日志功能
+如果你的程序包含多个文件（模块），下面是个如何在其中组织日志的例子：
+```python
+# myapp.py
+import logging
+import mylib
+
+def main():
+    logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    logging.info('Started')
+    mylib.do_something()
+    logging.info('Finished')
+
+if __name__ == '__main__':
+    main()
+```
+```python
+# mylib.py
+import logging
+
+def do_something():
+    logging.info('Doing something')
+```
+运行myapp.py模块，你可以在myapp.log日志文件中看到下面的内容：
+```log
+INFO:root:Started
+INFO:root:Doing something
+INFO:root:Finished
+```
