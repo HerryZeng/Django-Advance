@@ -45,3 +45,25 @@ for article in articles:
 print(article)
 ```
 以上打印出来的 `article`是类似于 `{"title":"abc","content":"xxx"}` 的形式。如果在 `values`中没有传递任何参数，那么将会返回这个恶模型中所有的属性。
+6. `values_list`：类似于`values`。只不过返回的QuerySet`中，存储的不是字典，而是元组。示例代码如下：
+```python
+    articles = Article.objects.values_list('id','title')
+    print(articles)
+```
+那么在打印`arthcles`后，结果为`<QuerySet [(1,'abc'),(2,'xxx',...)]>`等。如果在`values_list`中只有一个字段。那么你可以传递`flat=True`来将结果扁平化。示例代码如下:
+```python
+    articles1 = Article.objects.values_list('title')
+    >> <QuerySet [('abc'),('xxx'),...]
+    
+    articles2 = Arctile.objects.values_list('title',flat=True)
+    >> <QuerySet ['abc','xxx',...]>
+```
+7. `all`：获取这个`ORM`模型的`QuerySet`对象。
+8. `select_related`：在提取某个模型的数据的同量，也提前将相关联的数据提取出来。比如提取文章数据，可成为个体`select_related`将`author`信息提取出来，以后再次使用`article.author`的时候就不需要再次去访问数据库了。可以减少数据库查询的次数。示例代码如下：
+```python
+    article = Article.objects.get(pk=1)
+    >> article.author  # 重新执行一次查询语句
+    
+    article = Article.objects.select_related('author').get(pk=2)
+    >> article.author # 不需要重新执行查询语句了。
+```
