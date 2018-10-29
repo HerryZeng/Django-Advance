@@ -21,3 +21,53 @@
 
 更多关于迁移脚本的。请查看官方文档：
 [https://docs.djangoproject.com/en/2.1/topics/migrations/](https://docs.djangoproject.com/en/2.1/topics/migrations/)
+
+### 根据已有的表自动生成模型：
+
+在实际开发中，有些时候可能数据库已经存在了。如果我们用`Django`来开发一个网站，读取的是之前已经存在的数据库中的数据。那么该如何将模型与数据库中的表映射呢？根据旧的数据库生成对应的`ORM`模型，需要以下几个步骤：
+1. `Django`给我们提供了一个`inspectdb`的命令，可以非常方便的将已经存在的表，自动的生成模型。想要使用`inspectdb`自动将表生成模型。首先需要在`settings.py`中配置好数据库相关信息。不然就找不到数据库。示例代码如下：
+```python
+    DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': "migrations_demo",
+         'HOST': '127.0.0.1',
+         'PORT': '3306',
+         'USER': 'root',
+         'PASSWORD': 'root'
+         }
+     }
+```
+比如有以下表：
+    + article表
+    + tag表
+    + article_tag表
+    + front_user表
+那么通过`python manage.py inspectdb`，就会将表转换为模型后的代码，显示在终端：
+```python
+    from django.db import models
+
+    class ArticleArticle(models.Model):
+        title = models.CharField(max_length=100)
+        content = models.TextField(blank=True, null=True)
+        create_time = models.DateTimeField(blank=True, null=True)
+        author = models.ForeignKey('FrontUserFrontuser', models.DO_NOTHING, blank=True, null=True)
+
+        class Meta:
+            managed = False
+            db_table = 'article_article'
+    
+    class ArticleArticleTags(models.Model):
+        article = models.ForeignKey(ArticleArticle, 
+```
+以上代码只是显示在终端。如果想要保存到文件中。那么可以使用>重定向输出到指定的文件。比如让他输出到`models.py`文件中。示例命令如下：
+```python
+    python manage.py inspectdb > models.py
+```
+以上的命令，只能在终端执行，不能在`pycharm->Tools->Run manage.py Task...`中使用。
+如果只是想要转换一个表为模型。那么可以指定表的名字。示例命令如下：
+```python
+    python manage.py inspectdb article_article > models.py
+```
+2. 
+    
