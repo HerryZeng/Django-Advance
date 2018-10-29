@@ -404,3 +404,61 @@ $ python simple_logging_config.py
 2005-03-19 15:38:56,055 - simpleExample - ERROR - error message
 2005-03-19 15:38:56,130 - simpleExample - CRITICAL - critical message
 ```
+
+`Python`官方更推荐第三种新的配置方法，类字典形式的配置信息，因为`Python`的字典运用形式多样，操作灵活。比如，你可以通过`JSON`格式保存字典，或者`YAML`格式保存信息，然后读取成字典。当然，你也可以直接在`Python`代码里编写传统的带有配置信息的字典。一切都是基于键值对形式的就OK。
+
+下面的例子就是基于YAML配置文件的日志。`logging.conf.yaml`配置文件内容如下：
+```yaml
+version: 1
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+loggers:
+  simpleExample:
+    level: DEBUG
+    handlers: [console]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console]
+```
+这里要先通过`pip`安装`yaml`模块：
+```bash
+pip install pyyaml
+```
+`yaml`模块的使用很简单，使用`open()`方法打开一个`yaml`文件对象，然后使用`yaml`的`load()`方法将文件内容读成一个`Python`的字典对象。最后我们根据这个字典对象，使用`logging.conf`的`dictConfig()`方法，获取配置信息。如下代码所示：
+```python
+import logging
+import logging.config
+import yaml
+
+# 通过yaml文件配置logging
+f = open("logging.conf.yaml")
+dic = yaml.load(f)
+f.close()
+logging.config.dictConfig(dic)
+
+# 创建logger
+logger = logging.getLogger('simpleExample')
+
+# 输出日志
+logger.debug('debug message')
+logger.info('info message')
+logger.warn('warn message')
+logger.error('error message')
+logger.critical('critical message')
+```
+输出结果：
+```log
+2017-09-27 17:41:09,241 - simpleExample - DEBUG - debug message
+2017-09-27 17:41:09,242 - simpleExample - INFO - info message
+2017-09-27 17:41:09,242 - simpleExample - WARNING - warn message
+2017-09-27 17:41:09,242 - simpleExample - ERROR - error message
+2017-09-27 17:41:09,242 - simpleExample - CRITICAL - critical message
+```
