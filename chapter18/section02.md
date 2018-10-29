@@ -144,3 +144,25 @@ LOGGING = {
     + 定义了两个过滤器：SpecialFilter和RequireDebugTrue
     + 定义了两个处理器：console和mail_admins
     + 配置了三个logger：'django'、'django.request'和'myproject.custom'
+    
+### Django对logging模块的扩展
+
+Django对logging模块进行了一定的扩展，用来满足Web服务器专门的日志记录需求。
+
+1. 记录器 Loggers
+Django额外提供了几个其内建的logger。
+    + django： 不要使用这个记录器，用下面的。这是一个被供起来的记录器，^-^
+    + django.request： 记录与处理请求相关的消息。5XX错误被记录为ERROR消息；4XX错误记录为WARNING消息。接收额外参数：status_code和request
+    + django.server： 记录开发服务器下处理请求相关的消息。只用于开发阶段。
+    + django.template: 记录与渲染模板相关的日志。
+    + django.db.backends: 与数据库交互的代码相关的消息。
+    + django.security： 记录任何与安全相关的错误。
+    + django.security.csrf： 记录CSRF验证失败日志。
+    + django.db.backends.schema： 记录查询导致数据库修改的日志。
+    
+2. 处理器 Handlers
+Django额外提供了一个handler，AdminEmailHandler。这个处理器将它收到的每个日志信息用邮件发送给站点管理员。
+3. 过滤器Filters
+Django还额外提供两个过滤器。
+    + CallbackFilter(callback)[source]：这个过滤器接受一个回调函数，并对每个传递给过滤器的记录调用它。如果回调函数返回False，将不会进行记录的处理。
+    + RequireDebugFalse[source]： 这个过滤器只会在settings.DEBUG==False时传递。
