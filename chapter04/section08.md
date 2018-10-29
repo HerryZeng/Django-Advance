@@ -106,3 +106,44 @@ print(article)
     print(sql)
 ```
 因为使用了`Prefetch`，即使在查询文章的时候使用了`filter`，也只会发生两次查询操作。
+10. `defer`：在一些表中，可能存在很多的字段，但是一些字段的数据量可能是比较庞大的，而此时你又不需要，比如我们在获取文章列表的时候，文章的内容我们是不需要的，因此这时候我们就可以使用`defer`来过滤掉一些字段。这个字段跟`values`有点类似，只不过`defer`返回的不是字典，而是模型。示例代码如下：
+```python
+    articles = list(Article.objects.defer("title"))
+    for sql in connection.queries:
+        print('='*30)
+        print(sql)
+```
+在看以上代码的`sql`语句，你就可以看到，查找文章的字段，除了`title`，其他字段都查找出来了。当然，你也可以使用`article.title`来获取这个文章的标题，但是会重新执行一个查询的语句。示例代码如下：
+```python
+    articles = list(Article.objects.defer("title"))
+    for article in articles:
+        # 因为在上面提取的时候过滤了title
+        # 这个地方重新获取title，将重新向数据库中进行一次查找操作
+        print(article.title)
+    for sql in connection.queries:
+        print('='*30)
+        print(sql)
+```
+`defer`虽然能过滤字段，但是有些字段是不能过滤的，比如`id`，即使你过滤了，也会提取出来。
+11. `only`：跟`defer`类似，只不过`defer`是过滤掉指定的字段，而`only`是只提取指定的字段。
+12. `get`：获取满足条件的数据。这个函数只能返回一条数据，并且如果给的条件有多条数据，那么这个方法会抛出`MultipleObjectsReturned`错误，如果给的条件没有任何数据，那么就会抛出`DoesNotExit`错误。所以这个方法在获取数据的只能，只能有且只有一条。
+13. `create`：创建一条数据，并且保存到数据库中。这个方法相当于先用指定的模型创建一个对象，然后再调用这个对象的`save`方法。示例代码如下：
+```python
+    article = Article(title='abc')
+    article.save()
+
+    # 下面这行代码相当于以上两行代码
+    article = Article.objects.create(title='abc')
+```
+14. `get_or_create`：根据某个条件进行查找，如果找到了那么就返回这条数据，如果没有查找到，那么就创建一个。示例代码如下：
+```python
+    obj,created= Category.objects.get_or_create(title='默认分类')
+```
+如果有标题等于默认分类的分类，那么就会查找出来，如果没有，则会创建并且存储到数据库中。这个方法的返回值是一个元组，元组的第一个参数obj是这个对象，第二个参数created代表是否创建的。
+15. `bulk_create`：一次性创建多个数据。示例代码如下：
+```python
+    Tag.objects.bulk_create([
+        Tag(name='111'),
+        Tag(name='222'),
+    ])
+```
