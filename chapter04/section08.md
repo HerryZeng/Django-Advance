@@ -58,6 +58,7 @@ print(article)
     articles2 = Arctile.objects.values_list('title',flat=True)
     >> <QuerySet ['abc','xxx',...]>
 ```
+
 7. `all`：获取这个`ORM`模型的`QuerySet`对象。
 8. `select_related`：在提取某个模型的数据的同量，也提前将相关联的数据提取出来。比如提取文章数据，可成为个体`select_related`将`author`信息提取出来，以后再次使用`article.author`的时候就不需要再次去访问数据库了。可以减少数据库查询的次数。示例代码如下：
 ```python
