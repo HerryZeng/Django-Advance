@@ -147,3 +147,19 @@ print(article)
         Tag(name='222'),
     ])
 ```
+16. `count`：获取提取的数据的个数。如果想要知道总共有多少条数据，那么建议使用`count`，而不是使用`len(articles)`这种。因为`count`在底层是使用`select count(*)`来实现的，这种方式比使用`len`函数更加的高效。
+17. `first`和`last`：返回`QuerySet`中的第一条和最后一条数据。
+18. `aggregate`：使用聚合函数。
+19. `exists`：判断某个条件的数据是否存在。如果要判断某个条件的元素是否存在，那么建议使用`exists`，这比使用`count`或者直接判断`QuerySet`更有效得多。示例代码如下：
+```python
+    if Article.objects.filter(title__contains='hello').exists():
+        print(True)
+        # 比使用count更高效：
+        
+    if Article.objects.filter(title__contains='hello').count() > 0:
+        print(True)
+        也比直接判断QuerySet更高效：
+        
+    if Article.objects.filter(title__contains='hello'):
+        print(True)
+```
