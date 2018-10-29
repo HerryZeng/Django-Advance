@@ -67,3 +67,42 @@ print(article)
     article = Article.objects.select_related('author').get(pk=2)
     >> article.author # 不需要重新执行查询语句了。
 ```
+`select_related`只能用在`一对多`或`一对一`中，不能用在`多对多`或`多对一`中。比如可以提前获取文章的作者，但不能通过作者获取这个作者的文章，或通过某篇文章获取这个文章所有的标签。
+9. `prefetch_related`：这个方法和`select_related`非常的类似，就是在访问多个表中的数据的时候，减少查询的次数。这个方法是为了解决`多对一`和`多对多`的关系的查询问题。比如要获取标题中带有`hello`字符串的文章以及他的所有标签，示例代码如下：
+```python
+    from django.db import connection
+    
+    articles = Article.objects.prefetch_related('tag_set').filter(title__contains='hello')
+    print(articles.query)  # 通过这条命令查看在底层的SQL语句
+    
+    for article in articles:
+        print('title',article.title)
+        print(article.tag_set.all())
+        
+    # 通过以下代码可以看出来以上代码执行的sql语句
+    for sql in connection.queries:
+        print(sql)
+```
+但是如果在使用`article.tag_set`的时候，如果又创建了一个新的`QuerySet`那么会把之前的`SQL`代码给破坏掉。比如下以下代码：
+```python
+    tags = Tag.obejcts.prefetch_related("articles")
+    for tag in tags:
+        articles = tag.articles.filter(title__contains='hello') #因为filter方法会重新生成一个QuerySet，因此会破坏掉之前的sql优化
+
+    # 通过以下代码，我们可以看到在使用了filter的，他的sql查询会更多，而没有使用filter的，只有两次sql查询
+    for sql in connection.queries:
+        print(sql)
+```
+那如果确实是想要在查询的时候指定过滤条件该如何做呢，这时候我们可以使用`django.db.models.Prefetch`来实现，`Prefetch`这个可以提前定义好`queryset`。示例代码如下：
+```python
+    tags = Tag.objects.prefetch_related(Prefetch("articles",queryset=Article.objects.filter(title__contains='hello'))).all()
+    for tag in tags:
+        articles = tag.articles.all()
+    for article in articles:
+        print(article)
+
+    for sql in connection.queries:
+    print('='*30)
+    print(sql)
+```
+因为使用了`Prefetch`，即使在查询文章的时候使用了`filter`，也只会发生两次查询操作。
