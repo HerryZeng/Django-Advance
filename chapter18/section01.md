@@ -250,3 +250,148 @@ logging模块内置了下面的handler处理器，从字面上你就能看出它
     + QueueHandler
     + NullHandler
     
+### Formatters
+
+Formatter对象用来最终设置日志信息的顺序、结构和内容。其构造方法为：
+```python
+    ft = logging.Formatter.__init__(fmt=None, datefmt=None, style=’%’)
+```
+如果不指定datefmt，那么它默认是%Y-%m-%d %H:%M:%S样式的。
+
+style参数默认为百分符%，这表示前面的fmt参数应该是一个%(<dictionary key>)s格式的字符串，而可以使用的logging内置的keys，如下表所示：
+
+|属性|	格式|	描述|
+|---|---|---|
+|asctime|	%(asctime)s|	日志产生的时间，默认格式为2003-07-08 16:49:45,896
+|created|	%(created)f|	time.time()生成的日志创建时间戳
+|filename|	%(filename)s|	生成日志的程序名
+|funcName|	%(funcName)s|	调用日志的函数名
+|levelname|	%(levelname)s|	日志级别 ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
+|levelno|	%(levelno)s|    日志级别对应的数值
+|lineno|	%(lineno)d|	日志所针对的代码行号（如果可用的话）
+|module|	%(module)s|	生成日志的模块名
+|msecs|	%(msecs)d|	日志生成时间的毫秒部分
+|message|	%(message)s|	具体的日志信息
+|name|	%(name)s|	日志调用者
+|pathname|	%(pathname)s|	生成日志的文件的完整路径
+|process|	%(process)d|	生成日志的进程ID（如果可用）
+|processName|	%(processName)s|	进程名（如果可用）
+|thread|	%(thread)d|	生成日志的线程ID（如果可用）
+|threadName|	%(threadName)s|	线程名（如果可用）
+
+### Filter过滤器
+
+`Handlers`和`Loggers`可以使用`Filters`来完成比日志级别更复杂的过滤。比如我们定义了·filter = logging.Filter('a.b.c')·，并将这个`Filter`添加到了一个`Handler`上，则使用该`Handler`的`Logger`中只有名字带`a.b.c`前缀的`Logger`才能输出其日志。
+
+创建方法: `filter = logging.Filter(name='')`
+
+例如：
+```python
+filter = logging.Filter('mylogger.child1.child2')  
+fh.addFilter(filter)
+```
+则只会输出下面格式的日志，注意其用户名：
+```log
+2017-09-27 16:27:46,227 - mylogger.child1.child2 - DEBUG - logger1 debug message
+2017-09-27 16:27:46,227 - mylogger.child1.child2 - DEBUG - logger1 debug message
+2017-09-27 16:27:46,227 - mylogger.child1.child2 - DEBUG - logger1 debug message
+2017-09-27 16:27:46,227 - mylogger.child1.child2 - DEBUG - logger1 debug message
+```
+
+### 配置日志模块
+
+有三种配置logging的方法：
+    + 创建`loggers`、`handlers`和`formatters`，然后使用`Python`的代码调用上面介绍过的配置函数。
+    + 创建一个`logging`配置文件，然后使用`fileConfig()`方法读取它。
+    + 创建一个配置信息字典然后将它传递给`dictConfig()`方法。
+    
+下面的例子采用了第一种方法：
+```python
+#simple_logging_module.py
+
+import logging
+
+# 创建logger记录器
+logger = logging.getLogger('simple_example')
+logger.setLevel(logging.DEBUG)
+
+# 创建一个控制台处理器，并将日志级别设置为debug。
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# 创建formatter格式化器
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# 将formatter添加到ch处理器
+ch.setFormatter(formatter)
+
+# 将ch添加到logger
+logger.addHandler(ch)
+
+# 然后就可以开始使用了！
+logger.debug('debug message')
+logger.info('info message')
+logger.warn('warn message')
+logger.error('error message')
+logger.critical('critical message')
+```
+在命令行中运行上面的代码，输出结果如下：
+```bash
+$ python simple_logging_module.py
+2005-03-19 15:10:26,618 - simple_example - DEBUG - debug message
+2005-03-19 15:10:26,620 - simple_example - INFO - info message
+2005-03-19 15:10:26,695 - simple_example - WARNING - warn message
+2005-03-19 15:10:26,697 - simple_example - ERROR - error message
+2005-03-19 15:10:26,773 - simple_example - CRITICAL - critical message
+```
+
+下面是使用第二种方法，`logging`配置文件的方式：
+```python
+# simple_logging_config.py
+
+import logging
+import logging.config
+
+logging.config.fileConfig('logging.conf') # 读取config文件
+
+# 创建logger记录器
+logger = logging.getLogger('simpleExample')
+
+# 使用日志功能
+logger.debug('debug message')
+logger.info('info message')
+logger.warn('warn message')
+logger.error('error message')
+logger.critical('critical message')
+```
+其中的logging.conf配置文件内容如下：
+```conf
+[loggers]
+keys=root,simpleExample
+
+[handlers]
+keys=consoleHandler
+
+[formatters]
+keys=simpleFormatter
+
+[logger_root]
+level=DEBUG
+handlers=consoleHandler
+
+[logger_simpleExample]
+level=DEBUG
+handlers=consoleHandler
+qualname=simpleExample
+propagate=0
+
+[handler_consoleHandler]
+class=StreamHandler
+level=DEBUG
+formatter=simpleFormatter
+args=(sys.stdout,)
+
+[formatter_simpleFormatter]
+format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+datefmt=
+```
