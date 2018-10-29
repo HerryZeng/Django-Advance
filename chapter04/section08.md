@@ -163,3 +163,24 @@ print(article)
     if Article.objects.filter(title__contains='hello'):
         print(True)
 ```
+20. `distinct`：去除掉那些重复的数据。这个方法如果底层数据库用的是`MySQL`，那么不能传递任何的参数。比如想要提取所有销售的价格超过80元的图书，并且删掉那些重复的，那么可以使用`distinct`来帮我们实现，示例代码如下：
+```python
+    books = Book.objects.filter(bookorder__price__gte=80).distinct()
+```
+需要注意的是，如果在`distinct`之前使用了`order_by`，那么因为`order_by`会提取`order_by`中指定的字段，因此再使用`distinct`就会根据多个字段来进行唯一化，所以就不会把那些重复的数据删掉。示例代码如下：
+```python
+    orders = BookOrder.objects.order_by("create_time").values("book_id").distinct()
+```
+那么以上代码因为使用了`order_by`，即使使用了`distinct`，也会把重复的`book_id`提取出来。
+21. `update`：执行更新操作，在`SQL`底层走的也是`update`命令。比如要将所有`category`为空的`article`的`article`字段都更新为默认的分类。示例代码如下：
+```python
+    Article.objects.filter(category__isnull=True).update(category_id=3)
+```
+注意这个方法走的是更新的逻辑。所以更新完成后保存到数据库中不会执行`save`方法，因此不会更新`auto_now`设置的字段。
+22. `delete`：删除所有满足条件的数据。删除数据的时候，要注意`on_delete`指定的处理方式。
+23. 切片操作：有时候我们查找数据，有可能只需要其中的一部分。那么这时候可以使用切片操作来帮我们完成。`QuerySet`使用切片操作就跟列表使用切片操作是一样的。示例代码如下：
+```python
+    books = Book.objects.all()[1:3]
+    for book in books:
+        print(book)
+```
