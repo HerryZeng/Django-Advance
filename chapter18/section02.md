@@ -35,3 +35,26 @@ def my_view(request, arg1, arg):
     + logger.critical()
     
 ### 在Django中配置logging
+
+通常，只是像上面的例子那样简单的使用logging模块是远远不够的，我们一般都要对logging的四大金刚进行一定的配置。`Python`的`logging`模块提供了好几种配置方式。默认情况下，`Django`使用`dictConfig format`。也就是字典方式。
+例一：
+```yaml
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/path/to/django/debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+```
