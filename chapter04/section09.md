@@ -69,5 +69,5 @@
 ```python
     python manage.py inspectdb article_article > models.py
 ```
-2. 
+2 . 修正模型：新生成的ORM模型有些地方可能不太适合使用。比如模型的名字，表之间的关系等等。那么以下选项还需要重新配置一下： 
     
