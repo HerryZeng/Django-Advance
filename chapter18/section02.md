@@ -138,3 +138,9 @@ LOGGING = {
     }
 }
 ```
+上面的logging配置主要定义了这么几件事情：
+    + 定义了配置文件的版本，当前版本号为1.0
+    + 定义了两个formatter：simple和format，分别表示两种文本格式。
+    + 定义了两个过滤器：SpecialFilter和RequireDebugTrue
+    + 定义了两个处理器：console和mail_admins
+    + 配置了三个logger：'django'、'django.request'和'myproject.custom'
