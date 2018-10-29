@@ -184,3 +184,22 @@ print(article)
     for book in books:
         print(book)
 ```
+切片操作并不是把所有数据从数据库中提取出来再做切片操作。而是在数据库层面使用`LIMIE`和`OFFSET`来帮我们完成。所以如果只需要取其中一部分的数据的时候，建议大家使用切片操作。
+
+### 什么时候Django会将QuerySet转换为SQL去执行：
+
+生成一个`QuerySet`对象并不会马上转换为`SQL`语句去执行。比如我们获取`Book`表下所有的图书：
+```python
+    books = Book.objects.all()
+    print(connection.queries)
+```
+我们可以看到在打印connection.quries的时候打印的是一个空的列表。说明上面的QuerySet并没有真正的执行。在以下情况下`QuerySet`会被转换为`SQL`语句执行：
++ 迭代：在遍历`QuerySet`对象的时候，会首先先执行这个`SQL`语句，然后再把这个结果返回进行迭代。比如以下代码就会转换为`SQL`语句：
+```python
+    for book in Book.objects.all():
+        print(book)
+```
++ 使用步长做切片操作：`QuerySet`可以类似于列表一样做切片操作。做切片操作本身不会执行`SQL`语句，但是如果如果在做切片操作的时候提供了步长，那么就会立马执行`SQL`语句。需要注意的是，做切片后不能再执行`filter`方法，否则会报错。
++ 调用`len`函数：调用`len`函数用来获取`QuerySet`中总共有多少条数据也会执行`SQL`语句。
++ 调用`list`函数：调用`list`函数用来将一个`QuerySet`对象转换为`list`对象也会立马执行`SQL`语句。
++ 判断：如果对某个`QuerySet`进行判断，也会立马执行`SQL`语句。
