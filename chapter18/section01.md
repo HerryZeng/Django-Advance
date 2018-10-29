@@ -176,3 +176,77 @@ logging.warning('is when this event was logged.')
 
 日志事件信息在loggers和handlers中的逻辑流程如下图所示：
 ![flow](../images/chapter18/001.png)
+下面是同时向屏幕和文件进行日志输出的流程：
+![](../images/chapter18/002.png)
+
+### Loggers记录器
+
+logging模块的日志功能是基于Logger类实现的。我们可以通过下面的方法获取一个Logger类的实例（建议以模块名命名logger实例）。
+```python
+logger = logging.getLogger(__name__)
+```
+`Logger`是一个树形层级结构，在使用`debug()，info()，warn()，error()，critical()`等方法之前必须先创建一个`Logger`的实例，即创建一个记录器，如果没有显式的进行创建，则默认创建一个`root logger`，并应用默认的日志级别(`WARN`)，默认的处理器`Handler`(`StreamHandler`，即将日志信息打印在标准输出上)，和默认的格式化器`Formatter`，就像我们在前面举的那些例子一样。
+
+`logger`对象有三重功能。**首先**，提供应用程序调用的接口；**其次**，决定日志记录的级别；**最后**，将日志内容传递到相关联的`handlers`中。
+
+总结`logger`对象的用法，可以分成两类：配置和消息发送。
+
+下面是最常用的配置方法：
+
+`Logger.setLevel()`：设置日志记录级别
+
+`Logger.addHandler()`和`Logger.removeHandler()`：为`logger`对象添加或删除`handler`处理器对象。
+
+`Logger.addFilter()`和`Logger.removeFilter()`：为为`logger`对象添加或删除`filter`过滤器对象。
+
+配置好`logger`对象后，就可以使用下面的方法创建日志消息了：
+
+`Logger.debug()`, `Logger.info()`, `Logger.warning()`, `Logger.error()`, and `Logger.critical()`：创建对应级别的日志，但不一定会被记录。
+
+`Logger.exception()`：创建一个类似`Logger.error()`的日志消息。不同的是`Logger.exception()`保存有一个追踪栈。该方法只能在异常`handler`中调用。
+
+`Logger.log()`：显式的创建一条日志，是前面几种方法的通用方法。
+
+注意，`getLogger()`方法返回一个`logger`对象的引用，并以你提供的`name`参数命名，如果未提供名字，那么默认为‘`root`’。使用同样的`name`参数，多次调用`getLogger()`，将返回同样的`logger`对象。
+
+### Handlers处理器
+
+`Handlers`对象是日志信息的处理器、分发器。它们将日志分发到不同的目的地。比如有时候我们希望将所有的日志都记录在本地文件内，将`error`及其以上级别的日志发送到标准输出`stdout`，将`critical`级别的日志以邮件的方法发送给管理员。这就需要同时有三个独立的`handler`，分别负责一个方向的日志处理。
+`logging`模块使用较多的`handlers`有两个，`StreamHandler`和`FileHandler`。
+
+**StreamHandler**
+
+标准输出`stdout`（如显示器）分发器。
+
+创建方法: `sh = logging.StreamHandler(stream=None)`
+
+**FileHandler**
+
+将日志保存到磁盘文件的处理器。
+
+创建方法: `fh = logging.FileHandler(filename, mode='a', encoding=None, delay=False)`
+
+`handlers`对象有下面的方法：
+
+    + `setLevel()`：和`logger`对象的一样，设置日志记录级别。那为什么要设置两层日志级别呢？`logger`对象的日志级别是全局性的，对所有`handler`都有效，相当于默认等级。而`handlers`的日志级别只对自己接收到的`logger`传来的日志有效，进行了更深一层的过滤。
+
+    + `setFormatter()`：设置当前handler对象使用的消息格式。
+
+    + `addFilter()` 和 `removeFilter()`：配置或删除一个`filter`过滤对象
+
+logging模块内置了下面的handler处理器，从字面上你就能看出它们的大概用途：
+    + StreamHandler
+    + FileHandler
+    + BaseRotatingHandler
+    + RotatingFileHandler
+    + TimedRotatingFileHandler
+    + SocketHandler
+    + DatagramHandler
+    + SMTPHandler
+    + SysLogHandler
+    + NTEventLogHandler
+    + HTTPHandler
+    + WatchedFileHandler
+    + QueueHandler
+    + NullHandler
+    
