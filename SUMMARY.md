@@ -62,4 +62,6 @@
 * [第十四章：Memcached](chapter14.md)
 * [第十五：Redis](chapter15.md)
 * [第十六章：国际化和本地化](chapter16.md)
+* [第十七章：日志系统](chapter17.md)
+  * [第一节：基础使用](chapter18/section01.md)
 
