@@ -69,10 +69,25 @@
 ```python
     python manage.py inspectdb article_article > models.py
 ```
+
 2 . 修正模型：新生成的ORM模型有些地方可能不太适合使用。比如模型的名字，表之间的关系等等。那么以下选项还需要重新配置一下： 
     + 模型名：自动生成的模型，是根据表的名字生成的，可能不是你想要的。这时候模型的名字你可以改成任何你想要的。
     + 模型所属app：根据自己的需要，将相应的模型放在对应的app中。放在同一个app中也是没有任何问题的。只是不方便管理。
     + 模型外键引用：将所有使用ForeignKey的地方，模型引用都改成字符串。这样不会产生模型顺序的问题。另外，如果引用的模型已经移动到其他的app中了，那么还要加上这个app的前缀。
     + 让Django管理模型：将Meta下的managed=False删掉，如果保留这个，那么以后这个模型有任何的修改，使用migrate都不会映射到数据库中。
-    + 当有多对多的时候，应该也要修正模型。将中间表注视了，然后使用ManyToManyField来实现多对多。并且，使用ManyToManyField生成的中间表的名字可能和数据库中
+    + 当有多对多的时候，应该也要修正模型。将中间表注视了，然后使用ManyToManyField来实现多对多。并且，使用ManyToManyField生成的中间表的名字可能和数据库中那个中间表的名字不一致，这时候肯定就不能正常连接了。那么可以通过db_table来指定中间表的名字。示例代码如下：
+    ```python
+        class Article(models.Model):
+            title = models.CharField(max_length=100, blank=True, null=True)
+            content = models.TextField(blank=True, null=True)
+            author = models.ForeignKey('front.User', models.SET_NULL, blank=True, null=True)
+            # 使用ManyToManyField模型到表，生成的中间表的规则是：article_tags
+            # 但现在已经存在的表的名字叫做：article_tag
+            # 可以使用db_table，指定中间表的名字
+            tags = models.ManyToManyField("Tag",db_table='article_tag')
+            
+            class Meta:
+                db_table = 'article'
+    ```
+    
     
