@@ -172,3 +172,8 @@ logging.warning('is when this event was logged.')
 
     + `Formatters`：格式化器，设置日志内容的组成结构和消息字段。
     
+### 日志流程图
+
+日志事件信息在loggers和handlers中的逻辑流程如下图所示：
+
+
