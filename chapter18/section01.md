@@ -395,3 +395,12 @@ args=(sys.stdout,)
 format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
 datefmt=
 ```
+在命令行中执行代码，结果如下：
+```bash
+$ python simple_logging_config.py
+2005-03-19 15:38:55,977 - simpleExample - DEBUG - debug message
+2005-03-19 15:38:55,979 - simpleExample - INFO - info message
+2005-03-19 15:38:56,054 - simpleExample - WARNING - warn message
+2005-03-19 15:38:56,055 - simpleExample - ERROR - error message
+2005-03-19 15:38:56,130 - simpleExample - CRITICAL - critical message
+```
