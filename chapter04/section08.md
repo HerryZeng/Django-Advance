@@ -67,7 +67,7 @@ print(article)
 ```python
     books = Book.objects.values('id,'name',sales=Count('bookorder'))
 ```
-6. `values_list`：类似于`values`。只不过返回的QuerySet\`中，存储的不是字典，而是元组。示例代码如下：
+6. `values_list`：类似于`values`。只不过返回的`QuerySet`中，存储的不是字典，而是元组。示例代码如下：
 
 ```python
     articles = Article.objects.values_list('id','title')
