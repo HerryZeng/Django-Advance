@@ -54,7 +54,16 @@ for article in articles:
 print(article)
 ```
 
-以上打印出来的 `article`是类似于 `{"title":"abc","content":"xxx"}` 的形式。如果在 `values`中没有传递任何参数，那么将会返回这个模型中所有的属性。  
+以上打印出来的 `article`是类似于 `{"title":"abc","content":"xxx"}` 的形式。如果在 `values`中没有传递任何参数，那么将会返回这个模型中所有的属性。
+如果想要提取的是这个模型上关联的对象的属性，那么就可以，查找顺序`filter`的用法一样。示例代码如下：
+```python
+    books = Book.objects.values('id','name','author__name')
+```  
+以上将会提取`author`的`name`字段 ，如果 我们不想要这个名字，想要更改一个名称，那么可以使用关键字参数。示例代码如下：
+```python
+    books = Book.objects.values('id','name',author_name=F("author__name"))
+```
+自定义的名字，不能和模型上本身拥有的字段一样。
 6. `values_list`：类似于`values`。只不过返回的QuerySet\`中，存储的不是字典，而是元组。示例代码如下：
 
 ```python
