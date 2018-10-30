@@ -63,7 +63,10 @@ print(article)
 ```python
     books = Book.objects.values('id','name',author_name=F("author__name"))
 ```
-自定义的名字，不能和模型上本身拥有的字段一样。
+自定义的名字，不能和模型上本身拥有的字段一样。在`values`中，也可以使用聚合函数来形成一个新的字段。想要获取每本图书的销量，示例代码如下：
+```python
+    books = Book.objects.values('id,'name',sales=Count('bookorder'))
+```
 6. `values_list`：类似于`values`。只不过返回的QuerySet\`中，存储的不是字典，而是元组。示例代码如下：
 
 ```python
