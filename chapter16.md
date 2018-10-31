@@ -92,3 +92,28 @@ def my_view(request):
 ---
 
 ### 三、blocktrans模板标签
+
+与`{% trans %}`模板标签不同，`blocktrans`标签允许你通过使用占位符来标记由文字和可变内容组成的复杂句子进行翻译，如下例所示：
+```html
+% blocktrans %}This string will have {{ value }} inside.{% endblocktrans %}
+```
+还可以像下面一样使用：
+```html
+{% blocktrans with amount=article.price %}
+That will cost $ {{ amount }}.
+{% endblocktrans %}
+
+{% blocktrans with myvar=value|filter %}
+This will have {{ myvar }} inside.
+{% endblocktrans %}
+```
+甚至在一个blocktrans标签内内使用多个表达式：
+```html
+{% blocktrans with book_t=book|title author_t=author|title %}
+This is {{ book_t }} by {{ author_t }}
+{% endblocktrans %}
+```
+
+---
+
+### 四、本地化
