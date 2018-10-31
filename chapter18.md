@@ -60,3 +60,14 @@ Traceback (most recent call last):
 ...
 EmptyPage: That page contains no results
 ```
+简单来说，使用`Paginator`分四步走：
+    + 使用任何方法，获取要展示的对象列表`QuerySet`
+    + 将列表和每页个数传递给`Paginator`，返回一个分页对象
+    + 调用该对象的各种方法，获取各种分页信息
+    + 在`HTML`模板中，使用上面的分页信息构建分页栏。
+    
+---
+
+### 二、在视图中使用`Paginator`
+
+
