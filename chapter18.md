@@ -132,3 +132,23 @@ def index(request):
 </body>
 </html>
 ```
+
+---
+
+### 三、Paginator对象
+
+Paginator对象类拥有以下方法方法和属性：
+**方法**
+```python
+Paginator.page(number)[source]
+```
+返回指定页面的对象列表，比如第7页的所有内容，下标以1开始。如果提供的页码不存在，抛出`InvalidPage`异常
+
+**属性**
+    + Paginator.count:所有页面的对象总数
+    + Paginator.num_pages:页面总数
+    + Pageinator.page_range:基于1的页数范围迭代器。
+    
+---
+     
+###
