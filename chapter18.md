@@ -176,6 +176,6 @@ Paginator.page()将返回一个Page对象，我们主要的操作都是基于Pag
 + Page.end_index():返回当前页上的最后一个对象，相对于分页列表的所有对象的序号，从1开始。 比如，将五个对象的列表分为每页两个对象，第二页的end_index()会返回4。
     
 **属性**:
-        + Page.object_list:当前页上所有对象的列表。
-        + Page.number:当前页的序号，从1开始计数。
-        + Page.paginator：当前Page对象所属的Paginator对象。
++ Page.object_list:当前页上所有对象的列表。
++ Page.number:当前页的序号，从1开始计数。
++ Page.paginator：当前Page对象所属的Paginator对象。
