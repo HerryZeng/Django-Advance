@@ -62,10 +62,10 @@ Traceback (most recent call last):
 EmptyPage: That page contains no results
 ```
 简单来说，使用`Paginator`分四步走：
-    + 使用任何方法，获取要展示的对象列表`QuerySet`
-    + 将列表和每页个数传递给`Paginator`，返回一个分页对象
-    + 调用该对象的各种方法，获取各种分页信息
-    + 在`HTML`模板中，使用上面的分页信息构建分页栏。
++ 使用任何方法，获取要展示的对象列表`QuerySet`
++ 将列表和每页个数传递给`Paginator`，返回一个分页对象
++ 调用该对象的各种方法，获取各种分页信息
++ 在`HTML`模板中，使用上面的分页信息构建分页栏。
     
 ---
 
@@ -145,18 +145,18 @@ Paginator.page(number)
 返回指定页面的对象列表，比如第7页的所有内容，下标以1开始。如果提供的页码不存在，抛出`InvalidPage`异常
 
 **属性**
-    + Paginator.count:所有页面的对象总数
-    + Paginator.num_pages:页面总数
-    + Pageinator.page_range:基于1的页数范围迭代器。
++ Paginator.count:所有页面的对象总数
++ Paginator.num_pages:页面总数
++ Pageinator.page_range:基于1的页数范围迭代器。
     
 ---
      
 ### 四、处理异常 
 
 在实际使用中，可能恶意也可能不小心，用户请求的页面，可能千奇百怪。正常我们希望是个合法的1，2，3之类，但请求的可能是‘apple’，‘1000000’，‘#’，这就有可能导致异常，需要特别处理。Django为我们内置了下面几个，Paginator相关异常。
-    + exception InvalidPage：异常的基类，当paginator传入一个无效的页码时抛出。
-    + exception PageNotAnInteger：当向page()提供一个不是整数的值时抛出。
-    + exception EmptyPage：当向page()提供一个有效值，但是那个页面上没有任何对象时抛出
++ exception InvalidPage：异常的基类，当paginator传入一个无效的页码时抛出。
++ exception PageNotAnInteger：当向page()提供一个不是整数的值时抛出。
++ exception EmptyPage：当向page()提供一个有效值，但是那个页面上没有任何对象时抛出
     
 后面两个异常都是InvalidPage的子类，所以你可以通过简单的except InvalidPage来处理它们。
 
