@@ -59,7 +59,7 @@ def my_view(request):
 ### 二、在模板中表示同要翻译的文本
 
 在模版文件中，要标识一个待翻译的文本，需要使用`{% trans %}`模板标签，但首先你要在模版的顶部加载`{% load i18n %}`。比如：
-```python
+```html
 {% load i18n %}
 <title>{% trans "This is the title." %}</title>
 <title>{% trans myvar %}</title>
@@ -67,7 +67,7 @@ def my_view(request):
 要注意的是trans标签内部不可以有内嵌的模板变量
 
 如果你想提前翻译字符串但是不显示出来，可以使用下面的方法：
-```python
+```html
 {% trans "This is the title" as the_title %}
 
 <title>{{ the_title }}</title>
