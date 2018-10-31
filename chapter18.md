@@ -167,7 +167,7 @@ Paginator.page(number)
 Paginator.page()将返回一个Page对象，我们主要的操作都是基于Page对象的，它具有下面的方法和属性：
 
 **方法**：
-        + Page.has_next()：如果有下一页，则返回True。
+        * Page.has_next()：如果有下一页，则返回True。
         + Page.has_previous()：如果有上一页，返回 True。
         + Page.has_other_pages()：如果有上一页或下一页，返回True。
         + Page.next_page_number()：返回下一页的页码。如果下一页不存在，抛出InvalidPage异常。
