@@ -71,4 +71,10 @@ EmptyPage: That page contains no results
 
 ### 二、在视图中使用`Paginator`
 
+下面的例子假设你拥有一个已经导入的Contacts模型。
+
+在视图函数中使用Paginator，参考下面的代码：
+```python
+
+```
 
