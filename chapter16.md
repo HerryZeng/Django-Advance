@@ -117,3 +117,48 @@ This is {{ book_t }} by {{ author_t }}
 ---
 
 ### 四、本地化
+
+一旦标记好需要翻译的文本（也就是国际化）后，就需要进行本地化，也就是创建翻译用的语言文件。
+
+语言文件（Language File）是Django用于保存翻译关系的文件，你的网站应该为每种支持的语言建立一个语言文件。
+
+建立语言文件是通过`django-admin makemessages`命令完成的。
+
+在项目的根目录下，也就是包含manage.py的目录下，运行下面的命令：
+```bash
+django-admin makemessages -l de
+```
+其中的`de`表示你要本地化的国家，例如`pt_BR`表示巴西葡萄牙语，奥地利德语为`de_AT`，印尼语为`id`。
+或者使用下面的方式：
+```bash 
+python manage.py makemessages -l zh-cn  //中文简体
+python manage.py makemessages -l en    //英文
+```
+执行命令后，Django会在根目录及其子目录下搜集所有需要翻译的字符串，默认情况下它会搜索.html、.txt和.py文件，然后在根目录的`locale/LANG/LC_MESSAGES`目录下创建一个`django.po`文件。对于上面的例子，目录就是`locale/de/LC_MESSAGES/`，文件就是`locale/de/LC_MESSAGES/django.po`。
+
+**注意：在Windows下，需要提前安装GNU gettext工具！**
+
+否则会弹出下面的错误：
+```log
+CommandError: Can't find msguniq. Make sure you have GNU gettext tools 0.15 or newer installed.
+```
+.po文件的格式非常简单！
+
+每个.po文件首先包含一小部分元数据，例如翻译维护者的联系信息，但文件的大部分是翻译对照：被翻译字符串和特定语言的实际翻译文本之间的简单映射。
+
+例如，有一个像下面这样的待翻译字符串：
+```python
+_("Welcome to my site.")
+```
+在.po文件中将包含一条下面样子的条目：
+```python
+#: path/to/python/module.py:23
+msgid "Welcome to my site."
+msgstr ""
+```
+这三行内容各自代表下面的意思：
+
+    + 第一行通过注释表达该条要翻译的字符串在视图或模版中的位置；
+    + msgid：要翻译的字符串。不要修改它。
+    +msgstr：翻译后的文本。一开始它是空的，需要翻译人员逐条填写。
+这是一个文本文件，需要专业的翻译人员将所有的msgstr空白‘填写’齐全。如果你的项目比较大，这可能是个磨人的事。
