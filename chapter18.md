@@ -167,13 +167,13 @@ Paginator.page(number)
 Paginator.page()将返回一个Page对象，我们主要的操作都是基于Page对象的，它具有下面的方法和属性：
 
 **方法**：
-        * Page.has_next()：如果有下一页，则返回True。
-        + Page.has_previous()：如果有上一页，返回 True。
-        + Page.has_other_pages()：如果有上一页或下一页，返回True。
-        + Page.next_page_number()：返回下一页的页码。如果下一页不存在，抛出InvalidPage异常。
-        + Page.previous_page_number()：返回上一页的页码。如果上一页不存在，抛出InvalidPage异常。
-        + Page.start_index()：返回当前页上的第一个对象，相对于分页列表的所有对象的序号，从1开始计数。 比如，将五个对象的列表分为每页两个对象，第二页的start_index()会返回3。
-        + Page.end_index():返回当前页上的最后一个对象，相对于分页列表的所有对象的序号，从1开始。 比如，将五个对象的列表分为每页两个对象，第二页的end_index()会返回4。
++ Page.has_next()：如果有下一页，则返回True。
++ Page.has_previous()：如果有上一页，返回 True。
+    + Page.has_other_pages()：如果有上一页或下一页，返回True。
+    + Page.next_page_number()：返回下一页的页码。如果下一页不存在，抛出InvalidPage异常。
+    + Page.previous_page_number()：返回上一页的页码。如果上一页不存在，抛出InvalidPage异常。
+    + Page.start_index()：返回当前页上的第一个对象，相对于分页列表的所有对象的序号，从1开始计数。 比如，将五个对象的列表分为每页两个对象，第二页的start_index()会返回3。
+    + Page.end_index():返回当前页上的最后一个对象，相对于分页列表的所有对象的序号，从1开始。 比如，将五个对象的列表分为每页两个对象，第二页的end_index()会返回4。
     
 **属性**:
         + Page.object_list:当前页上所有对象的列表。
