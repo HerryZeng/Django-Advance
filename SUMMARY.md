@@ -65,4 +65,5 @@
 * [第十七章：日志系统](chapter17.md)
   * [第一节：logging模块详解](chapter18/section01.md)
   * [第二节：Django 日志](chapter18/section02.md)
+* [第十八章：分页Paginator](chapter18.md)
 
