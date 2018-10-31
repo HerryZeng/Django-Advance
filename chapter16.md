@@ -73,3 +73,22 @@ def my_view(request):
 <title>{{ the_title }}</title>
 <meta name="description" content="{{ the_title }}">
 ```
+上面的做法实际上相当于定义了几个模板变量，下面则是更加复杂的用法：
+```html
+{% trans "starting point" as start %}
+{% trans "end point" as end %}
+{% trans "La Grande Boucle" as race %}
+
+<h1>
+  <a href="/" title="{% blocktrans %}Back to '{{ race }}' homepage{% endblocktrans %}">{{ race }}</a>
+</h1>
+<p>
+{% for stage in tour_stages %}
+    {% cycle start end %}: {{ stage }}{% if forloop.counter|divisibleby:2 %}<br />{% else %}, {% endif %}
+{% endfor %}
+</p>
+```
+
+---
+
+### 三、blocktrans模板标签
