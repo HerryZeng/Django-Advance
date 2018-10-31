@@ -140,7 +140,7 @@ def index(request):
 Paginator对象类拥有以下方法方法和属性：
 **方法**
 ```python
-Paginator.page(number)[source]
+Paginator.page(number)
 ```
 返回指定页面的对象列表，比如第7页的所有内容，下标以1开始。如果提供的页码不存在，抛出`InvalidPage`异常
 
@@ -152,3 +152,15 @@ Paginator.page(number)[source]
 ---
      
 ### 四、处理异常 
+
+在实际使用中，可能恶意也可能不小心，用户请求的页面，可能千奇百怪。正常我们希望是个合法的1，2，3之类，但请求的可能是‘apple’，‘1000000’，‘#’，这就有可能导致异常，需要特别处理。Django为我们内置了下面几个，Paginator相关异常。
+    + exception InvalidPage：异常的基类，当paginator传入一个无效的页码时抛出。
+    + exception PageNotAnInteger：当向page()提供一个不是整数的值时抛出。
+    + exception EmptyPage：当向page()提供一个有效值，但是那个页面上没有任何对象时抛出
+    
+后面两个异常都是InvalidPage的子类，所以你可以通过简单的except InvalidPage来处理它们。
+
+---
+
+### 五、Page对象
+
