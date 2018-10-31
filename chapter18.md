@@ -75,6 +75,60 @@ EmptyPage: That page contains no results
 
 在视图函数中使用Paginator，参考下面的代码：
 ```python
+from django.shortcuts import render
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from assests.models import Contacts
 
+# Create your views here.
+
+def index(request):
+    contact_list = Contacts.objects.all()
+    paginator = Paginator(contact_list,5)   # 第页显示5条
+
+    page = request.GET.get('page')
+
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果请求的页数不是整数，返回第一页
+        contacts = paginator.page(1)
+    except EmptyPage:
+        # 如果请求的页数不在合法的页数范围内，返回结果的最后一页。
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request,'assests/list.html',{'contacts':contacts})
 ```
+在`list.html`模板中，使用下面的范例来展示每个要显示的contact，以及最后的一个分页栏：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>联系清单</title>
+</head>
+<body>
 
+    {% for contact in contacts %}
+    {# 每个"contact"都是一个Contact模型对象. #}
+    {{ contact.name|upper }}<br />
+    {% endfor %}
+
+    {# 分页标签的HTML代码#}
+    <div class="pagination">
+        <span class="step-links">
+            {% if contacts.has_previous %}
+                <a href="?page={{ contacts.previous_page_number }}">上一页</a>
+            {% endif %}
+
+            <span class="current">
+                Page{{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+            </span>
+
+            {% if contacts.has_next %}
+                <a href="?page={{ contacts.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>
+```
