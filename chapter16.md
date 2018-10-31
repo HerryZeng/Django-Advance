@@ -16,3 +16,51 @@ Django对文本翻译、日期格式、时间格式、数字格式和时区具�
 
 ### 一、在视图中标识面要翻译的文本
 
+在视图中和HTML模板中都可以标识要翻译的文本。在视图中，通过`_()`或`ugettext()`函数，指定某个变量需要翻译，如下所示：
+```python
+from django.utils.translation import ugettext as _
+from django.http import HttpResponse
+
+def my_view(request):
+    output = _("Welcome to my site.")
+    return HttpResponse(output)
+```
+这等同于：
+```python
+from django.utils.translation import ugettext
+from django.http import HttpResponse
+
+def my_view(request):
+    output = ugettext("Welcome to my site.")
+    return HttpResponse(output)
+```
+也等同于：
+```python
+def my_view(request):
+    sentence = 'Welcome to my site.'
+    output = _(sentence)
+    return HttpResponse(output)
+```
+还可以这么用：
+```python
+def my_view(request, m, d):
+    output = _('Today is %(month)s %(day)s.') % {'month': m, 'day': d}
+    return HttpResponse(output)
+```
+如果你想给翻译人员一些提示，可以添加一个以Translators为前缀的注释，例如：
+```python
+def my_view(request):
+    # Translators: This message appears on the home page only
+    output = ugettext("Welcome to my site.")
+```
+
+---
+
+### 二、在模板中表示同要翻译的文本
+
+在模版文件中，要标识一个待翻译的文本，需要使用`{% trans %}`模板标签，但首先你要在模版的顶部加载`{% load i18n %}`。比如：
+```python
+{% load i18n %}
+<title>{% trans "This is the title." %}</title>
+<title>{% trans myvar %}</title>
+```
