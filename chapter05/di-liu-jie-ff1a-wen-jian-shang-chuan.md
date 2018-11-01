@@ -10,7 +10,6 @@ Django在处理文件上传时，文件数据被打包封装在request.FILES中�
 from django import forms
 
 class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
     file = forms.FileField()
 ```
 处理这个表单的视图将在`request.FILES`中收到文件数据，可以用`request.FILES['file']`来获取上传文件的具体数据，其中的键值‘`file`’是根据`file = forms.FileField()`的变量名来的。
@@ -55,3 +54,38 @@ def handle_uploaded_file(f):
 
 ### 二、使用模型处理上传的文件
 
+如果是通过模型层的model来指定上传文件的保存方式的话，使用ModelForm更方便。 调用form.save()的时候，文件对象会保存在相应的FileField的upload_to参数指定的地方。
+```python
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .models import ModelFormWithFileField
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = ModelFormWithFileField(request.POST, request.FILES)
+        if form.is_valid():
+            # 这么做就可以了，文件会被保存到Model中upload_to参数指定的位置
+            form.save()
+            return HttpResponseRedirect('/success/url/')
+    else:
+        form = ModelFormWithFileField()
+    return render(request, 'upload.html', {'form': form})
+```
+如果手动构造一个对象，还可以简单地把文件对象直接从request.FILES赋值给模型：
+```python
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .forms import UploadFileForm
+from .models import ModelWithFileField
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = ModelWithFileField(file_field=request.FILES['file'])
+            instance.save()
+            return HttpResponseRedirect('/success/url/')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
+```
