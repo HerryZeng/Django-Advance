@@ -1,170 +1,82 @@
-# 类视图
+# 生成CSV文件
 
-在写视图的时候， `Django`除了使用函数作为视图，也可以使用类作为视图。使用类视图可以使用类的一些特性，比如继承等。
+有时候我们做的网站，需要将一些数据，生成有一个 `CSV`文件给浏览器，并且是作为附件的形式下载下来。以下将讲解如何生成 `CSV`文件。
 
-## View
+## 生成小的CSV文件
 
-`django.views.generic.base.View`是主要的类视图，所有的类视图都是继承自它。如果我们写自己的类视图，也可以继承自它。然后再根据当前请求的 `method`，来实现不同的方法。比如这个视图只能使用 `get`的方式来请求，那么就可以在这个类中定义 `get(self,request,*args,**kwargs)` 方法。以此类推，如果只需要实现 `post`方法，那么就只需
-要在类中实现 `post(self,request,*args,**kwargs)` 。示例代码如下：
+这里将用一个生成小的 `CSV`文件为例，来把生成 `CSV`文件的技术要点讲到位。我们用 `Python`内置的 `csv`模块来处理 `csv`文件，并且使用 HttpResponse 来将 `csv`文件返回回去。示例代码如下：
 ```python
-    from django.views import View
+    import csv
+    from django.http import HttpResponse
     
-    class BookDetailView(View):
-        def get(self,request,*args,**kwargs):
-            return render(request,'detail.html')
-```
-类视图写完后，还应该在 `urls.py` 中进行映射，映射的时候就需要调用 `View`的类方法 `as_view()` 来进行转换。示例代码如下：
-```python
-    urlpatterns = [
-        path("detail/<book_id>/",views.BookDetailView.as_view(),name='detail'),
-    ]
-```
-除了 `get`方法， `View`还支持以下方法 `['get','post','put','patch','delete','head','options','trace']` 。
-如果用户访问了 `View`中没有定义的方法。比如你的类视图只支持 get 方法，而出现了 `post`方法，那么就会把这个请求转发给`http_method_not_allowed(request,*args,**kwargs)` 。示例代码如下：
-```python
-    class AddBookView(View):
-    def post(self,request,*args,**kwargs):
-        return HttpResponse("书籍添加成功！")
+    def csv_view(request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['username', 'age', 'height', 'weight'])
+        writer.writerow(['zhiliao', '18', '180', '110'])
         
-    def http_method_not_allowed(self, request, *args, **kwargs):
-        return HttpResponse("您当前采用的method是：%s，本视图只支持使用post请求！" % request.method)
+        return response
 ```
-`urls.py` 中的映射如下:
-```python
-    path("addbook/",views.AddBookView.as_view(),name='add_book'),
-```
-如果你在浏览器中访问 `addbook/` ，因为浏览器访问采用的是 `get`方法，而 `addbook`只支持 `post`方法，因此以上视图会返回您当前采用的 `method`是： GET ，本视图只支持使用 `post`请求！。
-其实不管是 `get`请求还是 `post`请求，都会走 `dispatch(request,*args,**kwargs)` 方法，所以如果实现这个方法，将能够对所有请求都处理到。
+这里再来对每个部分的代码进行解释：
+1. 我们在初始化 `HttpResponse`的时候，指定了 `Content-Type` 为 `text/csv` ，这将告诉浏览器，这是一个 `csv`格式的文件而不是一个 `HTML`格式的文件，如果用默认值，默认值就是 html ，那么浏览器将把 `csv`格式的文件按照 `html`格式输出，这肯定不是我们想要的。
+2. 第二个我们还在 `response`中添加一个 `Content-Disposition` 头，这个东西是用来告诉浏览器该如何处理这个文件，我们给这个头的值设置为 `attachment`; ，那么浏览器将不会对这个文件进行显示，而是作为附件的形式下载，第二个 `filename="somefilename.csv"` 是用来指定这个 `csv`文件的名字。
+3. 我们使用 `csv`模块的 `writer`方法，将相应的数据写入到 `response`中。
 
-## TemplateView
+## 将`csv`文件定义成模板
 
-`django.views.generic.base.TemplateView`，这个类视图是专门用来返回模版的。在这个类中，有两个属性是经常需要用到的，一个是 `template_name`，这个属性是用来存储模版的路径， `TemplateView`会自动的渲染这个变量指向的模版。另外一个是 `get_context_data`，这个方法是用来返回上下文数据的，也就是在给模版传的参数的。示例代码如下：
+我们还可以将 `csv`格式的文件定义成模板，然后使用 `Django`内置的模板系统，并给这个模板传入一个 `Context`对象，这样模板系统就会根据传入的 `Context`对象，生成具体的 `csv`文件。示例代码如下：
 ```python
-    from django.views.generic.base import TemplateView
+    # 模板文件
+    {% for row in data %}
+        "{{ row.0|addslashes }}", 
+        "{{ row.1|addslashes }}", 
+        "{{ row.2|addslashes }}", 
+        "{{ row.3|addslashes }}", 
+        "{{ row.4|addslashes }}"
+    {% endfor %}
     
-    class HomePageView(TemplateView):
-        template_name = "home.html"
-        
-        def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['username'] = "黄老师"
-            return context
-```
-在 `urls.py` 中的映射代码如下：
-```python
-    from django.urls import path
-    from myapp.views import HomePageView
+    # 视图函数
+    from django.http import HttpResponse
+    from django.template import loader, Context
     
-    urlpatterns = [
-        path('', HomePageView.as_view(), name='home'),
-    ]
-```
-如果在模版中不需要传递任何参数，那么可以直接只在 `urls.py` 中使用 `TemplateView`来渲染模版。示例代码如下：
-```python
-    from django.urls import path
-    from django.views.generic import TemplateView
-    
-    urlpatterns = [
-        path('about/', TemplateView.as_view(template_name="about.html")),
-    ]
-```
-
-## ListView
-
-在网站开发中，经常会出现需要列出某个表中的一些数据作为列表展示出来。比如文章列表，图书列表等等。在 `Django`中可以使用 `ListView`来帮我们快速实现这种需求。示例代码如下：
-```python
-    class ArticleListView(ListView):
-        model = Article
-        template_name = 'article_list.html'
-        paginate_by = 10
-        context_object_name = 'articles'
-        ordering = 'create_time'
-        page_kwarg = 'page'
+    def some_view(request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        csv_data = (
+            ('First row', 'Foo', 'Bar', 'Baz'),
+            ('Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"),
+        )
         
-        def get_context_data(self, **kwargs):
-            context = super(ArticleListView, self).get_context_data(**kwargs)
-            print(context)
-            return context
-        
-        def get_queryset(self):
-            return Article.objects.filter(id__lte=89)
+        t = loader.get_template('my_template_name.txt')
+        response.write(t.render({"data": csv_data}))
+        return response
 ```
-对以上代码进行解释：
-1. 首先 `ArticleListView`是继承自 `ListView`。
-2. `model`：重写 `model`类属性，指定这个列表是给哪个模型的。
-3. `template_name`：指定这个列表的模板。
-4. `paginate_by`：指定这个列表一页中展示多少条数据。
-5. `context_object_name`：指定这个列表模型在模板中的参数名称。
-6. `ordering`：指定这个列表的排序方式。
-7. `page_kwarg`：获取第几页的数据的参数名称。默认是 page 。
-8. `get_context_data`：获取上下文的数据。
-9. `get_queryset`：如果你提取数据的时候，并不是要把所有数据都返回，那么你可以重写这个方法。将一些不需要展示的数据给过滤掉。
 
-## Paginator和Page类
+## 生成大的CSV文件
 
-`Paginator`和 `Page`类都是用来做分页的。他们在 `Django`中的路径为 `django.core.paginator.Paginator` 和 django.core.paginator.Page 。以下对这两个类的常用属性和方法做解释：
-
-### Paginator常用属性和方法
-
-1. `count`：总共有多少条数据。
-2. `num_pages`：总共有多少页。
-3. `page_range`：页面的区间。比如有三页，那么就 range(1,4) 。
-
-### Page常用属性和方法
-
-1. `has_next`：是否还有下一页。
-2. `has_previous`：是否还有上一页。
-3. `next_page_number`：下一页的页码。
-4. `previous_page_number`：上一页的页码。
-5. `number`：当前页。
-6. `start_index`：当前这一页的第一条数据的索引值。
-7. `end_index`：当前这一页的最后一条数据的索引值。
-
-# 给类视图添加装饰器
-
-在开发中，有时候需要给一些视图添加装饰器。如果用函数视图那么非常简单，只要在函数的上面写上装饰器就可以了。但是如果想要给类添加装饰器，那么可以通过以下两种方式来实现：
-
-## 装饰dispatch方法
-
+以上的例子是生成的一个小的 `csv`文件，如果想要生成大型的 `csv`文件，那么以上方式将有可能会发生超时的情况（服务器要生成一个大型csv文件，需要的时间可能会超过浏览器默认的超时时间）。这时候我们可以借助另外一个类，叫做 `StreamingHttpResponse`对象，这个对象是将响应的数据作为一个流返回给客户端，而不是作为一个整体返回。示例代码如下：
 ```python
-    from django.utils.decorators import method_decorator
-    
-    def login_required(func):
-        def wrapper(request,*args,**kwargs):
-            if request.GET.get("username"):
-                return func(request,*args,**kwargs)
-            else:
-                return redirect(reverse('index'))
-        return wrapper
-        
-    class IndexView(View):
-        def get(self,request,*args,**kwargs):
-            return HttpResponse("index")
-            
-        @method_decorator(login_required)
-        def dispatch(self, request, *args, **kwargs):
-            super(IndexView, self).dispatch(request,*args,**kwargs)
+    class Echo:
+        """
+        定义一个可以执行写操作的类，以后调用csv.writer的时候，就会执行这个方法
+        """
+        def write(self, value):
+        return value
+    def large_csv(request):
+        rows = (["Row {}".format(idx), str(idx)] for idx in range(655360))    
+        pseudo_buffer = Echo()
+        writer = csv.writer(pseudo_buffer)
+        response = StreamingHttpResponse((writer.writerow(row) for row in rows),content_type="text/csv")
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        return response
 ```
+这里我们构建了一个非常大的数据集 `rows`，并且将其变成一个迭代器。然后因为 `StreamingHttpResponse`的第一个参数只能是一个生成器，因此我们使用圆括号 `(writer.writerow(row) for row in rows)` ，并且因为我们要写的文件是 csv 格式的文件，因此需要调用 `writer.writerow` 将 `row`变成一个 csv 格式的字符串。而调用 `writer.writerow` 又需要一个中间的容器，因此这里我们定义了一个非常简单的类 `Echo`，这个类只实现一个 `write`方法，以后在执行 `csv.writer(pseudo_buffer)` 的时候，就会调用 `Echo.writer` 方法。注意： `StreamingHttpResponse`会启动一个进程来和客户端保持长连接，所以会很消耗资源。所以如果不是特殊要求，尽量少用这种方法。
 
-## 直接装饰在整个类上
+### 关于StreamingHttpResponse
 
-```python
-    from django.utils.decorators import method_decorator
-    
-    def login_required(func):
-        def wrapper(request,*args,**kwargs):
-            if request.GET.get("username"):
-                return func(request,*args,**kwargs)
-            else:
-                return redirect(reverse('login'))
-        return wrapper
-        
-    @method_decorator(login_required,name='dispatch')
-    class IndexView(View):
-        def get(self,request,*args,**kwargs):
-            return HttpResponse("index")
-            
-        def dispatch(self, request, *args, **kwargs):
-            super(IndexView, self).dispatch(request,*args,**kwargs)
-```
-
+这个类是专门用来处理流数据的。使得在处理一些大型文件的时候，不会因为服务器处理时间过长而到时连接超时。这个类不是继承自 `HttpResponse`，并且跟 `HttpResponse`对比有以下几点区别：
+1. 这个类没有属性 `content`，相反是 `streaming_content`。
+2. 这个类的 `streaming_content`必须是一个可以迭代的对象。
+3. 这个类没有 `write`方法，如果给这个类的对象写入数据将会报错。
+注意： `StreamingHttpResponse`会启动一个进程来和客户端保持长连接，所以会很消耗资源。所以如果不是特殊要求，尽量少用这种方法。
