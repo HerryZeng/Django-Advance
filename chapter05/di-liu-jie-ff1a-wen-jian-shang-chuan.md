@@ -58,7 +58,7 @@ def handle_uploaded_file(f):
 ```python
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .models import ModelFormWithFileField
+from .forms import ModelFormWithFileField
 
 def upload_file(request):
     if request.method == 'POST':
