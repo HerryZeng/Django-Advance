@@ -95,3 +95,33 @@ def upload_file(request):
 ###  同时上传多个文件
 
 如果要使用一个表单字段同时上传多个文件，需要设置字段HTML标签的multiple属性为True，如下所示：
+```python
+# forms.py
+
+from django import forms
+
+class FileFieldForm(forms.Form):
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+```
+然后，自己编写一个FormView的子类，并覆盖它的post方法，来处理多个文件上传：
+```python
+# views.py
+from django.views.generic.edit import FormView
+from .forms import FileFieldForm
+
+class FileFieldView(FormView):
+    form_class = FileFieldForm
+    template_name = 'upload.html'  # 用你的模版名替换.
+    success_url = '...'  # 用你的URL或者reverse()替换.
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist('file_field')
+        if form.is_valid():
+            for f in files:
+                ...  # Do something with each file.
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+```
