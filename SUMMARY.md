@@ -25,7 +25,7 @@
   * [第六节：增删改查操作](chapter04/section06.md)
   * [第七节：查询操作](chapter04/section07.md)
   * [第八节：QuerySet API](chapter04/section08.md)
-  * [第九节：Manager对象](chapter04/section09.md)
+  * [第九节：ORM模型迁移](chapter04/section09.md)
   * [第十节：ORM作业](chapter04/section10.md)
   * [第十节：ORM作业参考答案](chapter04/section11.md)
   * [第十二节：Pycham连接数据库](chapter04/section12.md)
