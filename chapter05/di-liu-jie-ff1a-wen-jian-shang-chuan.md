@@ -89,3 +89,9 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
 ```
+
+---
+
+###  同时上传多个文件
+
+如果要使用一个表单字段同时上传多个文件，需要设置字段HTML标签的multiple属性为True，如下所示：
