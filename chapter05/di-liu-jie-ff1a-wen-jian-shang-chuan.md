@@ -38,3 +38,20 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
 ```
+请注意，必须将request.FILES传递到form的构造函数中。
+```python
+form = UploadFileForm(request.POST, request.FILES)
+```
+下面是一个处理上传文件的方法的参考例子：
+```python
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+```
+遍历`UploadedFile.chunks()`，而不是直接使用`read()`方法，能确保大文件不会占用系统过多的内存
+
+---
+
+### 二、使用模型处理上传的文件
+
