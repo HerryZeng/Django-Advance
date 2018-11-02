@@ -96,3 +96,36 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 通俗的解释就是，如果你在写url时忘记了在最后添加一个斜杠，Django会默认帮你加上！请尽量保持默认值！
 
 `APPEND_SLASH`设置只有在安装了`CommonMiddleware`中间件时才会启用。
+4. DATABASES
+默认值: {} (空的字典)
+
+该配置项包含Django项目使用的所有数据库的设置。这是一个嵌套字典。
+
+DATABASES设置必须配置一个`default`数据库，以及指定任意数量的其它数据库（可以没有）。
+
+最简单的配置方式是使用SQLite数据库，Python和Django内置对SQLite数据库的支持，无需任何额外的安装和插件，如下所示：
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
+        # 或者'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+```
+由于SQLite数据库就在Django项目本地，通常还是在Django项目根目录下，以一个文件的形式存在，没有用户名、密码、IP、port的问题，所以配置比较简单。
+
+当连接其他数据库后端，比如MySQL、Oracle 或PostgreSQL，必须提供更多的连接参数。下面的例子用于PostgreSQL：
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+```
+下面是DATABASES的内部配置项：
