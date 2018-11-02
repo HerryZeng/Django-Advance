@@ -91,4 +91,44 @@ settings.DEBUG = True   # 不要这么做
 如果要添加自己的配置项，需遵循以下准则：
     + 配置项名称必须全为大写。
     + 不要使用一个已经存在的设置
+    
+### 八、自定义默认设置
+如果你想让默认值来自其它地方而不是`django.conf.global_settings`，你可以传递一个提供默认设置的模块或类作为`default_settings`参数（或第一个位置参数）给configure()方法调用。
 
+在下面的示例中，默认的设置来自`myapp_defaults`，并且单独设置`DEBUG`为`True`，而不论它在`myapp_defaults`中的值是什么：
+```python
+from django.conf import settings
+from myapp import myapp_defaults
+settings.configure(default_settings=myapp_defaults, DEBUG=True)
+```
+下面的示例和上面一样，只是使用`myapp_defaults`作为一个位置参数：
+```python
+settings.configure(myapp_defaults, DEBUG=True)
+```
+正常情况下，还是不要用这种方式覆盖默认值。Django的默认配置文件还是很可靠的，你可以安全地使用它们。 注意，如果你使用自己写的默认模块，它将完全取代Django的默认模块，你必须指定每个可能用到的配置项的值。 完整的配置项清单，参考`django.conf.settings.global_settings`模块。
+
+
+### 外部脚本调用Django环境：django.setup()
+
+如果你使用外部脚本， 加载一些Django模板，或者使用ORM来获取一些数据，除了配置`settings`模块之外，还需要一个步骤。
+
+也就是在设置`DJANGO_SETTINGS_MODULE`或调用`configure()`之后，还需要调用`django.setup()`，像这样：
+```python
+import django
+from django.conf import settings
+from myapp import myapp_defaults
+
+settings.configure(default_settings=myapp_defaults, DEBUG=True)
+django.setup()
+
+# 现在可以访问Django项目内部的模块了
+from myapp import models
+```
+请注意，只有真正独立的外部脚本，才需要调用`django.setup()`。前面有说到过，当处于服务器调用环境，或通过`django-admin`调用，Django将自动为你加载环境。
+
+`django.setup()`只能调用一次。尽量使用下面的方式，防止重复调用：
+```python
+if __name__ == '__main__':
+    import django
+    django.setup()
+```
