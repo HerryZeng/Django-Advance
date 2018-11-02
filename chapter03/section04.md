@@ -394,4 +394,45 @@
     1200000 会变成 '1,2 Million'。
     1200000000 会变成 '1,2 Milliarden'。
 ```
-4. 
+4 . naturalday
+对于当天或者一天之内的日期，返回“today”,“tomorrow”或者“yesterday”的表示形式，视情况而定。否则，使用传进来的格式字符串进行日期格式化。
+
+例如（“今天”是2007年2月17日）：
+```
+    16 Feb 2007 会变成 yesterday。
+    17 Feb 2007 会变成 today。
+    18 Feb 2007 会变成 tomorrow。
+```
+其它的日期，还是按照传统的方法展示。
+5. naturaltime
+对于日期时间的值，返回一个字符串来表示多少秒、分钟或者小时之前。如果超过一天之前，则回退为使用timesince格式。如果是未来的日期时间，返回值会自动使用合适的文字表述。
+
+例如（“现在”是2007年2月17日16时30分0秒）：
+```
+17 Feb 2007 16:30:00 会变成 now。
+17 Feb 2007 16:29:31 会变成 29 seconds ago。
+17 Feb 2007 16:29:00 会变成 a minute ago。
+17 Feb 2007 16:25:35 会变成 4 minutes ago。
+17 Feb 2007 15:30:29 会变成 59 minutes ago。
+17 Feb 2007 15:30:01 会变成 59 minutes ago。
+17 Feb 2007 15:30:00 会变成 an hour ago。
+17 Feb 2007 13:31:29 会变成 2 hours ago。
+16 Feb 2007 13:31:29 会变成 1 day, 2 hours ago。
+16 Feb 2007 13:30:01 会变成 1 day, 2 hours ago。
+16 Feb 2007 13:30:00 会变成 1 day, 3 hours ago。
+17 Feb 2007 16:30:30 会变成 30 seconds from now。
+17 Feb 2007 16:30:29 会变成 29 seconds from now。
+17 Feb 2007 16:31:00 会变成 a minute from now。
+17 Feb 2007 16:34:35 会变成 4 minutes from now。
+17 Feb 2007 17:30:29 会变成 an hour from now。
+17 Feb 2007 18:31:29 会变成 2 hours from now。
+18 Feb 2007 16:31:29 会变成 1 day from now。
+26 Feb 2007 18:31:29 会变成 1 week, 2 days from now。
+```
+6 . ordinal
+将一个整数转化为它的序数词字符串。
+```
+1 会变成 1st。
+2 会变成 2nd。
+3 会变成 3rd。
+```
