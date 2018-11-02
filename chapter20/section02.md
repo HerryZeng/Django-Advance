@@ -23,13 +23,13 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |DISALLOWED_USER_AGENTS|正则表达式对象的列表,代表哪些不允许访问任何页面的User-Agent字符串|
 |EMAIL_BACKEND|用于发送邮件的后端|
 |EMAIL_FILE_PATH|邮件后端保存输出文件时使用的目录|
-|EMAIL_HOST|发送邮件使用的主机|
+|EMAIL_HOST|发送邮件使用的SMTP主机地址|
 |EMAIL_HOST_PASSWORD|SMTP服务器使用的密码|
 |EMAIL_HOST_USER|SMTP服务器使用的用户名|
-|EMAIL_PORT||
-|EMAIL_SUBJECT_PREFIX||
-|EMAIL_USE_TLS||
-|EMAIL_USE_SSL||
+|EMAIL_PORT|SMTP服务器使用的端口|
+|EMAIL_SUBJECT_PREFIX|使用`django.core.mail.mail_admins`或`django.core.mail.mail_managers`发送的电子邮件的主题行前缀|
+|EMAIL_USE_TLS|是否使用TLS(安全)与SMTP服务器连接|
+|EMAIL_USE_SSL|SMTP服务器通信时是否使用SSL|
 |EMAIL_SSL_CERTFILE||
 |EMAIL_SSL_KEYFILE||
 |EMAIL_TIMEOUT||
@@ -305,3 +305,27 @@ HttpResponse对象的默认内容类型。
 默认值：''（空字符串）
 
 `EMAIL_HOST`的SMTP服务器使用的密码。
+18. EMAIL_HOST_USER
+默认值：''（空字符串）
+
+EMAIL_HOST的SMTP服务器使用的用户名。
+19. EMAIL_PORT
+默认：25
+
+EMAIL_HOST的SMTP服务器使用的端口
+20. EMAIL_SUBJECT_PREFIX
+默认值：'[Django] '
+
+使用`django.core.mail.mail_admins`或`django.core.mail.mail_managers`发送的电子邮件的主题行前缀。
+21. EMAIL_USE_TLS
+默认值：False
+
+是否使用TLS(安全)与SMTP服务器连接。用于显式TLS连接,通常在端口587上
+22. EMAIL_USE_SSL
+默认值：False
+
+在与SMTP服务器通信时是否使用隐式TLS（安全）连接。在大多数电子邮件文档中，此类型的TLS连接称为SSL。 它通常在端口465上使用。
+
+注意：腾讯家的qq邮箱服务，需要使用ssl安全链接在465端口上！
+
+请注意，`EMAIL_USE_TLS`与`EMAIL_USE_SSL`是互斥的，因此只能将其中一个设置设置为`True`。
