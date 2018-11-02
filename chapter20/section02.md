@@ -55,8 +55,8 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |AUTHENTICATION_BACKENDS|尝试验证用户时使用的认证后端的列表|
 |AUTH_USER_MODEL|默认使用的User模型|
 |LOGIN_REDIRECT_URL||
-|LOGIN_URL||
-|LOGOUT_REDIRECT_URL||
+|LOGIN_URL|登录页面的URL|
+|LOGOUT_REDIRECT_URL|使用LogoutView视图退出登录后，请求被重定向的URL|
 |PASSWORD_RESET_TIMEOUT_DAYS||
 |PASSWORD_HASHERS||
 |MESSAGE_LEVEL||
@@ -1445,9 +1445,9 @@ STATICFILES_DIRS = [
     "/opt/webfiles/common",
 ]
 ```
-请注意，即使在Windows上（例如"C:/Users/user/mysite/extra_static_content"），这些路径也要使用Unix样式的正斜杠。
+请注意，即使在Windows上（例如`"C:/Users/user/mysite/extra_static_content"`），这些路径也要使用Unix样式的正斜杠。
 
-如果你实在分不清楚MEDIA_ROOT、MEDIA_URL、STATIC_ROOT、STATIC_URL和STATICFILES_DIRS的区别，下面是一个参考版的设置:
+如果你实在分不清楚`MEDIA_ROOT、MEDIA_URL、STATIC_ROOT、STATIC_URL和STATICFILES_DIRS`的区别，下面是一个参考版的设置:
 ```python
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
