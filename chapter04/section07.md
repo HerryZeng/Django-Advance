@@ -309,6 +309,8 @@ SELECT `article_article`.`id`, `article_article`.`title`, `article_article`.`con
 
 ## 聚合函数
 
+Django的`django.db.models`模块提供聚合函数。
+
 如果你用原生 `SQL `，则可以使用聚合函数来提取数据。比如提取某个商品销售的数量，那么可以使用 `Count `，如果想要知道商品销售的平均价格，那么可以使用 `Avg `。
 聚合函数是通过 `aggregate`方法来实现的。在讲解这些聚合函数的用法的时候，都是基于以下的模型对象来实现的。
 ```python
