@@ -12,15 +12,15 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |ALLOWED_HOSTS|该配置项列表中包含的是Django站点可以为之提供服务的主机/域名|
 |APPEND_SLASH|请求重定向到以请求URL加/的URL地址|
 |DATABASES|连接的数据库配置项|
-|DATE_FORMAT||
-|DATE_INPUT_FORMATS||
-|DATETIME_FORMAT||
-|DATETIME_INPUT_FORMATS||
-|DEBUG||
-|DEFAULT_CHARSET||
-|DEFAULT_CONTENT_TYPE||
-|DEFAULT_FROM_EMAIL||
-|DISALLOWED_USER_AGENTS||
+|DATE_FORMAT|系统中日期字段的默认显示格式|
+|DATE_INPUT_FORMATS|日期字段中输入数据时将能够被接受的格式列表|
+|DATETIME_FORMAT|系统中显示datetime字段的默认格式|
+|DATETIME_INPUT_FORMATS|在datetime字段中输入数据时将被接受的格式列表|
+|DEBUG|打开/关闭调试模式|
+|DEFAULT_CHARSET|HttpResponse响应对象的默认字符集|
+|DEFAULT_CONTENT_TYPE|HttpResponse对象的默认内容类型|
+|DEFAULT_FROM_EMAIL|默认的电子邮件发送地址，即发送方|
+|DISALLOWED_USER_AGENTS|正则表达式对象的列表,代表哪些不允许访问任何页面的User-Agent字符串|
 |EMAIL_BACKEND||
 |EMAIL_FILE_PATH|
 |EMAIL_HOST||
@@ -215,3 +215,78 @@ DATABASES = {
     },
 }
 ```
+5 . DATE_FORMAT
+默认值：'N j, Y' (例如：Feb. 4, 2003)
+
+系统中日期字段的默认显示格式
+6. DATE_INPUT_FORMATS
+默认值：
+```python
+[
+    '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
+    '%b %d %Y', '%b %d, %Y',            # 'Oct 25 2006', 'Oct 25, 2006'
+    '%d %b %Y', '%d %b, %Y',            # '25 Oct 2006', '25 Oct, 2006'
+    '%B %d %Y', '%B %d, %Y',            # 'October 25 2006', 'October 25, 2006'
+    '%d %B %Y', '%d %B, %Y',            # '25 October 2006', '25 October, 2006'
+]
+```
+日期字段中输入数据时将能够被接受的格式列表。格式将按顺序尝试，使用第一个有效的格式。
+7. DATETIME_FORMAT
+默认值：'N j, Y, P' (例如Feb. 4, 2003, 4 p.m.)
+
+系统中显示datetime字段的默认格式。
+8. DATETIME_INPUT_FORMATS
+默认值：
+```python
+[
+    '%Y-%m-%d %H:%M:%S',     # '2006-10-25 14:30:59'
+    '%Y-%m-%d %H:%M:%S.%f',  # '2006-10-25 14:30:59.000200'
+    '%Y-%m-%d %H:%M',        # '2006-10-25 14:30'
+    '%Y-%m-%d',              # '2006-10-25'
+    '%m/%d/%Y %H:%M:%S',     # '10/25/2006 14:30:59'
+    '%m/%d/%Y %H:%M:%S.%f',  # '10/25/2006 14:30:59.000200'
+    '%m/%d/%Y %H:%M',        # '10/25/2006 14:30'
+    '%m/%d/%Y',              # '10/25/2006'
+    '%m/%d/%y %H:%M:%S',     # '10/25/06 14:30:59'
+    '%m/%d/%y %H:%M:%S.%f',  # '10/25/06 14:30:59.000200'
+    '%m/%d/%y %H:%M',        # '10/25/06 14:30'
+    '%m/%d/%y',              # '10/25/06'
+]
+```
+在datetime字段中输入数据时将被接受的格式列表。格式将按顺序尝试，使用第一个有效的格式。
+9. DEBUG
+默认值：False
+
+打开/关闭调试模式。最重要的设置之一！默认值是`False`，你没有看错！只是在`settings.py`中又帮我们设置为True了，打开了调试模式，方便开发者和测试者的！线上部署网站的时候务必设置为`False`。
+
+调试模式下可以显示错误页面的细节。若你的应用产生了一个异常，Django会显示追溯细节，包括许多环境变量的元数据, 比如所有当前定义的Django设置。
+
+作为安全考虑，调试信息中不会列出包含下列关键字的配置项的内容，例如SECRET_KEY：
+```python
+'API'
+'KEY'
+'PASS'
+'SECRET'
+'SIGNATURE'
+'TOKEN'
+```
+注意，这里使用的是包含匹配，也就是说只要出现这些子字符串的配置项将匹配上。例如'PASS'能够匹配 PASSWORD, 'TOKEN'也将匹配TOKENIZED等等.
+
+最后再次强调，如果DEBUG为False，你还需要正确设置ALLOWED_HOSTS以及静态文件。错误设置将导致对所有的请求返回“Bad Request (400)”。
+10. DEFAULT_CHARSET
+默认值：'utf-8'
+
+HttpResponse响应对象的默认字符集
+11. DEFAULT_CONTENT_TYPE
+默认值：'text/html'
+
+HttpResponse对象的默认内容类型。
+12. DEFAULT_FROM_EMAIL
+默认值：'webmaster@localhost'
+
+默认的电子邮件发送地址，即发送方。
+13. DISALLOWED_USER_AGENTS
+默认值：[]（空列表）
+
+这是一个编译好了的正则表达式对象的列表。代表哪些不允许访问任何页面的User-Agent字符串。也就是说如果一个请求的User-Agent属性，被这个配置项中的任何一个正则表达式匹配到了，那么这个请求将被阻止。常用于对付机器人和网络蜘蛛。需要CommonMiddleware中间件支持。
+14. EMAIL_BACKEND
