@@ -261,5 +261,26 @@ print(article)
 * 调用`list`函数：调用`list`函数用来将一个`QuerySet`对象转换为`list`对象也会立马执行`SQL`语句。
 * 判断：如果对某个`QuerySet`进行判断，也会立马执行`SQL`语句。
 
+### 不返回QuerySets的API
 
+以下的方法不会返回QuerySets，但是作用非常强大，尤其是粗体显示的方法，需要背下来。
+|方法名|	解释|
+|---|---|
+|get()|	获取单个对象|
+|create()|	创建对象，无需save()|
+|get_or_create()|	查询对象，如果没有找到就新建对象|
+|update_or_create()|	更新对象，如果没有找到就创建对象|
+|bulk_create()|	批量创建对象|
+|count()|	统计对象的个数|
+|in_bulk()|	根据主键值的列表，批量返回对象|
+|iterator()|	获取包含对象的迭代器|
+|latest()|	获取最近的对象|
+|earliest()|	获取最早的对象|
+|first()|	获取第一个对象|
+|last()|	获取最后一个对象|
+|aggregate()|	聚合操作|
+|exists()|	判断queryset中是否有对象|
+|update()|	批量更新对象|
+|delete()|	批量删除对象|
+|as_manager()|	获取管理器|
 
