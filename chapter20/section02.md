@@ -52,8 +52,8 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |USE_TZ|一个布尔值,用来指定是否使用指定的时区|
 |WSGI_APPLICATION|使用的WSGI应用程序对象的完整Python路径|
 |CACHES||
-|AUTHENTICATION_BACKENDS||
-|AUTH_USER_MODEL||
+|AUTHENTICATION_BACKENDS|尝试验证用户时使用的认证后端的列表|
+|AUTH_USER_MODEL|默认使用的User模型|
 |LOGIN_REDIRECT_URL||
 |LOGIN_URL||
 |LOGOUT_REDIRECT_URL||
@@ -219,7 +219,8 @@ DATABASES = {
 默认值：'N j, Y' (例如：Feb. 4, 2003)
 
 系统中日期字段的默认显示格式
-6. DATE_INPUT_FORMATS
+
+6 . DATE_INPUT_FORMATS
 默认值：
 ```python
 [
@@ -231,7 +232,8 @@ DATABASES = {
 ]
 ```
 日期字段中输入数据时将能够被接受的格式列表。格式将按顺序尝试，使用第一个有效的格式。
-7. DATETIME_FORMAT
+
+7 . DATETIME_FORMAT
 默认值：'N j, Y, P' (例如Feb. 4, 2003, 4 p.m.)
 
 系统中显示datetime字段的默认格式。
@@ -1255,6 +1257,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 
 application = get_wsgi_application()
 以下是一些子系统或工具框架的相关配置
+
 44. CACHES
 默认值：
 
@@ -1269,45 +1272,47 @@ CACHES设置必须配置一个default缓存，还可以同时指定任何数量�
 
 以下是重要的内部配置项目：
 
-BACKEND：
+    + BACKEND：
 
 默认值：''（空字符串）
 
 要使用的缓存后端。 内置高速缓存后端有：
-
+```python
 'django.core.cache.backends.db.DatabaseCache'
 'django.core.cache.backends.dummy.DummyCache'
 'django.core.cache.backends.filebased.FileBasedCache'
 'django.core.cache.backends.locmem.LocMemCache'
 'django.core.cache.backends.memcached.MemcachedCache'
 'django.core.cache.backends.memcached.PyLibMCCache'
+```
 通过将BACKEND设置为缓存后端类的完全限定路径（例如mypackage.backends.whatever.WhateverCache），可以使用第三方的缓存后端。）。
 
-LOCATION：
+    + LOCATION：
 
 默认值：''（空字符串）
 
 要使用的缓存的位置，可能是文件系统缓存的目录，内存缓存服务器的主机和端口，或者只是本地内存缓存的标识名称。 例如：
-
+```python
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/tmp/django_cache',
     }
 }
-OPTIONS:
+
+    + OPTIONS:
 
 默认值：None
 
 传递到缓存后端的额外参数。可用参数因缓存后端而异。
 
-TIMEOUT:
+    + TIMEOUT:
 
 默认值：300
 
 高速缓存的有效时间。 如果此设置的值为None，则缓存将永远不会过期。
 
-VERSION：
+    + VERSION：
 
 默认值：1
 
