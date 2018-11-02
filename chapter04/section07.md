@@ -416,6 +416,9 @@ Django的`django.db.models`模块提供聚合函数。
 
 ### F表达式
 
+到目前为此的例子中，我们都是将模型字段与常量进行比较。但量，如果想要将模型的一个字段与同一个模型的另外一外字段进行比较该怎么办？
+使用Django提供了`F表达式`
+
 `F表达式` 是用来优化 ORM 操作数据库的。比如我们要将公司所有员工的薪水都增加1000元，如果按照正常的流程，应该是先从数据库中提取所有的员工工资到`Python`内存中，然后使用`Python`代码在员工工资的基础之上增加1000元，最后再保存到数据库中。这里面涉及的流程就是，首先从数据库中提取数据到`Python`内存中，然后在`Python`内存中做完运算，之后再保存到数据库中。示例代码如下：
 ```python
     employees = Employee.objects.all()
@@ -465,4 +468,44 @@ Django的`django.db.models`模块提供聚合函数。
     books = Book.objects.filter(Q(price__gte=100)&Q(name__contains("记")))
     # 获取书名包含“记”，但是id不等于3的图书
     books = Book.objects.filter(Q(name__contains='记') & ~Q(id=3))
+```
+
+### 缓存与查询集
+
+每个`QuerySet`都包含一个缓存，用于减少对数据库的实际操作。理解这个概念，有助于你提高查询效率。
+
+对于新创建的`QuerySet`，它的缓存是空的。当QuerySet第一次被提交后，数据库执行实际的查询操作，Django会把查询的结果保存在`QuerySet`的缓存内，随后的对于该`QuerySet`的提交将重用这个缓存的数据。
+
+要想高效的利用查询结果，降低数据库负载，你必须善于利用缓存。看下面的例子，这会造成2次实际的数据库操作，加倍数据库的负载，同时由于时间差的问题，可能在两次操作之间数据被删除或修改或添加，导致脏数据的问题：
+```python
+>>> print([e.headline for e in Entry.objects.all()])
+>>> print([e.pub_date for e in Entry.objects.all()])
+```
+为了避免上面的问题，好的使用方式如下，这只产生一次实际的查询操作，并且保持了数据的一致性：
+```python
+>>> queryset = Entry.objects.all()
+>>> print([p.headline for p in queryset]) # 提交查询
+>>> print([p.pub_date for p in queryset]) # 重用查询缓存
+```
+何时不会被缓存
+
+有一些操作不会缓存QuerySet，例如切片和索引。这就导致这些操作没有缓存可用，每次都会执行实际的数据库查询操作。例如：
+```python
+>>> queryset = Entry.objects.all()
+>>> print(queryset[5]) # 查询数据库
+>>> print(queryset[5]) # 再次查询数据库
+```
+但是，如果已经遍历过整个QuerySet，那么就相当于缓存过，后续的操作则会使用缓存，例如：
+```python
+>>> queryset = Entry.objects.all()
+>>> [entry for entry in queryset] # 查询数据库
+>>> print(queryset[5]) # 使用缓存
+>>> print(queryset[5]) # 使用缓存
+```
+下面的这些操作都将遍历QuerySet并建立缓存：
+```python
+>>> [entry for entry in queryset]
+>>> bool(queryset)
+>>> entry in queryset
+>>> list(queryset)
 ```
