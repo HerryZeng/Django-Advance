@@ -21,11 +21,11 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |DEFAULT_CONTENT_TYPE|HttpResponse对象的默认内容类型|
 |DEFAULT_FROM_EMAIL|默认的电子邮件发送地址，即发送方|
 |DISALLOWED_USER_AGENTS|正则表达式对象的列表,代表哪些不允许访问任何页面的User-Agent字符串|
-|EMAIL_BACKEND||
-|EMAIL_FILE_PATH|
-|EMAIL_HOST||
-|EMAIL_HOST_PASSWORD||
-|EMAIL_HOST_USER||
+|EMAIL_BACKEND|用于发送邮件的后端|
+|EMAIL_FILE_PATH|邮件后端保存输出文件时使用的目录|
+|EMAIL_HOST|发送邮件使用的主机|
+|EMAIL_HOST_PASSWORD|SMTP服务器使用的密码|
+|EMAIL_HOST_USER|SMTP服务器使用的用户名|
 |EMAIL_PORT||
 |EMAIL_SUBJECT_PREFIX||
 |EMAIL_USE_TLS||
@@ -290,3 +290,18 @@ HttpResponse对象的默认内容类型。
 
 这是一个编译好了的正则表达式对象的列表。代表哪些不允许访问任何页面的User-Agent字符串。也就是说如果一个请求的User-Agent属性，被这个配置项中的任何一个正则表达式匹配到了，那么这个请求将被阻止。常用于对付机器人和网络蜘蛛。需要CommonMiddleware中间件支持。
 14. EMAIL_BACKEND
+默认值：'django.core.mail.backends.smtp.EmailBackend'
+
+用于发送邮件的后端。
+15. EMAIL_FILE_PATH
+默认：未指定
+
+邮件后端保存输出文件时使用的目录。
+16. EMAIL_HOST
+默认：'localhost'
+
+发送邮件使用的主机。
+17. EMAIL_HOST_PASSWORD
+默认值：''（空字符串）
+
+`EMAIL_HOST`的SMTP服务器使用的密码。
