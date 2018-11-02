@@ -447,6 +447,9 @@ Django的`django.db.models`模块提供聚合函数。
 
 ### Q表达式
 
+普通`filter`函数里的条件都是“and”逻辑，如果你想实现“or”逻辑怎么办？用Q查询！
+`Q`来自`django.db.models.Q`，用于封装关键字参数的集合，可以作为关键字参数用于`filter`、`exclude`和`get`等函数。
+
 如果想要实现所有价格高于100元，并且评分达到9.0以上评分的图书。那么可以通过以下代码来实现：
 ```python
     books = Book.objects.filter(price__gte=100,rating__gte=9)
