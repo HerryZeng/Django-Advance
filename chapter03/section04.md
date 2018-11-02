@@ -436,3 +436,41 @@
 2 会变成 2nd。
 3 会变成 3rd。
 ```
+
+### 特殊的标签和过滤器
+
+国际化标签和过滤器
+Django还提供了一些模板标签和过滤器，用以控制模板中国际化的每个方面。它们允许对翻译，格式化和时区转换进行粒度控制。
+
+1. `i18n`
+此标签允许在模板中指定可翻译文本。要启用它，请将`USE_I18N`设置为`True`，然后加载`{％ load i18n ％}`。
+
+2. `l10n`
+此标签提供对模板的本地化控制，只需要使用`{％ load l10n ％}`。通常将`USE_L10N`设置为`True`，以便本地化默认处于活动状态。
+
+3. `tz`
+此标签对模板中的时区进行控制。 像`l10n`，只需要使用`{％ load tz }`，但通常还会将`USE_TZ`设置为`True`，以便默认情况下转换为本地时间。
+
+其他标签和过滤器
+Django附带了一些其他模板标签，必须在INSTALLED_APPS设置中显式启用，并在模板中启用{% load %}标记。
+
+1. `django.contrib.humanize`
+一组Django模板过滤器，用于向数据添加“人性化”，更加可读。
+
+2. `static`
+static标签用于链接保存在STATIC_ROOT中的静态文件。例如：
+```html
+{% load static %}
+<img src="{% static "images/hi.jpg" %}" alt="Hi!" />
+```
+还可以使用变量：
+```html
+{% load static %}
+<link rel="stylesheet" href="{% static user_stylesheet %}" type="text/css" media="screen" />
+```
+还可以像下面这么使用：
+```html
+{% load static %}
+{% static "images/hi.jpg" as myphoto %}
+<img src="{{ myphoto }}"></img>
+```
