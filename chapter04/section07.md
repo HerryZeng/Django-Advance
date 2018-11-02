@@ -509,3 +509,4 @@ Django的`django.db.models`模块提供聚合函数。
 >>> entry in queryset
 >>> list(queryset)
 ```
+注意：简单的打印QuerySet并不会建立缓存，因为__repr__()调用只返回全部查询集的一个切片。
