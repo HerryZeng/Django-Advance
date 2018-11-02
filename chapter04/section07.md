@@ -5,6 +5,39 @@
 
 ## 查询条件
 
+字段查询是指如何指定`SQL WHERE`子句的内容。它们用作`QuerySet`的`filter()，exclude()和get()`方法的关键字参数
+
+|字段查询参数|说明|
+|---|---|
+|exact|	精确匹配|
+|iexact|	不区分大小写的精确匹配|
+|contains|	包含匹配|
+|icontains|	不区分大小写的包含匹配|
+|in|	在..之内的匹配|
+|gt|	大于|
+|gte|	大于等于|
+|lt|	小于|
+|lte|	小于等于|
+|startswith|	从开头匹配|
+|istartswith| 不区分大小写从开头匹配|
+|endswith|	从结尾处匹配|
+|iendswith|	不区分大小写从结尾处匹配|
+|range|	范围匹配|
+|date|	日期匹配|
+|year|	年份|
+|month|	月份|
+|day|	日期|
+|week|	第几周|
+|week_day|	周几|
+|time|	时间|
+|hour|	小时|
+|minute|	分钟|
+|second|	秒|
+|isnull|	判断是否为空|
+|search|	1.10中被废弃|
+|regex|	区分大小写的正则匹配|
+|iregex|	不区分大小写的正则匹配|
+
 ### exact
 
 使用精确的`= `进行查找。如果提供的是一个 `None `，那么在 `SQL `层面就是被解释为 `NULL `。示例代码如下：
