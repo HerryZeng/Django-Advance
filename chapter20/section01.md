@@ -58,7 +58,8 @@ Django的配置文件并不需要定义所有的选项，每个选项都有一�
 Django加载配置的顺序是这样的：
     1. 从global_settings.py中加载默认配置；
     2. 从指定的配置文件中加载（通常是settings.py），如有必要则覆盖global_settings.py中的默认配置。
-有一个简单的方法可以查看当前有哪些设置与默认的设置不一样了，也就是python manage.py diffsettings命令。
+有一个简单的方法可以查看当前有哪些设置与默认的设置不一样了，也就是`python manage.py diffsettings`命令。
 
 ### 四、在Django环境中使用settings
+
 
