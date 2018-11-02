@@ -68,4 +68,11 @@
   * [第一节：logging模块详解](chapter18/section01.md)
   * [第二节：Django 日志](chapter18/section02.md)
 * [第十八章：分页Paginator](chapter18.md)
+* [第二十章：Djang配置](chapter20.md)
+  * [第一节：配置Django](chapter20/section01.md)
+  * [第二节：Django核心配置](chapter20/section02.md)
+* [第二十一章：序列化 serializers](chapter21.md)
+* [第二十二章：消息框架 message](chapter22.md)
+* [第二十三章：聚合内容 RSS/Atom](chapter23.md)
+* [第二十四章：发送邮件](chapter24.md)
 
