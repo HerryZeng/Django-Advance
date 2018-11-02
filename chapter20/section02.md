@@ -11,7 +11,7 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |ADMINS|代码错误通知的人的邮件地址列表|
 |ALLOWED_HOSTS|该配置项列表中包含的是Django站点可以为之提供服务的主机/域名|
 |APPEND_SLASH|请求重定向到以请求URL加/的URL地址|
-|DATABASES||
+|DATABASES|连接的数据库配置项|
 |DATE_FORMAT||
 |DATE_INPUT_FORMATS||
 |DATETIME_FORMAT||
@@ -129,3 +129,89 @@ DATABASES = {
 }
 ```
 下面是DATABASES的内部配置项：
+    + ATOMIC_REQUESTS
+
+默认值：False
+
+原子性事务请求。
+
+    + AUTOCOMMIT
+
+默认值：True
+自动提交。
+
+    + ENGINE
+
+默认值：''（空字符串）
+
+最重要的配置项！指定使用的数据库后端。 内建的数据库后端名称有：
+```python
+'django.db.backends.postgresql'
+'django.db.backends.mysql'
+'django.db.backends.sqlite3'
+'django.db.backends.oracle'
+```
+
+    + HOST
+
+默认值：''（空字符串）
+数据库所在的主机。设置的值可以是主机名、IP地址、和socket路径。空字符串表示localhost。SQLite不需要配置这个选项。
+如果其值以斜杠（'/'）开头并且你使用的是MySQL，MySQL将通过Unix socket连接。 像这样：
+
+"HOST": '/var/run/mysql'
+
+    + NAME
+
+默认值：''（空字符串）
+使用的数据库名称。 对于SQLite，它是数据库文件的完整路径。指定路径时，请始终使用前向的斜杠，即使在Windows 上（例如C:/homes/user/mysite/sqlite3.db）。
+
+但是对于MySQL等数据库，NAME指的是数据库系统中的具体某个database，Django没有能力自动在MySQL中创建数据库，它只能通过模型创建数据表。所以需要你通过各种数据客户端，在MySQL中提前创建好Django项目需要的数据库，使用命令`CREATE DATABASE mysite CHARACTER SET utf8;`，`mysite`是你的数据库名，务必同时指定字符编码方式为utf8！
+
+    + CONN_MAX_AGE
+
+默认：0
+数据库连接的存活时间，以秒为单位。0表示在每个请求结束时关闭数据库连接，None表示无限的持久连接。
+
+    + OPTIONS
+
+Default: {} (默认为空的字典)
+连接数据库时使用的额外参数。可用的参数与你的数据库后端有关。
+
+    + PASSWORD
+
+默认值：''（空字符串）
+连接数据库时使用的密码。SQLite不需要这个选项。
+
+    + PORT
+
+默认值：''（空字符串）
+连接数据库时使用的端口。空字符串表示默认的端口。SQLite不需要这个选项。 MySQL一般是3306。
+
+    + TIME_ZONE
+
+默认值：None
+数据库中使用的时区。
+
+    + USER
+
+默认值：''（空字符串）
+连接数据库时使用的用户名。SQLite不需要这个选项。
+
+    + TEST
+
+Default: {} (默认为空的字典)
+测试数据库用的配置。
+
+以下是测试数据库配置的示例：
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': 'mydatabaseuser',
+        'NAME': 'mydatabase',
+        'TEST': {
+            'NAME': 'mytestdatabase',
+        },
+    },
+}
+```
