@@ -8,7 +8,7 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 
 |配置项|说明|
 |---|---|
-|ADMINS||
+|ADMINS|代码错误通知的人的邮件地址列表|
 |ALLOWED_HOSTS||
 |APPEND_SLASH||
 |DATABASES||
@@ -69,3 +69,12 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |STATIC_ROOT||
 |STATIC_URL||
 |STATICFILES_DIRS||
+
+1. ADMINS
+默认值：[]（空列表）
+默认值：[]（空列表）
+
+所有获得代码错误通知的人的邮件地址列表。当DEBUG=False，并且一个视图引发了异常时,Django将会给这个列表里的人发一封含有完整异常信息的电子邮件。列表中的每个项目都应该是（全名，电子邮件地址）的元组。例如：
+```python
+[('John', 'john@example.com'), ('Mary', 'mary@example.com')]
+```
