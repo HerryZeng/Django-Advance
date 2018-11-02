@@ -70,7 +70,7 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |STATIC_URL||
 |STATICFILES_DIRS||
 
-1. ADMINS
+1 . ADMINS
 默认值：[]（空列表）
 默认值：[]（空列表）
 
@@ -78,3 +78,12 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 ```python
 [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
 ```
+2 . ALLOWED_HOSTS
+默认值：[]（空列表）
+这是新手比较困惑的一个配置项。该配置项列表中包含的是Django站点可以为之提供服务的主机/域名。 也就是哪些主机或IP能够访问Django服务器！列表里的所有元素是共同存在的关系，不纯在冲突、优先级和排斥的关系。
+列表中的值可以是`localhost`、`www.example.com`或者`.example.com`形式的域名。
+也可以是IP地址，比如：`137.2.4.1`、`192.168.1.1`、`0.0.0.0`、`127.0.0.1`
+还可以是通配符`'*'`，表示所有外部主机都可以访问Django。但这种情况具有安全风险，在线上环境不要使用。
+对于`0.0.0.0`，表示局域网内的主机都可以访问Django。
+当`DEBUG`为`True`和`ALLOWED_HOSTS`为空时，默认相当于配置：`['localhost'， '127.0.0.1'， '[:: 1]']`。
+3. APPEND_SLASH
