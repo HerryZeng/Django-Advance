@@ -62,4 +62,33 @@ Django加载配置的顺序是这样的：
 
 ### 四、在Django环境中使用settings
 
+所谓的在Django环境中，指的是要使用`settings`的模块（可以简单的理解为局域网内主机），必须是Django工作状态中能够链接的模块，不能是孤零零，额外的一个Python脚本（外部主机）。这时，可以通过导入`django.conf.settings`来使用配置文件。 例如：
+```python
+from django.conf import settings
+
+if settings.DEBUG:
+    # Do something
+```
+注意，django.conf.settings不是一个模块，而是一个对象。 所以不可以单独导入每个配置项：
+```python
+from django.conf.settings import DEBUG  # 这是错误的做法
+```
+
+### 五、不要在运行时更改设置
+
+请不要在Django项目运行时改变设置。 例如，不要在视图中这样做：
+```python
+from django.conf import settings
+
+settings.DEBUG = True   # 不要这么做
+```
+
+### 六、注意安全
+因为`settings.py`经常会包含敏感的信息，例如管理员、远程主机、数据库的用户名或密码，你应该尽一切可能来限制对它的访问。 例如，修改它的文件权限使得只有你和Web服务器使用者可以读取它。
+
+
+### 七、添加自己的配置项
+如果要添加自己的配置项，需遵循以下准则：
+    + 配置项名称必须全为大写。
+    + 不要使用一个已经存在的设置
 
