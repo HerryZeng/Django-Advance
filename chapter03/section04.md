@@ -458,7 +458,7 @@ Django附带了一些其他模板标签，必须在INSTALLED_APPS设置中显式
 一组Django模板过滤器，用于向数据添加“人性化”，更加可读。
 
 2. `static`
-static标签用于链接保存在STATIC_ROOT中的静态文件。例如：
+``static``标签用于链接保存在STATIC_ROOT中的静态文件。例如：
 ```html
 {% load static %}
 <img src="{% static "images/hi.jpg" %}" alt="Hi!" />
