@@ -22,6 +22,7 @@
 1. 我们在初始化 `HttpResponse`的时候，指定了 `Content-Type` 为 `text/csv` ，这将告诉浏览器，这是一个 `csv`格式的文件而不是一个 `HTML`格式的文件，如果用默认值，默认值就是 html ，那么浏览器将把 `csv`格式的文件按照 `html`格式输出，这肯定不是我们想要的。
 2. 第二个我们还在 `response`中添加一个 `Content-Disposition` 头，这个东西是用来告诉浏览器该如何处理这个文件，我们给这个头的值设置为 `attachment;` ，那么浏览器将不会对这个文件进行显示，而是作为附件的形式下载，第二个 `filename="somefilename.csv"` 是用来指定这个 `csv`文件的名字。
 3. 我们使用 `csv`模块的 `writer`方法，将相应的数据写入到 `response`中。
+4. 写入中文乱码的时候，需要先导入`codecs`模块，`import codecs`,然后在`csv`写入数据之前增加语句`response.write(codecs.BOM_UTF8)`。
 
 ## 将`csv`文件定义成模板
 
