@@ -9,8 +9,8 @@
     from django.http import HttpResponse
     
     def profile(request):
-    if request.GET.get("username"):
-        return HttpResponse("%s，欢迎来到个人中心页面！")
-    else:
-        return redirect(reverse("user:login"))
+        if request.GET.get("username"):
+            return HttpResponse("%s，欢迎来到个人中心页面！")
+        else:
+            return redirect(reverse("user:login"))
 ```
