@@ -39,7 +39,7 @@
     
     # 视图函数
     from django.http import HttpResponse
-    from django.template import loader, Context
+    from django.template import loader
     
     def some_view(request):
         response = HttpResponse(content_type='text/csv')
