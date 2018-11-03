@@ -71,7 +71,7 @@
 * [第二十章：Djang配置](chapter20.md)
   * [第一节：配置Django](chapter20/section01.md)
   * [第二节：Django核心配置1](chapter20/section02.md)
-  * [第三节：Django核心配置2](chapter20/section05.md)
+  * [第三节：Django核心配置2](chapter20/section04.md)
   * [第四节：Django核心配置3](chapter20/section03.md)
 * [第二十一章：序列化 serializers](chapter21.md)
 * [第二十二章：消息框架 message](chapter22.md)
