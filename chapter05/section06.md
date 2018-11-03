@@ -78,7 +78,7 @@
 
 ### 关于StreamingHttpResponse
 
-这个类是专门用来处理流数据的。使得在处理一些大型文件的时候，不会因为服务器处理时间过长而到时连接超时。这个类不是继承自 `HttpResponse`，并且跟 `HttpResponse`对比有以下几点区别：
+这个类是专门用来处理流数据的。使得在处理一些大型文件的时候，不会因为服务器处理时间过长而到时连接超时。这个类不是继承自 `HttpResponse`，而是继承自`HttpResponseBase`类，并且跟 `HttpResponse`对比有以下几点区别：
 1. 这个类没有属性 `content`，相反是 `streaming_content`。
 2. 这个类的 `streaming_content`必须是一个可以迭代的对象。
 3. 这个类没有 `write`方法，如果给这个类的对象写入数据将会报错。
