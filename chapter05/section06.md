@@ -54,6 +54,7 @@
         response.write(t.render(context))
         return response
 ```
+注意：`context`中的关键字`rows`必须与模板中的`for`标签中的`rows`保持一致。
 
 ## 生成大的CSV文件
 
