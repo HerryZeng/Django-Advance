@@ -51,24 +51,24 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 |USE_L10N|一个布尔值，用于决定是否开启数据本地化|
 |USE_TZ|一个布尔值,用来指定是否使用指定的时区|
 |WSGI_APPLICATION|使用的WSGI应用程序对象的完整Python路径|
-|CACHES||
+|CACHES|CACHES设置|
 |AUTHENTICATION_BACKENDS|尝试验证用户时使用的认证后端的列表|
 |AUTH_USER_MODEL|默认使用的User模型|
-|LOGIN_REDIRECT_URL||
+|LOGIN_REDIRECT_URL|登录之后，如果contrib.auth.login视图找不到next参数，请求将被重定向到该URL|
 |LOGIN_URL|登录页面的URL|
 |LOGOUT_REDIRECT_URL|使用LogoutView视图退出登录后，请求被重定向的URL|
-|PASSWORD_RESET_TIMEOUT_DAYS||
-|PASSWORD_HASHERS||
-|MESSAGE_LEVEL||
-|MESSAGE_STORAGE||
-|SESSION_COOKIE_AGE||
-|SESSION_COOKIE_NAME||
-|SESSION_ENGINE||
-|SESSION_EXPIRE_AT_BROWSER_CLOSE||
-|SITE_ID||
-|STATIC_ROOT||
-|STATIC_URL||
-|STATICFILES_DIRS||
+|PASSWORD_RESET_TIMEOUT_DAYS|重置密码的链接，的有效期，的天数|
+|PASSWORD_HASHERS|密码哈希使用的算法|
+|MESSAGE_LEVEL|设置Django内置的消息框架|
+|MESSAGE_STORAGE|控制Django在哪里存储消息数据|
+|SESSION_COOKIE_AGE|会话Cookie的过期时间|
+|SESSION_COOKIE_NAME|要用于会话的Cookie的名称|
+|SESSION_ENGINE|会话使用的后端引擎|
+|SESSION_EXPIRE_AT_BROWSER_CLOSE|是否在用户关闭浏览器时过期会话|
+|SITE_ID|当前站点在django_site数据库表中的ID|
+|STATIC_ROOT|线上环境静态文件的绝对路径|
+|STATIC_URL|静态文件时使用的网址|
+|STATICFILES_DIRS|定义额外的静态文件搜索地址|
 
 1 . ADMINS
 默认值：[]（空列表）
@@ -1361,12 +1361,13 @@ Django服务器生成的缓存键的默认版本号。
     'django.contrib.auth.hashers.BCryptPasswordHasher',
 ]
 在Django1.10时，以下hashers从默认值中删除：
-
+```python
 'django.contrib.auth.hashers.SHA1PasswordHasher'
 'django.contrib.auth.hashers.MD5PasswordHasher'
 'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher'
 'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher'
 'django.contrib.auth.hashers.CryptPasswordHasher'
+```
 52. MESSAGE_LEVEL
 默认值：messages.INFO
 
@@ -1376,10 +1377,11 @@ Django服务器生成的缓存键的默认版本号。
 默认值：'django.contrib.messages.storage.fallback.FallbackStorage'
 
 控制Django在哪里存储消息数据。 有效值为：
-
+```python
 'django.contrib.messages.storage.fallback.FallbackStorage'
 'django.contrib.messages.storage.session.SessionStorage'
 'django.contrib.messages.storage.cookie.CookieStorage'
+```
 54. SESSION_COOKIE_AGE
 默认：1209600（2个星期）
 
@@ -1394,12 +1396,13 @@ Django服务器生成的缓存键的默认版本号。
 默认值：'django.contrib.sessions.backends.db'
 
 会话使用的后端，也就是会话数据的保存未知。 内置支持的引擎有：
-
+```python
 'django.contrib.sessions.backends.db'
 'django.contrib.sessions.backends.file'
 'django.contrib.sessions.backends.cache'
 'django.contrib.sessions.backends.cached_db'
 'django.contrib.sessions.backends.signed_cookies'
+```
 57. SESSION_EXPIRE_AT_BROWSER_CLOSE
 默认值：False
 
@@ -1417,9 +1420,9 @@ Django服务器生成的缓存键的默认版本号。
 59. STATIC_ROOT
 默认值：None
 
-在DEBUG设置为False时，也就是线上环境时，Django项目里的静态文件（js\css\plugins）会无法使用。这是，需要运行python manage.py collectstatic，将静态文件统一收集到一个目录下。STATIC_ROOT配置的就是该目录的绝对路径。
+在DEBUG设置为False时，也就是线上环境时，Django项目里的静态文件（js\css\plugins）会无法使用。这是，需要运行`python manage.py collectstatic`，将静态文件统一收集到一个目录下。STATIC_ROOT配置的就是该目录的绝对路径。
 
-示例："/var/www/example.com/static/"
+示例：`"/var/www/example.com/static/"`
 
 这个目录，刚开始应该是一个空目录。
 
