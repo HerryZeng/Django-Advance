@@ -239,7 +239,8 @@ DATABASES = {
 默认值：'N j, Y, P' (例如Feb. 4, 2003, 4 p.m.)
 
 系统中显示datetime字段的默认格式。
-8. DATETIME_INPUT_FORMATS
+
+8 . DATETIME_INPUT_FORMATS
 默认值：
 ```python
 [
@@ -258,7 +259,8 @@ DATABASES = {
 ]
 ```
 在datetime字段中输入数据时将被接受的格式列表。格式将按顺序尝试，使用第一个有效的格式。
-9. DEBUG
+
+9 . DEBUG
 默认值：False
 
 打开/关闭调试模式。最重要的设置之一！默认值是`False`，你没有看错！只是在`settings.py`中又帮我们设置为True了，打开了调试模式，方便开发者和测试者的！线上部署网站的时候务必设置为`False`。
@@ -277,19 +279,23 @@ DATABASES = {
 注意，这里使用的是包含匹配，也就是说只要出现这些子字符串的配置项将匹配上。例如'PASS'能够匹配 PASSWORD, 'TOKEN'也将匹配TOKENIZED等等.
 
 最后再次强调，如果DEBUG为False，你还需要正确设置ALLOWED_HOSTS以及静态文件。错误设置将导致对所有的请求返回“Bad Request (400)”。
-10. DEFAULT_CHARSET
+
+10 . DEFAULT_CHARSET
 默认值：'utf-8'
 
 HttpResponse响应对象的默认字符集
-11. DEFAULT_CONTENT_TYPE
+
+11 . DEFAULT_CONTENT_TYPE
 默认值：'text/html'
 
 HttpResponse对象的默认内容类型。
-12. DEFAULT_FROM_EMAIL
+
+12 . DEFAULT_FROM_EMAIL
 默认值：'webmaster@localhost'
 
 默认的电子邮件发送地址，即发送方。
-13. DISALLOWED_USER_AGENTS
+
+13 . DISALLOWED_USER_AGENTS
 默认值：[]（空列表）
 
 这是一个编译好了的正则表达式对象的列表。代表哪些不允许访问任何页面的User-Agent字符串。也就是说如果一个请求的User-Agent属性，被这个配置项中的任何一个正则表达式匹配到了，那么这个请求将被阻止。常用于对付机器人和网络蜘蛛。需要CommonMiddleware中间件支持。
