@@ -65,7 +65,7 @@
         定义一个可以执行写操作的类，以后调用csv.writer的时候，就会执行这个方法
         """
         def write(self, value):
-        return value
+            return value
     def large_csv(request):
         rows = (["Row {}".format(idx), str(idx)] for idx in range(655360))    
         pseudo_buffer = Echo()
