@@ -121,11 +121,12 @@ LANGUAGES = [
 默认值：[]（空列表）
 
 Django查找翻译文件的目录列表,例如：
-
+```python
 LOCALE_PATHS = [
     '/home/www/project/common_files/locale',
     '/var/local/translations/locale',
 ]
+```
 Django将在这些路径中查找包含实际翻译文件的目录。
 
 31 . LOGGING
