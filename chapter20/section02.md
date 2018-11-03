@@ -88,7 +88,7 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 
 对于`0.0.0.0`，表示局域网内的主机都可以访问Django。
 当`DEBUG`为`True`和`ALLOWED_HOSTS`为空时，默认相当于配置：`['localhost'， '127.0.0.1'， '[:: 1]']`。
-3. APPEND_SLASH
+3 . APPEND_SLASH
 默认值：True
 
 当设定为True时，如果请求的URL没有匹配到URLconf里面的任何一条URL路由设置，并且没有以/（斜杠）结束，该请求将重定向到以请求URL加/的URL地址。**需要注意的是重定向有可能导致POST提交的数据丢失**。
@@ -96,7 +96,7 @@ Django的默认配置文件中，包含上百条配置项目，其中很多是�
 通俗的解释就是，如果你在写url时忘记了在最后添加一个斜杠，Django会默认帮你加上！请尽量保持默认值！
 
 `APPEND_SLASH`设置只有在安装了`CommonMiddleware`中间件时才会启用。
-4. DATABASES
+4 . DATABASES
 默认值: {} (空的字典)
 
 该配置项包含Django项目使用的所有数据库的设置。这是一个嵌套字典。
