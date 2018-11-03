@@ -51,7 +51,7 @@
             )
         }
         t = loader.get_template('my_template_name.txt')
-        response.write(t.render({"data": csv_data}))
+        response.write(t.render(context))
         return response
 ```
 
