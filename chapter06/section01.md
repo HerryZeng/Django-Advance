@@ -45,6 +45,7 @@
 ```html
     <form action="" method="post">
         <table>
+            {{ form.as_table }}
             <tr>
                 <td></td>
                 <td><input type="submit" value="提交"></td>
