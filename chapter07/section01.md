@@ -56,3 +56,66 @@ Django通过一个内置的中间件来实现会话功能。要启用会话就�
 ---
 
 ### 三、在视图中使用会话
+
+当会话中间件启用后，传递给视图request参数的HttpRequest对象将包含一个session属性，这个属性的值是一个类似字典的对象。
+
+你可以在视图的任何地方读写request.session属性，或者多次编辑使用它。
+```python
+class backends.base.SessionBase
+        # 这是所有会话对象的基类，包含标准的字典方法:
+        __getitem__(key)
+            Example: fav_color = request.session['fav_color']
+        __setitem__(key, value)
+            Example: request.session['fav_color'] = 'blue'
+        __delitem__(key)
+            Example: del request.session['fav_color']  # 如果不存在会抛出异常
+        __contains__(key)
+            Example: 'fav_color' in request.session
+        get(key, default=None)
+            Example: fav_color = request.session.get('fav_color', 'red')
+        pop(key, default=__not_given)
+            Example: fav_color = request.session.pop('fav_color', 'blue')
+```
+```python
+        # 类似字典数据类型的内置方法
+        keys()
+        items()
+        setdefault()
+        clear()
+
+
+        # 它还有下面的方法：
+        flush()
+            # 删除当前的会话数据和会话cookie。经常用在用户退出后，删除会话。
+
+        set_test_cookie()
+            # 设置一个测试cookie，用于探测用户浏览器是否支持cookies。由于cookie的工作机制，你只有在下次用户请求的时候才可以测试。
+        test_cookie_worked()
+            # 返回True或者False，取决于用户的浏览器是否接受测试cookie。你必须在之前先调用set_test_cookie()方法。
+        delete_test_cookie()
+            # 删除测试cookie。
+        set_expiry(value)
+            # 设置cookie的有效期。可以传递不同类型的参数值：
+        • 如果值是一个整数，session将在对应的秒数后失效。例如request.session.set_expiry(300) 将在300秒后失效.
+        • 如果值是一个datetime或者timedelta对象, 会话将在指定的日期失效
+        • 如果为0，在用户关闭浏览器后失效
+        • 如果为None，则将使用全局会话失效策略
+        失效时间从上一次会话被修改的时刻开始计时。
+
+        get_expiry_age()
+            # 返回多少秒后失效的秒数。对于没有自定义失效时间的会话，这等同于SESSION_COOKIE_AGE.
+            # 这个方法接受2个可选的关键字参数
+        • modification:会话的最后修改时间（datetime对象）。默认是当前时间。
+        •expiry: 会话失效信息，可以是datetime对象，也可以是int或None
+
+        get_expiry_date()
+            # 和上面的方法类似，只是返回的是日期
+
+        get_expire_at_browser_close()
+            # 返回True或False，根据用户会话是否是浏览器关闭后就结束。
+
+        clear_expired()
+            # 删除已经失效的会话数据。
+        cycle_key()
+            # 创建一个新的会话秘钥用于保持当前的会话数据。django.contrib.auth.login() 会调用这个方法。
+```
