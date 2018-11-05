@@ -119,3 +119,24 @@ class backends.base.SessionBase
         cycle_key()
             # 创建一个新的会话秘钥用于保持当前的会话数据。django.contrib.auth.login() 会调用这个方法。
 ```
+1. 序列化会话
+Django默认使用JSON序列化会话数据。你可以在`SESSION_SERIALIZER`设置中自定义序列化格式，甚至写入警告说明。但是强烈建议你还是使用`JSON`，尤其是以`cookie`的方式进行会话时。
+
+举个例子，一个使用`pickle`序列化会话数据的攻击场景。如果你使用的是已签名的Cookie会话并且`SECRET_KEY`被攻击者知道了（通过其它手段），攻击者就可以在会话中插入一个字符串，在`pickle`反序列化时，可以在服务器上执行危险的代码。在因特网上这个攻击技术很简单并很容易使用。尽管`Cookie`会话会对数据进行签名以防止篡改，但是`SECRET_KEY`的泄漏却使得一切前功尽弃。
+    + 内置的序列化方法：
+        + 1.class serializers.JSONSerializer。对django.core.signing中JSON序列化方法的一个包装。只可以序列化基本的数据类型。另外，JSON只支持以字符串作为键值，使用其它的类型会导致异常。
+        ```python
+            >>> # initial assignment
+            >>> request.session[0] = 'bar'
+            >>> # subsequent requests following serialization & deserialization
+            >>> # of session data
+            >>> request.session[0] # KeyError
+            >>> request.session['0']
+            'bar'
+        ```
+        同样，无法被JSON编码的，例如非UTF8格式的字节’\xd9’一样是无法被保存的，它会导致UnicodeDecodeError异常。
+        + 2. class serializers.PickleSerializer。支持任意类型的Python对象，但是就像前面说的，可能导致远端执行代码的漏洞，如果攻击者知道了`SECRET_KEY`。
+    + 自定义序列化方法
+    
+    自定义的序列化类必须分别实现dumps(self, obj)和loads(self, data)方法，用来实现序列化和反序列化会话数据字典。
+        
