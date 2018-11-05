@@ -119,7 +119,7 @@ class backends.base.SessionBase
         cycle_key()
             # 创建一个新的会话秘钥用于保持当前的会话数据。django.contrib.auth.login() 会调用这个方法。
 ```
-1. 序列化会话
+1 . 序列化会话
 Django默认使用JSON序列化会话数据。你可以在`SESSION_SERIALIZER`设置中自定义序列化格式，甚至写入警告说明。但是强烈建议你还是使用`JSON`，尤其是以`cookie`的方式进行会话时。
 
 举个例子，一个使用`pickle`序列化会话数据的攻击场景。如果你使用的是已签名的Cookie会话并且`SECRET_KEY`被攻击者知道了（通过其它手段），攻击者就可以在会话中插入一个字符串，在`pickle`反序列化时，可以在服务器上执行危险的代码。在因特网上这个攻击技术很简单并很容易使用。尽管`Cookie`会话会对数据进行签名以防止篡改，但是`SECRET_KEY`的泄漏却使得一切前功尽弃。
@@ -140,3 +140,186 @@ Django默认使用JSON序列化会话数据。你可以在`SESSION_SERIALIZER`�
     
     自定义的序列化类必须分别实现dumps(self, obj)和loads(self, data)方法，用来实现序列化和反序列化会话数据字典。
         
+2 . 会话使用中的一些建议
+    + 使用普通的Python字符串作为request.session字典的键值。这不是一条硬性规则而是为方便起见。
+    + 以一个下划线开始的会话字典的键被Django保留作为内部使用。
+    + 不要用新对象覆盖request.session，不要直接访问或设置它的属性。像一个Python字典一样的使用它。
+    
+3 . 会话使用范例
+下面这个简单的视图在用户发表评论后，在session中设置一个`has_commented`变量为True。它不允许用户重复发表评论。
+```python
+def post_comment(request, new_comment):
+    if request.session.get('has_commented', False):
+        return HttpResponse("You've already commented.")
+    c = comments.Comment(comment=new_comment)
+    c.save()
+    request.session['has_commented'] = True
+    return HttpResponse('Thanks for your comment!')
+```
+下面是一个简单的用户登录视图：
+```python
+def login(request):
+    m = Member.objects.get(username=request.POST['username'])
+    if m.password == request.POST['password']:
+        request.session['member_id'] = m.id
+        return HttpResponse("You're logged in.")
+    else:
+        return HttpResponse("Your username and password didn't match.")
+```
+下面则是一个退出登录的视图，与上面的相关：
+```python
+def logout(request):
+    try:
+        del request.session['member_id']
+    except KeyError:
+        pass
+    return HttpResponse("You're logged out.")
+```
+Django内置的`django.contrib.auth.logout()`函数实际上所做的内容比上面的例子要更严谨，以防止意外的数据泄露，它会调用`request.session`的`flush()`方法。我们使用这个例子只是演示如何利用会话对象来工作，而不是一个完整的`logout()`实现。
+
+---
+
+### 四、测试cookie
+
+为了方便，Django 提供一个简单的方法来测试用户的浏览器是否接受Cookie。只需在一个视图中调用`request.session`的`set_test_cookie()`方法，并在随后的视图中调用`test_cookie_worked()`获取测试结果（True或False)。**注意**，不能在同一个视图中调用这两个方法。
+
+造成这种分割调用的原因是`cookie`的工作机制。当你设置一个`cookie`时，你无法立刻得到结果，直到浏览器发送下一个请求时才能获得结果。
+
+在测试后，记得使用`delete_test_cookie()`方法清除测试数据。
+
+下面是一个典型的范例：
+```python
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def login(request):
+    if request.method == 'POST':
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
+            return HttpResponse("You're logged in.")
+        else:
+            return HttpResponse("Please enable cookies and try again.")
+    request.session.set_test_cookie()
+    return render(request, 'foo/login_form.html')
+```
+
+---
+
+### 五、在视图外使用session
+
+在下面的例子中，我们直接从`django.contrib.sessions.backends.db`中导入了`SessionStore`对象。在你的实际代码中，应该采用下面的导入方法，根据`SESSION_ENGINE`的设置进行导入，如下所示：
+```python
+>>> from importlib import import_module
+>>> from django.conf import settings
+>>> SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
+```
+在视图外可以通过下面的API操作会话数据：
+```python
+>>> from django.contrib.sessions.backends.db import SessionStore
+>>> s = SessionStore()
+>>> # stored as seconds since epoch since datetimes are not serializable in JSON.
+>>> s['last_login'] = 1376587691
+>>> s.create()
+>>> s.session_key
+'2b1189a188b44ad18c35e113ac6ceead'
+>>> s = SessionStore(session_key='2b1189a188b44ad18c35e113ac6ceead')
+>>> s['last_login']
+1376587691
+```
+`SessionStore.create()`用于创建一个新的会话。`save()`方法用于保存一个已经存在的会话。`create`方法会调用`save`方法并循环直到生成一个未使用的`session_key`。直接调用`save`方法也可以创建一个新的会话，但在生成`session_key`的时候有可能和已经存在的发生冲突。
+
+如果你使用的是`django.contrib.sessions.backends.db`模式，那么每一个会话其实就是一个普通的Django模型，你可以使用普通的Django数据库API访问它。会话模型的定义在`django/contrib/sessions/models.py`文件里。例如：
+```python
+>>> from django.contrib.sessions.models import Session
+>>> s = Session.objects.get(pk='2b1189a188b44ad18c35e113ac6ceead')
+>>> s.expire_date
+datetime.datetime(2005, 8, 20, 13, 35, 12)
+```
+注意，需要调用get_decoded()方法才能获得会话字典，因为字典是采用编码格式保存的。如下：
+```python
+>>> s.session_data
+'KGRwMQpTJ19hdXRoX3VzZXJfaWQnCnAyCkkxCnMuMTExY2ZjODI2Yj...'
+>>> s.get_decoded()
+{'user_id': 42}
+```
+
+---
+
+### 六、会话的保存机制
+
+默认情况下，只有当会话字典的某个值被重新设置或删除的时候，Django才会将会话内容保存到会话数据库内。
+```python
+# 会话被修改
+request.session['foo'] = 'bar'
+# 会话被删除
+del request.session['foo']
+# 会话被修改
+request.session['foo'] = {}
+# 会话没有被修改，只是修改了request.session['foo']
+request.session['foo']['bar'] = 'baz'
+```
+要理解上面最后一种情况有点费劲。我们可以通过设置会话对象的modified属性值，显式地告诉会话对象它已经被修改过：`request.session.modified = True`。
+
+要改变上面的默认行为，将`SESSION_SAVE_EVERY_REQUEST`设置为True，那么每一次单独的请求过来，Django都会保存会话到数据库。
+
+注意，会话的Cookie只有在一个会话被创建或修改后才会再次发送。如果`SESSION_SAVE_EVERY_REQUEST`为True，每次请求都会发送cookie。
+
+类似地，会话Cookie的失效部分在每次发送会话Cookie时都会更新。
+
+如果响应的状态码为500，则会话不会被保存。
+
+---
+
+### 七、会话生存期
+
+默认情况下，`SESSION_EXPIRE_AT_BROWSER_CLOSE`设置为False，也就是说`cookie`保存在用户的浏览器内，直到失效日期，这样用户就不必每次打开浏览器后都要再登录一次。
+
+相反的，如果将`SESSION_EXPIRE_AT_BROWSER_CLOSE`设置为True，则意味着浏览器一关闭，`cookie`就失效，每次重新打开浏览器，你就得重新登录。
+
+这个设置是一个全局的默认值，可以通过显式地调`request.session`的`set_expiry()`方法来覆盖，前面我们已经描述过了。
+
+注意：有些浏览器（比如Chrome）具有在关闭后重新打开浏览器，会话依然保持的功能。这会与Django的`SESSION_EXPIRE_AT_BROWSER_CLOSE`设置发生冲突。请一定要小心。
+
+---
+
+### 八、清除已保存的会话
+
+随着用户的访问，会话数据会越来越庞大。如果你使用的是数据库保存模式，那么`django_session`表的内容会逐渐增长。如果你使用的是文件模式，那么你的临时目录内的文件数量会不断增加。
+
+造成这个问题的原因是，如果用户手动退出登录，Django将会自动删除会话数据，但是如果用户不退出登录，那么对应的会话数据不会被删除。
+
+Django没有提供自动清除失效会话的机制。因此，你必须自己完成这项工作。但是Django提供了一个命令`clearsessions`用于清除会话数据，建议你基于这个命令设置一个周期性的自动清除机制，比如`crontab`或者`Windows`的调度任务。
+
+不同的是，使用缓存模式的会话不需要你清理数据，因为缓存系统自己有清理过期数据的机制。使用cookie模式的会话也不需要，因为数据都存在用户的浏览器内，不用你帮忙。
+
+---
+
+### 下面是Django的session相关设置，用于帮助你控制会话的行为，大多数在前面都介绍过了：
+    + SESSION_CACHE_ALIAS
+    + SESSION_COOKIE_AGE
+    + SESSION_COOKIE_DOMAIN
+    + SESSION_COOKIE_HTTPONLY
+    + SESSION_COOKIE_NAME
+    + SESSION_COOKIE_PATH
+    + SESSION_COOKIE_SECURE
+    + SESSION_ENGINE
+    + SESSION_EXPIRE_AT_BROWSER_CLOSE
+    + SESSION_FILE_PATH
+    + SESSION_SAVE_EVERY_REQUEST
+    + SESSION_SERIALIZER
+    
+---
+
+### 十、SessionStore对象
+
+在会话内部，Django使用一个与会话引擎对应的会话保存对象。这个会话保存对象命名为`SessionStore`，位于`SESSION_ENGINE`设置指定的模块内。
+
+所有Django支持的`SessionStore`类都继承`SessionBase`类，并实现了下面的数据操作方法：
+    + exists()
+    + create()
+    + save()
+    + delete()
+    + load()
+    + clear_expored()
+    
+为了创建一个自定义会话引擎或修改一个现成的引擎，你需要创建一个新的类，它继承SessionBase类或任何其他已经存在的SessionStore类。
