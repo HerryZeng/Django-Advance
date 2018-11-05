@@ -31,4 +31,28 @@ Django通过一个内置的中间件来实现会话功能。要启用会话就�
 
 ###  二、配置会话引擎
 
-默认
+默认情况下，Django将会话数据保存在数据库内，（通过使用`django.contrib.sessions.models.Session`模型）。当然，你也可以将数据保存在文件系统或缓存内。
+
+1. 基于数据库的会话
+确保`INSTALLED_APPS`设置了`django.contrib.sessions`。然后运行`python manage.py migrate`命令在数据库内创建`session`表。
+
+2. 基于缓存的会话
+从性能角度考虑，基于缓存的会话会更好一些，但是首先，你得先配置好你的缓存。如果你定义了多个缓存，Django将使用默认的那个。如果你想用其它的，请将`SESSION_CACHE_ALIAS`参数设置为那个缓存的名字。
+配置好缓存后，你可以选择两种保存数据的方法：
+    + 一是将`SESSION_ENGINE`设置为`django.contrib.sessions.backends.cache`，简单的对会话进行保存。但是这种方法不是很可靠，因为当缓存数据存满时将清除部分数据，或遇到缓存服务器重启时数据将丢失。
+    + 为了数据安全，可以将`SESSION_ENGINE`设置为`django.contrib.sessions.backends.cached_db`。这种方式在每次缓存的时候会同时将数据在数据库内写一份。当缓存不可用时，会话会从数据库内读取数据。
+
+两种方法都很迅速，但是第一种简单的缓存更快一些，因为它忽略了数据的持久性。如果你使用缓存+数据库的方式，还南非要对数据库进行配置。
+
+3. 基于文件的会话
+将`SESSION_ENGING`设置为`django.contrib.sessions.backends.file`，同时，你必须配置`SESSION_FILE_PATH`（默认使用`tempfile.gettempdir()`方法的返回值，就像`/tmp`目录），确保你的文件存储目录以及`Web`服务器对该目录具有读定权限。
+
+4. 基于cookie的会话
+将`SESSION_ENGINE`设置为"`django.contrib.sessions.backends.signed_cookies`"。Django将使用加密签名工具和安全秘钥设置保存会话的cookie。
+
+注意：建议将`SESSION_COOKIE_HTTPONLY`设置为`True`，阻止`javascript`对会话数据的访问，提高安全性。
+
+
+---
+
+### 三、在视图中使用会话
