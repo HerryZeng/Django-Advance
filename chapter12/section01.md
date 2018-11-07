@@ -171,3 +171,28 @@ class FlatPageAdmin(admin.ModelAdmin):
 它的页面看起来像下面的样子：
 ![](../images/chapter12/004.png)
 
+在`filed_options`字典内，可以使用下面这些关键字：
+
+**`fields`**：一个必填的元组，包含要在`fieldset`中显示的字段。例如：
+```python
+{
+'fields': ('first_name', 'last_name', 'address', 'city', 'state'),
+}
+```
+同样，它也可以像前面那样通过组合元组，实现多个字段在一行内的效果：
+```pyhon
+{
+'fields': (('first_name', 'last_name'), 'address', 'city', 'state'),
+}
+```
+`fileds`可以包含`readonly_fields`的值，作为只读字段。
+
+`classes`：一个包含额外的CSS类的元组，例如：
+```python
+{
+'classes': ('wide', 'extrapretty'),
+}
+```
+两个比较有用的样式是collaspe和wide，前者将fieldsets折叠起来，后者让它具备更宽的水平空间。
+
+description：一个可选的额外的说明文本，放置在每个fieldset的顶部。但是，这里并没有对description的HTML语法进行转义，因此可能有时候会造成一些莫名其妙的显示，要忽略HTML的影响，请使用django.utils.html.escape()手动转义。
