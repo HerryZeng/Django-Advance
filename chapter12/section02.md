@@ -234,4 +234,4 @@ class AuditEntryAdmin(admin.ModelAdmin):
 
 17 . ModelAdmin.list_editable
 这个选项是让你指定在修改列表页面中哪些字段可以被编辑。指定的字段将显示为编辑框，可修改后直接批量保存，如下图：
-![](..images/chapter12/010.png)
+![](../images/chapter12/010.png)
