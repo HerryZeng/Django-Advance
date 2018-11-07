@@ -93,7 +93,7 @@
     class Article(models.Model):
         title = models.CharField(max_length=100)
         content = models.TextField()
-        thumbnial = models.FileField(upload_to='%Y/%m/%d/',validators[validators.FileExtensionValidator(['txt','pdf'])])
+        thumbnial = models.FileField(upload_to='%Y/%m/%d/',validators=validators[validators.FileExtensionValidator(['txt','pdf'])])
 
     # forms.py
     class ArticleForm(forms.ModelForm):
