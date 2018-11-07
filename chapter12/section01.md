@@ -79,4 +79,5 @@ class AuthorAdmin(admin.ModelAdmin):
 
 3. ModelAdmin.actions_on_bottom
 是否在列表下方显示actions的下拉框，默认为False。效果看下面的图片，没什么大用途。
+![](../images/chapter12/001.png)
 
