@@ -78,3 +78,30 @@ list_display = ('first_name', 'last_name')
     实际的效果如下图所示：
     ![](../images/chapter12/006.png)
     
+    
+    很明显，你是想要有个CSS效果，但Django把它当普通的字符串了。怎么办呢？用`format_html()`或者`format_html_join()`或者`mark_safe()`方法！
+    
+    ```python
+    from django.db import models
+    from django.contrib import admin
+    # 需要先导入！
+    from django.utils.html import format_html
+    
+    class Person(models.Model):
+        first_name = models.CharField(max_length=50)
+        last_name = models.CharField(max_length=50)
+        color_code = models.CharField(max_length=6)
+    
+        def colored_name(self):
+            # 这里还是重点，注意调用方式，‘%’变成‘{}’了！
+            return format_html(
+                '<span style="color: #{};">{} {}</span>',
+                self.color_code,
+                self.first_name,
+                self.last_name,
+            )
+    
+    class PersonAdmin(admin.ModelAdmin):
+        list_display = ('first_name', 'last_name', 'colored_name')
+    ```
+    
