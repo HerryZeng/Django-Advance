@@ -114,7 +114,7 @@ class AuthorAdmin(admin.ModelAdmin):
     view_birth_date.empty_value_display = '???'
 ```
 
-7. ModelAdmin.exclude
+7 . ModelAdmin.exclude
 不显示指定的某些字段。如下例有这么个模型：
 ```python
 from django.db import models
@@ -140,7 +140,7 @@ class AuthorAdmin(admin.ModelAdmin):
     exclude = ('birth_date',)
 ```
 
-8. ModelAdmin.fields
+8 . ModelAdmin.fields
 按你希望的顺序，显示指定的字段。与`exclude`相对。但要注意与`list_display`区分。这里有个小技巧，你可以通过组合元组的方式，让某些字段在同一行内显示，例如下面的做法`url`和`title`将在一行内，而`content`则在下一行。
 ```python
 class FlatPageAdmin(admin.ModelAdmin):
@@ -148,7 +148,7 @@ class FlatPageAdmin(admin.ModelAdmin):
 ```
 如果没有对`field`或`fieldsets`选项进行定义，那么Django将按照模型定义中的顺序，每一行显示一个字段的方式，逐个显示所有的非`AutoField`和`editable=True`的字段。（自动字段，如主键，不可编辑字段是不会出现在页面里的。）
 
-9. ModelAdmin.fieldsets
+9 . ModelAdmin.fieldsets
 这个功能其实就是根据字段对页面进行分组显示或布局了。`fieldsets`是一个二元元组的列表。每个二元元组代表一个`<fieldset>`，是整个form的一部分。
 
 二元元组的格式为(`name`,`field_options`)，`name`是一个表示该`filedset`标题的字符串，`field_options`是一个包含在该`filedset`内的字段列表。
