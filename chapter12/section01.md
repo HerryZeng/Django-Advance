@@ -81,3 +81,8 @@ class AuthorAdmin(admin.ModelAdmin):
 是否在列表下方显示actions的下拉框，默认为False。效果看下面的图片，没什么大用途。
 ![](../images/chapter12/001.png)
 
+4. ModelAdmin.actions_selection_counter
+是否在actions下拉框右侧显示选中的对象的数量，默认为True，可改为False。
+![](../images/chapter12/002.png)
+
+ 5.  
