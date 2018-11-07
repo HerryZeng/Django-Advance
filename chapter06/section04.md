@@ -53,7 +53,7 @@
         else:
             title = request.POST.get('title')
             content = request.POST.get('content')
-            thumbnail = request.POST.get('thumbnail')
+            thumbnail = request.FILES.get('thumbnail')
             article = Article(title=title,content=content,thumbnail=thumbnail)
             article.save()
 ```
