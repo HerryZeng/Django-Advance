@@ -200,3 +200,8 @@ class FlatPageAdmin(admin.ModelAdmin):
 10. ModelAdmin.filter_horizontal
 水平扩展多对多字段。默认情况下，`ManyTOManyField`在admin的页面中会显示为一个`select`框。在需要选择大量对象时，这会有点困难。将`ManyTOManyField`添加到这个属性列表里后，页面就会对字段进行扩展，并提供过滤功能。如下图：
 ![](../images/chapter12/005.png)
+
+11. ModelAdmin.filter_vertical
+与上面的类似，不过是改成垂直布置了。
+
+12. ModelAdmin.form
