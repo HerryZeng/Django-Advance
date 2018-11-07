@@ -152,7 +152,7 @@ for message in storage:
     + `extra_tags`: 一个字符串，由该消息的定制标签组合而成，并用空格分割。默认为空。
     + `level_tag`: 当前消息级别对应的CSS字符串，前面介绍过。
     
-3. 自定义消息级别
+3 . 自定义消息级别
 消息级别只是一个整数常量，所以，可以定义自己的级别常量，例如：
 ```python
 CRITICAL = 50
@@ -172,7 +172,7 @@ def my_view(request):
 
 如果你需要在HTML或CSS中使用自定义级别，则需要通过`MESSAGE_TAGS`设置提供相应的映射关系。
 
-4. 自定义每个请求的最小记录级别
+4 . 自定义每个请求的最小记录级别
 
 每个请求都可以通过`set_level()`方法设置最小记录级别，如下所示:
 ```python
@@ -198,7 +198,7 @@ from django.contrib import messages
 current_level = messages.get_level(request)
 ```
 
-5. 添加额外的消息CSS样式
+5 . 添加额外的消息CSS样式
 要添加自定义的消息CSS样式，可以通过extra_tags参数：
 ```python
 messages.add_message(request, messages.INFO, 'Over 9000!', extra_tags='dragonball')
