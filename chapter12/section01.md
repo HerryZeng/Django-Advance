@@ -85,4 +85,12 @@ class AuthorAdmin(admin.ModelAdmin):
 是否在actions下拉框右侧显示选中的对象的数量，默认为True，可改为False。
 ![](../images/chapter12/002.png)
 
- 5.  
+5. ModelAdmin.date_hierarchy
+根据你指定的日期相关的字段，为页面创建一个时间导航栏，可通过日期过滤对象。例如：
+```python
+date_hierarchy = 'pub_date'
+```  
+它的效果看起来是这样的：
+![](../images/chapter12/003.png)
+
+6. 
