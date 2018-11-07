@@ -79,7 +79,6 @@ list_display = ('first_name', 'last_name')
     实际的效果如下图所示：
     ![](../images/chapter12/006.png)
     
-    
     很明显，你是想要有个CSS效果，但Django把它当普通的字符串了。怎么办呢？用`format_html()`或者`format_html_join()`或者`mark_safe()`方法！
     
     ```python
