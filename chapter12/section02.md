@@ -217,3 +217,21 @@ list_display = ('first_name', 'last_name')
     + 模型的属性
     
 16 . ModelAdmin.list_display_links
+指定用于链接修改页面的字段。通常情况，list_display列表中的第一个元素被作为指向目标修改页面的超级链接点。但是，使用list_display_links可以帮你修改这一默认配置。
+如果设置为None，则根本没有链接了，你无法跳到目标的修改页面。或者设置为一个字段的元组或列表（和list_display的格式一样），这里面的每一个元素都是一个指向修改页面的链接。你可以指定和list_display一样多的元素个数，Django不关系它的多少。唯一需要注意的是，如果你要使用list_display_links，你必须先有list_display。
+下面这个例子中first_name和last_name都可以点击并跳转到修改页面。
+```python
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'birthday')
+    list_display_links = ('first_name', 'last_name')
+```
+而如果这样，你将没有任何链接：
+```python
+class AuditEntryAdmin(admin.ModelAdmin):
+    list_display = ('timestamp', 'message')
+    list_display_links = None
+```
+
+17 . ModelAdmin.list_editable
+这个选项是让你指定在修改列表页面中哪些字段可以被编辑。指定的字段将显示为编辑框，可修改后直接批量保存，如下图：
+![](..images/chapter12/010.png)
