@@ -169,3 +169,51 @@ def my_view(request):
 |SUCCESS|	25|
 |WARNING|	30|
 |ERROR|	40|
+
+如果你需要在HTML或CSS中使用自定义级别，则需要通过`MESSAGE_TAGS`设置提供相应的映射关系。
+
+4. 自定义每个请求的最小记录级别
+每个请求都可以通过`set_level()`方法设置最小记录级别，如下所示:
+```python
+from django.contrib import messages
+
+# 修改最小级别为DEBUG
+messages.set_level(request, messages.DEBUG)
+messages.debug(request, 'Test message...')
+
+# 在另外一个视图中修改最小级别为WARNING
+messages.set_level(request, messages.WARNING)
+messages.success(request, 'Your profile was updated.') # 被忽略，不记录
+messages.warning(request, 'Your account is about to expire.') # 记录
+
+# 将最小级别恢复到默认值
+messages.set_level(request, None)
+```
+
+`set_level()`方法接收`request`为第一参数，消息级别为第二参数。
+类似的，当前有效的记录级别可以用get_level()方法获取:
+```python
+from django.contrib import messages
+current_level = messages.get_level(request)
+```
+
+5. 添加额外的消息CSS样式
+要添加自定义的消息CSS样式，可以通过extra_tags参数：
+```python
+messages.add_message(request, messages.INFO, 'Over 9000!', extra_tags='dragonball')
+messages.error(request, 'Email box full', extra_tags='email')
+```
+
+---
+
+### 四、消息过期机制
+
+默认情况下，如果包含消息的迭代器完成迭代后，当前请求中的消息都将被删除。
+
+如果你不想这么做，想保留这些消息，那么需要显式的指定used参数为False，如下所示：
+```python
+storage = messages.get_messages(request)
+for message in storage:
+    do_something_with(message)
+storage.used = False
+```
