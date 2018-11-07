@@ -187,7 +187,7 @@ class FlatPageAdmin(admin.ModelAdmin):
 ```
 `fileds`可以包含`readonly_fields`的值，作为只读字段。
 
-`classes`：一个包含额外的CSS类的元组，例如：
+**classes**：一个包含额外的CSS类的元组，例如：
 ```python
 {
 'classes': ('wide', 'extrapretty'),
@@ -195,4 +195,8 @@ class FlatPageAdmin(admin.ModelAdmin):
 ```
 两个比较有用的样式是collaspe和wide，前者将fieldsets折叠起来，后者让它具备更宽的水平空间。
 
-description：一个可选的额外的说明文本，放置在每个fieldset的顶部。但是，这里并没有对description的HTML语法进行转义，因此可能有时候会造成一些莫名其妙的显示，要忽略HTML的影响，请使用django.utils.html.escape()手动转义。
+**description**：一个可选的额外的说明文本，放置在每个`fieldset`的顶部。但是，这里并没有对`description`的HTML语法进行转义，因此可能有时候会造成一些莫名其妙的显示，要忽略HTML的影响，请使用`django.utils.html.escape()`手动转义。
+
+10. ModelAdmin.filter_horizontal
+水平扩展多对多字段。默认情况下，`ManyTOManyField`在admin的页面中会显示为一个`select`框。在需要选择大量对象时，这会有点困难。将`ManyTOManyField`添加到这个属性列表里后，页面就会对字段进行扩展，并提供过滤功能。如下图：
+![](../images/chapter12/005.png)
