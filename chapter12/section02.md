@@ -54,6 +54,7 @@ list_display = ('first_name', 'last_name')
         + 对于BooleanField或NullBooleanField字段，会用on/off图标代替True/False。
         + 如果给list_display提供的值是一个模型的、ModelAdmin的或者可调用的方法，默认情况下会自动对返回结果进行HTML转义，这可能不是你想要的。
     下面是一个完整的例子：
+    
     ```python
     from django.db import models
     from django.contrib import admin
