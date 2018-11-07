@@ -78,4 +78,5 @@
 * [第二十二章：消息框架 message](chapter22.md)
 * [第二十三章：聚合内容 RSS/Atom](chapter23.md)
 * [第二十四章：发送邮件](chapter24.md)
+  * [使用Django发送邮件](chapter24/section01.md)
 
