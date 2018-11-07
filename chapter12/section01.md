@@ -93,4 +93,81 @@ date_hierarchy = 'pub_date'
 它的效果看起来是这样的：
 ![](../images/chapter12/003.png)
 
-6. 
+6. ModelAdmin.empty_value_display
+指定空白显示的内容。如果你有些字段没有值（例如None，空字符串等等），默认情况下会显示破折号“-”。这个选项可以让你自定义显示什么，如下例就显示为`-empty-`：
+```python
+from django.contrib import admin
+
+class AuthorAdmin(admin.ModelAdmin):
+    empty_value_display = '-empty-'
+```
+你还可以为整个admin站点设置默认空白显示值，通过设置`AdminSite.empty_value_display="xxxxxxx"`。甚至为某个函数设置空白值，如下：
+```python
+from django.contrib import admin
+
+class AuthorAdmin(admin.ModelAdmin):
+    fields = ('name', 'title', 'view_birth_date')
+
+    def view_birth_date(self, obj):
+        return obj.birth_date
+    # 注意下面这句
+    view_birth_date.empty_value_display = '???'
+```
+
+7. ModelAdmin.exclude
+不显示指定的某些字段。如下例有这么个模型：
+```python
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=3)
+    birth_date = models.DateField(blank=True, null=True)
+```
+如果你不希望在页面内显示birth_date字段，那么这么设置：
+```python
+from django.contrib import admin
+
+class AuthorAdmin(admin.ModelAdmin):
+    fields = ('name', 'title')
+```
+和这么设置是一样的：
+```python
+from django.contrib import admin
+
+class AuthorAdmin(admin.ModelAdmin):
+    # 一定注意了，值是个元组！一个元素的时候，最后的逗号不能省略。
+    exclude = ('birth_date',)
+```
+
+8. ModelAdmin.fields
+按你希望的顺序，显示指定的字段。与`exclude`相对。但要注意与`list_display`区分。这里有个小技巧，你可以通过组合元组的方式，让某些字段在同一行内显示，例如下面的做法`url`和`title`将在一行内，而`content`则在下一行。
+```python
+class FlatPageAdmin(admin.ModelAdmin):
+    fields = (('url', 'title'), 'content')
+```
+如果没有对`field`或`fieldsets`选项进行定义，那么Django将按照模型定义中的顺序，每一行显示一个字段的方式，逐个显示所有的非`AutoField`和`editable=True`的字段。（自动字段，如主键，不可编辑字段是不会出现在页面里的。）
+
+9. ModelAdmin.fieldsets
+这个功能其实就是根据字段对页面进行分组显示或布局了。`fieldsets`是一个二元元组的列表。每个二元元组代表一个`<fieldset>`，是整个form的一部分。
+
+二元元组的格式为(`name`,`field_options`)，`name`是一个表示该`filedset`标题的字符串，`field_options`是一个包含在该`filedset`内的字段列表。
+
+下面是一个例子，有助于你理解：
+```python
+from django.contrib import admin
+
+class FlatPageAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('url', 'title', 'content', 'sites')
+        }),
+        ('Advanced options', {
+            'classes': ('collapse',),
+            'fields': ('registration_required', 'template_name'),
+        }),
+    )
+```
+它的页面看起来像下面的样子：
+![](../images/chapter12/004.png)
+
