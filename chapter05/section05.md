@@ -54,7 +54,7 @@ def handle_uploaded_file(f):
 
 ### 二、使用模型处理上传的文件
 
-如果是通过模型层的model来指定上传文件的保存方式的话，使用ModelForm更方便。 调用form.save()的时候，文件对象会保存在相应的FileField的upload_to参数指定的地方。
+如果是通过模型层的model来指定上传文件的保存方式的话，使用ModelForm更方便。 调用form.save()的时候，文件对象会保存在相应的`FileField`的``upload_to``参数指定的地方。
 ```python
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -94,7 +94,7 @@ def upload_file(request):
 
 ###  同时上传多个文件
 
-如果要使用一个表单字段同时上传多个文件，需要设置字段HTML标签的multiple属性为True，如下所示：
+如果要使用一个表单字段同时上传多个文件，需要设置字段HTML标签的`multiple`属性为True，如下所示：
 ```python
 # forms.py
 
@@ -130,11 +130,11 @@ class FileFieldView(FormView):
 
 ### 上传文件处理器
 
-当用户上传一个文件的时候，Django会把文件数据传递给上传文件处理器–一个类。上传处理器的配置定义在FILE_UPLOAD_HANDLERS中，默认为：
+当用户上传一个文件的时候，Django会把文件数据传递给上传文件处理器–一个类。上传处理器的配置定义在`FILE_UPLOAD_HANDLERS`中，默认为：
 ```python
 ["django.core.files.uploadhandler.MemoryFileUploadHandler", "django.core.files.uploadhandler.TemporaryFileUploadHandler"]
 ```
-MemoryFileUploadHandler和TemporaryFileUploadHandler定义了Django的默认文件上传行为：将小文件读取到内存中，大文件放置在磁盘中。
+`MemoryFileUploadHandler`和`TemporaryFileUploadHandler`定义了Django的默认文件上传行为：将小文件读取到内存中，大文件放置在磁盘中。
 在你保存上传文件之前，数据需要储存在某个地方。通常，如果上传文件小于2.5MB，Django会把整个内容存到内存。 这意味着，文件的保存仅仅涉及到内存中的读取和磁盘的写入，所以非常快。但是，如果上传的文件很大，Django会把它写入一个临时文件，储存在你的系统临时目录中。在类Unix的平台下，Django会生成一个文件，名称类似于`/tmp/tmpzfp6I6.upload`。
 
 我们可以编写自定义的处理器，来定制Django如何处理文件。例如，根据级别不同限制用户的磁盘配额，在运行中压缩数据，渲染进度条，甚至是转存到另一个储存位置，而不把它存到本地。
