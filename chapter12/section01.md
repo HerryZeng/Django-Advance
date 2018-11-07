@@ -173,7 +173,7 @@ class FlatPageAdmin(admin.ModelAdmin):
 
 在`filed_options`字典内，可以使用下面这些关键字：
 
-**`fields`**：一个必填的元组，包含要在`fieldset`中显示的字段。例如：
+**fields**：一个必填的元组，包含要在`fieldset`中显示的字段。例如：
 ```python
 {
 'fields': ('first_name', 'last_name', 'address', 'city', 'state'),
