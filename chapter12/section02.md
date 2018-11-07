@@ -71,10 +71,10 @@ list_display = ('first_name', 'last_name')
                 self.first_name,
                 self.last_name,
             )
-    
     class PersonAdmin(admin.ModelAdmin):
         list_display = ('first_name', 'last_name', 'colored_name')
     ```
+    
     实际的效果如下图所示：
     ![](../images/chapter12/006.png)
     
