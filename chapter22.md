@@ -173,6 +173,7 @@ def my_view(request):
 如果你需要在HTML或CSS中使用自定义级别，则需要通过`MESSAGE_TAGS`设置提供相应的映射关系。
 
 4. 自定义每个请求的最小记录级别
+
 每个请求都可以通过`set_level()`方法设置最小记录级别，如下所示:
 ```python
 from django.contrib import messages
