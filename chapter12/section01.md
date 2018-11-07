@@ -205,3 +205,43 @@ class FlatPageAdmin(admin.ModelAdmin):
 与上面的类似，不过是改成垂直布置了。
 
 12 . ModelAdmin.form
+默认情况下，admin系统会为你的模型动态的创建`ModelForm`，它用于创建你的添加/修改页面的表单。我们可以编写自定义的`ModelForm`，在"添加/修改"页面覆盖默认的表单行为。
+
+注意：如果你的`ModelForm`和`ModelAdmin`同时定义了`exclude`选项，那么`ModelAdmin`中的具有优先权，如下例所示,"age"字段将被排除，但是“name”字段将被显示：
+```python
+from django import forms
+from django.contrib import admin
+from myapp.models import Person
+
+class PersonForm(forms.ModelForm):
+
+    class Meta:
+        model = Person
+        exclude = ['name']
+
+class PersonAdmin(admin.ModelAdmin):
+    exclude = ['age']
+    form = PersonForm
+```
+
+13 . ModelAdmin.formfield_overrides
+这个属性比较难以理解，通过一个列子来解释可能会更好一点。设想一下我们自己写了个`RichTextEditorWidget`（富文本控件），然后想用它来代替传统的`<textarea>`（文本域控件）用于输入大段文字。我们可以这么做：
+```python
+from django.db import models
+from django.contrib import admin
+
+# 从对应的目录导入我们先前写好的widget和model
+from myapp.widgets import RichTextEditorWidget
+from myapp.models import MyModel
+
+class MyModelAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': RichTextEditorWidget},
+    }
+```
+注意在上面的外层字典中的键是一个实际的字段类，而不是字符串，对应的值又是一个字典；这些参数将被传递给form字段的`__init__()`方法。
+
+警告：如果你想使用一个带有关系字段的自定义`widget`。请确保你没有在`raw_id_fields`或`radio_fields`之中`include`那些字段的名字。
+
+14 . ModelAdmin.inlines
+参考`InlineModelAdmin`对象，就像`ModelAdmin.get_formsets_with_inlines()`一样。
