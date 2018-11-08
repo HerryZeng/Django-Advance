@@ -45,6 +45,7 @@
                 print(form.errors)
                 return HttpResponse('fail')
 ```
+3. 模板处理
 在使用 `GET`请求的时候，我们传了一个 `form`给模板，那么以后模板就可以使用 `form`来生成一个表单的 `html`代码。在使用 `POST`请求的时候，我们根据前端上传上来的数据，构建一个新的表单，这个表单是用来验证数据是否合法的，如果数据都验证通过了，那么我们可以通过 `cleaned_data`来获取相应的数据。在模板中渲染表单的 HTML 代码如下：
 ```html
     <form action="" method="post">
