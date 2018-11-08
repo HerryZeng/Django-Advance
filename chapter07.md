@@ -23,10 +23,32 @@
     6. `domain`：针对哪个域名有效。默认是针对主域名下都有效，如果只要针对某个子域名才有效，那么可以设置这个属性. 
     7. `secure`：是否是安全的，如果设置为`True`，那么只能在`https`协议下才可用。
     8. `httponly`：默认是`False`。如果为`True`，那么在客户端不能通过`JavaScript`进行操作。
+
+示例如下:
+```python
+class IndexView(View):
+
+    def get(self,request):
+        response = HttpResponse('index')
+        expires = datetime(2018,11,8,23,50,10)
+        response.set_cookie('user_id','zengdongliang',expires=make_aware(expires),path='/cms/')
+        return response
+```
     
 + 删除cookie
     
     通过`delete_cookie`即可删除`cookie`。实际上删除`cookie`就是将指定的`cookie`的值设置为空的字符串，然后使用将他的过期时间设置为`0`，也就是浏览器关闭后就过期。
+    
+    示例如下：
+    ```python
+    class DeleteView(View):
+
+        def get(self,request):
+    
+            response = HttpResponse('Delete Cookie')
+            response.delete_cookie('username')
+            return response
+    ```
     
 + 获取cookie
 
@@ -35,6 +57,15 @@
         cookies = request.COOKIES
         for cookie_key,cookie_value in cookies.items():
            print(cookie_key,cookie_value)
+    ```
+    示例如下：
+    ```python
+    class ListView(View):
+
+        def get(self,request):
+            cookies = request.COOKIES
+            username = cookies.get('username')
+            return HttpResponse(username)
     ```
 
 
