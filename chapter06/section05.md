@@ -269,10 +269,10 @@ Form的第二个任务是将它渲染成HTML代码，默认情况下，根据for
 <tr><th><label for="id_cc_myself">Cc myself:</label></th><td><input type="checkbox" name="cc_myself" id="id_cc_myself" checked /></td></tr>
 ```
 注意事项：
-        + 为了灵活性，输出不包含`<table>`和`</table>`、`<form>`和`</form`>以及`<input type="submit">`标签。 需要我们程序员手动添加它们。
-        + 每个字段类型都由一个默认的HTML标签展示。注意，这些只是默认的，可以使用`Widget`特别指定。
-        + 每个HTML标签的name属性名直接从ContactForm类中获取。
-        + form使用HTML5语法，顶部需添加`<!DOCTYPE html>`说明。
++ 为了灵活性，输出不包含`<table>`和`</table>`、`<form>`和`</form`>以及`<input type="submit">`标签。 需要我们程序员手动添加它们。
++ 每个字段类型都由一个默认的HTML标签展示。注意，这些只是默认的，可以使用`Widget`特别指定。
++ 每个HTML标签的name属性名直接从ContactForm类中获取。
++ form使用HTML5语法，顶部需添加`<!DOCTYPE html>`说明。
     
 1 . 渲染成文字段落`as_p()`
 `Form.as_p()`
