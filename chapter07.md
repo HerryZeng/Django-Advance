@@ -24,16 +24,16 @@
     7. `secure`：是否是安全的，如果设置为`True`，那么只能在`https`协议下才可用。
     8. `httponly`：默认是`False`。如果为`True`，那么在客户端不能通过`JavaScript`进行操作。
 
-示例如下:
-```python
-class IndexView(View):
-
-    def get(self,request):
-        response = HttpResponse('index')
-        expires = datetime(2018,11,8,23,50,10)
-        response.set_cookie('user_id','zengdongliang',expires=make_aware(expires),path='/cms/')
-        return response
-```
+    示例如下:
+    ```python
+    class IndexView(View):
+    
+        def get(self,request):
+            response = HttpResponse('index')
+            expires = datetime(2018,11,8,23,50,10)
+            response.set_cookie('user_id','zengdongliang',expires=make_aware(expires),path='/cms/')
+            return response
+    ```
     
 + 删除cookie
     
