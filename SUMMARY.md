@@ -46,6 +46,7 @@
   * [第四节：文件上传](chapter06/section04.md)
   * [第五节：Django表单API详解](chapter06/section05.md)
   * [第六节：Django表单字段汇总](chapter06/section06.md)
+  * [第七节：表单的Widgets](chapter06/section07.md)
 * [第七章：Cookie和Session](chapter07.md)
   * [第一节：会话Session](chapter07/section01.md)
 * [第八章：上下文处理器和中间件](chapter08.md)
