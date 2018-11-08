@@ -92,3 +92,158 @@ if form.is_valid():
     return HttpResponseRedirect('/thanks/')
 ```
 
+### 使用表单模板
+
+1 . 表单渲染格式
+前面我们通过`{{ form }}`模板语言，简单地将表单渲染到HTML页面中了，实际上，有更多的方式：
+    + `{{ form.as_table }}`将表单渲染成一个表格元素，每个输入框作为一个`<tr>`标签
+    + `{{ form.as_p }}` 将表单的每个输入框包裹在一个`<p>`标签内 tags
+    + `{{ form.as_ul }}` 将表单渲染成一个列表元素，每个输入框作为一个`<li>`标签
+
+注意：你要自己手动编写`<table>`和`<ul>`标签。
+
+下面是将上面的`ContactForm`作为`{{ form.as_p }}`的例子：
+```html
+<p><label for="id_subject">Subject:</label>
+    <input id="id_subject" type="text" name="subject" maxlength="100" required /></p>
+<p><label for="id_message">Message:</label>
+    <textarea name="message" id="id_message" required></textarea></p>
+<p><label for="id_sender">Sender:</label>
+    <input type="email" name="sender" id="id_sender" required /></p>
+<p><label for="id_cc_myself">Cc myself:</label>
+    <input type="checkbox" name="cc_myself" id="id_cc_myself" /></p>
+```
+注意：Django自动为每个input元素设置了一个id名称，对应label的for参数。
+
+2 . 手动渲染表单字段
+直接`{{ form }}`虽然好，啥都不用操心，但是往往并不是你想要的，比如你要使用CSS和JS，比如你要引入Bootstarps框架，这些都需要对表单内的input元素进行额外控制，那怎么办呢？手动渲染字段就可以了。
+
+可以通过`{{ form.name_of_field }}`获取每一个字段，然后分别渲染，如下例所示：
+```html
+{{ form.non_field_errors }}
+<div class="fieldWrapper">
+    {{ form.subject.errors }}
+    <label for="{{ form.subject.id_for_label }}">Email subject:</label>
+    {{ form.subject }}
+</div>
+<div class="fieldWrapper">
+    {{ form.message.errors }}
+    <label for="{{ form.message.id_for_label }}">Your message:</label>
+    {{ form.message }}
+</div>
+<div class="fieldWrapper">
+    {{ form.sender.errors }}
+    <label for="{{ form.sender.id_for_label }}">Your email address:</label>
+    {{ form.sender }}
+</div>
+<div class="fieldWrapper">
+    {{ form.cc_myself.errors }}
+    <label for="{{ form.cc_myself.id_for_label }}">CC yourself?</label>
+    {{ form.cc_myself }}
+</div>
+```
+其中的`label`标签甚至可以用`label_tag()`方法来生成，于是可以简写成下面的样子:
+```html
+<div class="fieldWrapper">
+    {{ form.subject.errors }}
+    {{ form.subject.label_tag }}
+    {{ form.subject }}
+</div>
+```
+这样子是不是更加灵活了呢？但是灵活的代价就是我们要写更多的代码，又偏向原生的HTML代码多了一点。
+
+3 . 渲染表单错误信息：
+注意上面的例子中，我们使用`{{ form.name_of_field.errors }}`模板语法，在表单里处理错误信息。对于每一个表单字段的错误，它其实会实际生成一个无序列表，参考下面的样子：
+```html
+<ul class="errorlist">
+    <li>Sender is required.</li>
+</ul>
+```
+这个列表有个默认的CSS样式类`errorlist`，如果你想进一步定制这个样式，可以循环错误列表里的内容，然后单独设置样式：
+```html
+{% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+{% endif %}
+```
+一切非字段的错误信息，比如表单的错误，隐藏字段的错误都保存在`{{ form.non_field_errors }}`中，上面的例子，我们把它放在了表单的外围上面，它将被按下面的HTML和CSS格式渲染：
+```html
+<ul class="errorlist nonfield">
+    <li>Generic validation error</li>
+</ul>
+```
+
+4 . 循环表单的字段
+如果你的表单字段有相同格式的HMTL表现，那么完全可以循环生成，不必要手动的编写每个字段，减少冗余和重复代码，只需要使用模板语言中的`{% for %}`循环，如下所示：
+```html
+{% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endfor %}
+```
+下表是`{{ field }}`中非常有用的属性，这些都是Django内置的模板语言给我们提供的方便：
+
+|属性|	说明|
+|--- |---|
+|`{{ field.label }}`|	字段对应的label信息|
+|`{{ field.label_tag }}`|	自动生成字段的label标签，注意与`{{ field.label }}`的区别。|
+|`{{ field.id_for_label }}`|	自定义字段标签的id|
+|`{{ field.value }}`|	当前字段的值，比如一个`Email`字段的值`someone@example.com`|
+|`{{ field.html_name }}`|	指定字段生成的`inpu`t标签中`name`属性的值|
+|`{{ field.help_text }}`|	字段的帮助信息|
+|`{{ field.errors }}`|	包含错误信息的元素|
+|`{{ field.is_hidden }}`|	用于判断当前字段是否为隐藏的字段，如果是，返回True|
+|`{{ field.field }}`|	返回字段的参数列表。例如`{{ char_field.field.max_length }}`|
+
+5 . 不可见字段的特殊处理
+很多时候，我们的表单中会有一些隐藏的不可见的字段，比如honeypot。我们需要让它在任何时候都仿佛不存在一般，比如有错误的时候，如果你在页面上显示了不可见字段的错误信息，那么用户会很迷惑，这是哪来的呢？所以，通常我们是不显示不可见字段的错误信息的。
+
+Django提供了两种独立的方法，用于循环那些不可见的和可见的字段，`hidden_fields()`和`visible_fields()`。这里，我们可以稍微修改一下前面的例子：
+```html
+{# 循环那些不可见的字段 #}
+{% for hidden in form.hidden_fields %}
+{{ hidden }}
+{% endfor %}
+{# 循环可见的字段 #}
+{% for field in form.visible_fields %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+    </div>
+{% endfor %}
+```
+
+6 . 重用表单模板
+如果你在自己的HTML文件中，多次使用同一种表单模板，那么你完全可以把表单模板存成一个独立的HTML文件，然后在别的HTML文件中通过include模板语法将其包含进来，如下例所示：
+```html
+# 实际的页面文件中:
+{% include "form_snippet.html" %}
+
+-----------------------------------------------------
+
+# 单独的表单模板文件form_snippet.html:
+{% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+    </div>
+{% endfor %}
+```
+如果你的页面同时引用了好几个不同的表单模板，那么为了防止冲突，你可以使用with参数，给每个表单模板取个别名，如下所示：
+```html
+{% include "form_snippet.html" with form=comment_form %}
+```
+在使用的时候就是：
+```html
+{% for field in comment_form %}
+......
+```
+如果你经常做这些重用的工作，建议你考虑自定义一个内联标签，这已经是Django最高级的用法了。
