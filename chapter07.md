@@ -74,8 +74,9 @@
 `django`中的`session`默认情况下是存储在服务器的数据库中的，在表中会根据`sessionid`来提取指定的`session`数据，然后再把这个`sessionid`放到`cookie`中发送给浏览器存储，浏览器下次在向服务器发送请求的时候会自动的把所有`cookie`信息都发送给服务器，服务器再从`cookie`中获取`sessionid`，然后再从数据库中获取`session`数据。但是我们在操作`session`的时候，这些细节压根就不用管。我们只需要通过`request.session`即可操作。示例代码如下：
 ```python
     def index(request):
-       request.session.get('username')
-       return HttpResponse('index')
+        request.session['username'] = 'abc'    # 在session中增加'username'的内容    
+        request.session.get('username')        # 在session中获取'username'的内容。
+        return HttpResponse('index')
 ```
 session常用的方法如下：
 1. `get`：用来从`session`中获取指定值。
