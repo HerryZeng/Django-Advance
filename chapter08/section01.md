@@ -7,12 +7,12 @@
 2. `django.template.context_processors.request`：增加一个request变量。这个request变量也就是在视图函数的第一个参数。
 3. `django.contrib.auth.context_processors.auth`：Django有内置的用户系统，这个上下文处理器会增加一个user对象。
 4. `django.contrib.messages.context_processors.messages`：增加一个messages变量。
-5. `django.template.context_processors.media`：在模板中可以读取MEDIA_URL。比如想要在模板中使用上传的文件，那么这时候就需要使用settings.py中设置的MEDIA_URL来拼接url。示例代码如下：
+5. `django.template.context_processors.media`：在模板中可以读取`MEDIA_URL`。比如想要在模板中使用上传的文件，那么这时候就需要使用`settings.p`y中设置的`MEDIA_URL`来拼接`url`。示例代码如下：
 ```html
     <img src="" />
 ```
-6. `django.template.context_processors.static`：在模板中可以使用STATIC_URL。
-7. `django.template.context_processors.csrf`：在模板中可以使用csrf_token变量来生成一个`csrf token`。
+6. `django.template.context_processors.static`：在模板中可以使用`STATIC_URL`。
+7. `django.template.context_processors.csrf`：在模板中可以使用`csrf_token`变量来生成一个`csrf token`。
 
 ### 自定义上下文处理器
 
