@@ -438,3 +438,77 @@ localize参数帮助实现表单数据输入的本地化。
 
 21 . **TimeField**
 
+  + 默认的Widget：TextInput
+  + 空值：None
+  + 规范化为：一个Python 的datetime.time 对象。
+  + 验证给定值是datetime.time或以特定时间格式格式化的字符串。
+  + 错误信息的键：required, invalid
+接收一个可选的参数：input_formats，用于尝试将字符串转换为有效的datetime.time对象的格式列表。
+
+如果没有提供input_formats，默认的输入格式为：
+```python
+'%H:%M:%S',     # '14:30:59'
+'%H:%M',        # '14:30'
+```
+
+22 . **URLField**
+
+  + 默认的Widget：URLInput
+  + 空值：''（一个空字符串）
+  + 规范化为：一个Unicode 对象。
+  + 验证给定值是个有效的URL。
+  + 错误信息的键：required, invalid
+可选参数：max_length和min_length
+
+23 . **UUIDField**
+
+  + 默认的Widget：TextInput
+  + 空值：''（一个空字符串）
+  + 规范化为：UUID对象。
+  + 错误信息的键：required, invalid
+  
+24 . **ComboField**
+
+  + 默认的Widget：TextInput
+  + 空值：''（一个空字符串）
+  + 规范化为：Unicode 对象。
+  + 根据指定为ComboField的参数的每个字段验证给定值。
+  + 错误信息的键：required, invalid
+接收一个额外的必选参数：fields，用于验证字段值的字段列表（按提供它们的顺序）。
+```python
+>>> from django.forms import ComboField
+>>> f = ComboField(fields=[CharField(max_length=20), EmailField()])
+>>> f.clean('test@example.com')
+'test@example.com'
+>>> f.clean('longemailaddress@example.com')
+Traceback (most recent call last):
+...
+ValidationError: ['Ensure this value has at most 20 characters (it has 28).']
+```
+
+25 . **MultiValueField**
+
+  + 默认的Widget：TextInput
+  + 空值：''（一个空字符串）
+  + 规范化为：子类的compress方法返回的类型。
+  + 根据指定为MultiValueField的参数的每个字段验证给定值。
+  + 错误信息的键：incomplete, invalid, required
+  
+26 . **SplitDateTimeField**
+
+  + 默认的Widget：SplitDateTimeWidget
+  + 空值：None
+  + 规范化为：Python datetime.datetime 对象。
+  + 验证给定的值是datetime.datetime或以特定日期时间格式格式化的字符串。
+  + 错误信息的键：invalid_date, invalid, required, invalid_time
+  
+---
+
+### 三、创建自定义字段
+
+如果内置的`Field`真的不能满足你的需求，还可以自定义`Field`。
+
+只需要创建一个`django.forms.Field`的子类，并实现`clean(`)和`__init__()`构造方法。`__init__()`构造方法需要接收前面提过的那些核心参数，比如`widget、required,、label、help_text、initial`。
+
+还可以通过覆盖`get_bound_field()`方法来自定义访问字段的方式。
+
