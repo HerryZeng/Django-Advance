@@ -55,6 +55,7 @@ WSGIRequest 对象上大部分的属性都是只读的。因为这些属性是�
 
 **方法**
 `QueryDict`实现了Python字典数据业的所有标准方法，因为它是字典的子类。不同之处有：
+
 1. QueryDict.init(query_string=None,mutable=False,encoding=None)
 ```python
 >>> QueryDict('a=1&a=2&c=3)
