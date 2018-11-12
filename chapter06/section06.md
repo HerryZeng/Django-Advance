@@ -139,3 +139,77 @@ False
 >>> f.errors
 {'url': ['This field is required.'], 'name': ['This field is required.']}
 ```
+除了常量之外，你还可以传递一个可调用的对象：
+```python
+>>> import datetime
+>>> class DateForm(forms.Form):
+...     day = forms.DateField(initial=datetime.date.today)
+>>> print(DateForm())
+<tr><th>Day:</th><td><input type="text" name="day" value="12/23/2008" required /><td></tr>
+```
+
+5 . **widget**
+
+最重要的参数之一，指定渲染Widget时使用的widget类，也就是这个form字段在HTML页面中是显示为文本输入框？密码输入框？单选按钮？多选框？还是别的....
+
+6 . **help_text**
+
+该参数用于设置字段的辅助描述文本。
+```python
+>>> from django import forms
+>>> class HelpTextContactForm(forms.Form):
+...     subject = forms.CharField(max_length=100, help_text='100 characters max.')
+...     message = forms.CharField()
+...     sender = forms.EmailField(help_text='A valid email address, please.')
+...     cc_myself = forms.BooleanField(required=False)
+>>> f = HelpTextContactForm(auto_id=False)
+>>> print(f.as_table())
+<tr><th>Subject:</th><td><input type="text" name="subject" maxlength="100" required /><br /><span class="helptext">100 characters max.</span></td></tr>
+<tr><th>Message:</th><td><input type="text" name="message" required /></td></tr>
+<tr><th>Sender:</th><td><input type="email" name="sender" required /><br />A valid email address, please.</td></tr>
+<tr><th>Cc myself:</th><td><input type="checkbox" name="cc_myself" /></td></tr>
+>>> print(f.as_ul()))
+<li>Subject: <input type="text" name="subject" maxlength="100" required /> <span class="helptext">100 characters max.</span></li>
+<li>Message: <input type="text" name="message" required /></li>
+<li>Sender: <input type="email" name="sender" required /> A valid email address, please.</li>
+<li>Cc myself: <input type="checkbox" name="cc_myself" /></li>
+>>> print(f.as_p())
+<p>Subject: <input type="text" name="subject" maxlength="100" required /> <span class="helptext">100 characters max.</span></p>
+<p>Message: <input type="text" name="message" required /></p>
+<p>Sender: <input type="email" name="sender" required /> A valid email address, please.</p>
+<p>Cc myself: <input type="checkbox" name="cc_myself" /></p>
+```
+
+7 . **error_messages**
+
+该参数允许你覆盖字段引发异常时的默认信息。 传递的是一个字典，其键为你想覆盖的错误信息。 例如，下面是默认的错误信息：
+```python
+>>> from django import forms
+>>> generic = forms.CharField()
+>>> generic.clean('')
+Traceback (most recent call last):
+  ...
+ValidationError: ['This field is required.']
+```
+而下面是自定义的错误信息：
+```python
+>>> name = forms.CharField(error_messages={'required': 'Please enter your name'})
+>>> name.clean('')
+Traceback (most recent call last):
+  ...
+ValidationError: ['Please enter your name']
+```
+可以指定多种类型的键，不仅仅针对‘requeired’错误，参考下面的内容。
+
+8 . **validators**
+
+指定一个列表，其中包含了为字段进行验证的函数。也就是说，如果你自定义了验证方法，不用Django内置的验证功能，那么要通过这个参数，将字段和自定义的验证方法链接起来。
+
+9 . **localize**
+
+localize参数帮助实现表单数据输入的本地化。
+
+10 . **disabled**
+
+设置有该属性的字段在前端页面中将显示为不可编辑状态。
+该参数接收布尔值，当设置为True时，使用HTML的disabled属性禁用表单域，以使用户无法编辑该字段。即使非法篡改了前端页面的属性，向服务器提交了该字段的值，也将依然被忽略。
