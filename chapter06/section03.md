@@ -82,3 +82,149 @@
         print(form.get_errors())
         return HttpResponse('fail')
 ```
+
+### ModelForm的验证
+
+验证ModelForm主要分两步：
+    + 验证表单
+    + 验证模型实例
+与普通的表单验证类似，模型表单的验证也是调用`is_valid()`方法或访问`errors`属性。模型的验证（`Model.full_clean()`）紧跟在表单的`clean()`方法调用之后。通常情况下，我们使用Django内置的验证器就好了。如果需要，可以重写模型表单的`clean()`来提供额外的验证，方法和普通的表单一样。
+
+### ModelForm的字段选择
+
+强烈建议使用`ModelForm`的`fields`属性，在赋值的列表内，一个一个将要使用的字段添加进去。这样做的好处是，安全可靠。
+
+然而，有时候，字段太多，或者我们想偷懒，不愿意一个一个输入，也有简单的方法：
+
+`__all__`:
+
+将fields属性的值设为`__all__`，表示将映射的模型中的全部字段都添加到表单类中来。
+```python
+from django.forms import ModelForm
+
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = '__all__'
+```
+
+**exclude**属性
+
+表示将model中，除了exclude属性中列出的字段之外的所有字段，添加到表单类中作为表单字段。
+```python
+class PartialAuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        exclude = ['birth_date']
+```
+因为`Author`模型有3个字段`name`、`title`和`birth_date`，上面的例子会让`title`和`name`出现在表单中。
+
+### 自定义ModelForm字段
+
+在前面，我们有个表格，展示了从模型到模型表单在字段上的映射关系。通常，这是没有什么问题，直接使用，按默认的来就行了。但是，有时候可能这种默认映射关系不是我们想要的，或者想进行一些更加灵活的定制，那怎么办呢？
+
+**使用Meta类内部的widgets属性！**
+
+`widgets`属性接收一个数据字典。其中每个元素的键必须是模型中的字段名之一，键值就是我们要自定义的内容了，具体格式和写法，参考下面的例子。
+例如，如果你想要让Author模型中的name字段的类型从`CharField`更改为`<textarea>`，而不是默认的`<input type="text">`，可以如下重写字段的`Widget`：
+```python
+from django.forms import ModelForm, Textarea
+from myapp.models import Author
+
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = ('name', 'title', 'birth_date')
+        widgets = {
+            'name': Textarea(attrs={'cols': 80, 'rows': 20}), # 关键是这一行
+        }
+```
+上面还展示了添加样式参数的格式。
+
+如果你希望进一步自定义字段，还可以指定`Meta`类内部的`error_messages`、`help_texts`和`labels`属性，比如：
+```python
+from django.utils.translation import ugettext_lazy as _
+
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = ('name', 'title', 'birth_date')
+        labels = {
+            'name': _('Writer'),
+        }
+        help_texts = {
+            'name': _('Some useful help text.'),
+        }
+        error_messages = {
+            'name': {
+                'max_length': _("This writer's name is too long."),
+            },
+        }
+```
+还可以指定`field_classe`s属性将字段类型设置为你自己写的表单字段类型。
+例如，如果你想为`slug`字段使用`MySlugFormField`，可以像下面这样：
+```python
+from django.forms import ModelForm
+from myapp.models import Article
+
+class ArticleForm(ModelForm):
+    class Meta:
+        model = Article
+        fields = ['pub_date', 'headline', 'content', 'reporter', 'slug']
+        field_classes = {
+            'slug': MySlugFormField,
+        }
+```
+最后，如果你想完全控制一个字段,包括它的类型，验证器，是否必填等等。可以显式地声明或指定这些性质，就像在普通表单中一样。比如，如果想要指定某个字段的验证器，可以显式定义字段并设置它的`validators`参数：
+```python
+from myapp.models import Article
+
+class ArticleForm(ModelForm):
+    slug = CharField(validators=[validate_slug])
+
+    class Meta:
+        model = Article
+        fields = ['pub_date', 'headline', 'content', 'reporter', 'slug']
+```
+
+### 启用字段本地化
+
+默认情况下，`ModelForm`中的字段不会本地化它们的数据。可以使用`Meta`类的`localized_fields`属性来启用字段的本地化功能。
+```python
+>>> from django.forms import ModelForm
+>>> from myapp.models import Author
+>>> class AuthorForm(ModelForm):
+...     class Meta:
+...         model = Author
+...         localized_fields = ('birth_date',)
+```
+如果`localized_fields`设置为`__all__`这个特殊的值，所有的字段都将本地化。
+
+### 表单的继承
+
+`ModelForms`是可以被继承的。子模型表单可以添加额外的方法和属性，比如下面的例子：
+```python
+>>> class EnhancedArticleForm(ArticleForm):
+...     def clean_pub_date(self):
+...         ...
+```
+以上创建了一个`ArticleForm`的子类`EnhancedArticleForm`，并增加了一个`clean_pub_date`方法。
+
+还可以修改`Meta.fields`或`Meta.exclude`列表，只要继承父类的`Meta`类，如下所示：
+```python
+>>> class RestrictedArticleForm(EnhancedArticleForm):
+...     class Meta(ArticleForm.Meta):
+...         exclude = ('body',)
+```
+
+### 提供初始值
+
+可以在实例化一个表单时通过指定initial参数来提供表单中数据的初始值。
+```python
+>>> article = Article.objects.get(pk=1)
+>>> article.headline
+'My headline'
+>>> form = ArticleForm(initial={'headline': 'Initial headline'}, instance=article)
+>>> form['headline'].value()
+'Initial headline'
+```
