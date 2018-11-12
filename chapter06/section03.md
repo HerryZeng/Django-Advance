@@ -94,11 +94,8 @@
 ### ModelForm的字段选择
 
 强烈建议使用`ModelForm`的`fields`属性，在赋值的列表内，一个一个将要使用的字段添加进去。这样做的好处是，安全可靠。
-
 然而，有时候，字段太多，或者我们想偷懒，不愿意一个一个输入，也有简单的方法：
-
 `__all__`:
-
 将fields属性的值设为`__all__`，表示将映射的模型中的全部字段都添加到表单类中来。
 ```python
 from django.forms import ModelForm
