@@ -335,5 +335,106 @@ localize参数帮助实现表单数据输入的本地化。
 
 10 . **FileField**
 
+  + 默认的Widget：ClearableFileInput
+  + 空值：None
+  + 规范化为：一个UploadedFile对象，它封装文件内容和文件名到一个对象内。
+  + 验证非空的文件数据已经绑定到表单。
+  + 错误信息的键：missing, invalid, required, empty, max_length
+具有两个可选的参数用于验证：max_length 和 allow_empty_file。
 
+11 . **FilePathField**
+
+  + 默认的Widget：Select
+  + 空值：None
+  + 规范化为：Unicode 对象。
+  + 验证选择的选项在选项列表中存在。
+  + 错误信息的键：required, invalid_choice
+这个字段允许从一个特定的目录选择文件。 它有五个额外的参数，其中的`path`是必须的：
+  + path：要列出的目录的绝对路径。 这个目录必须存在。
+  + recursive：如果为False（默认值），只用直接位于path下的文件或目录作为选项。如果为True，将递归访问这个目录，其内所有的子目录和文件都将作为选项。
+  + match：正则表达模式；只有具有与此表达式匹配的文件名称才被允许作为选项。
+  + `allow_files`：可选。默认为True。表示是否应该包含指定位置的文件。它和`allow_folders`必须有一个为True。
+  + `allow_folders`可选。默认为False。表示是否应该包含指定位置的目录。
   
+12 . **FloatField**
+
+  + 默认的Widget：当Field.localize是False时为NumberInput，否则为TextInput。
+  + 空值：None
+  + 规范化为：Float 对象。
+  + 验证给定的值是一个浮点数。
+  + 错误信息的键：max_value, invalid, required, min_value
+接收两个可选的参数用于验证，max_value和min_value，控制允许的值的范围。
+
+13 . **ImageField**
+
+  + 默认的Widget：ClearableFileInput
+  + 空值：None
+  + 规范化为：一个UploadedFile对象，它封装文件内容和文件名为一个单独的对象。
+  + 验证文件数据已绑定到表单，并且该文件是Pillow可以解析的图像格式。
+  + 错误信息的键：missing, invalid, required, empty, invalid_image
+使用ImageField需要安装Pillow（pip install pillow）。如果在上传图片时遇到图像损坏错误，通常意味着使用了Pillow不支持的格式。
+
+14 . **IntegerField**
+
+  + 默认的Widget：当Field.localize是False时为NumberInput，否则为TextInput。
+  + 空值：None
+  + 规范化为：Python 整数或长整数。
+  + 验证给定值是一个整数。 允许前导和尾随空格，类似Python的int()函数。
+  + 错误信息的键：max_value, invalid, required, min_value
+两个可选参数：max_value和min_value，控制允许的值的范围。
+
+15 . **GenericIPAddressField**
+
+包含IPv4或IPv6地址的字段。
+  + 默认的Widget：TextInput
+  + 空值：''（一个空字符串）
+  + 规范化为：一个Unicode对象。
+  + 验证给定值是有效的IP地址。
+  + 错误信息的键：required, invalid
+有两个可选参数：protocol和unpack_ipv4
+
+16 . **MultipleChoiceField**
+
+  + 默认的Widget：SelectMultiple
+  + 空值：[]（一个空列表）
+  + 规范化为：一个Unicode 对象列表。
+  + 验证给定值列表中的每个值都存在于选择列表中。
+  + 错误信息的键：invalid_list, invalid_choice, required
+  
+17 . **TypedMultipleChoiceField**
+
+类似MultipleChoiceField，除了需要两个额外的参数，coerce和empty_value。
+  + 默认的Widget：SelectMultiple
+  + 空值：empty_value
+  + 规范化为：coerce参数提供的类型值列表。
+  + 验证给定值存在于选项列表中并且可以强制。
+  + 错误信息的键：required, invalid_choice
+  
+18 . **NullBooleanField**
+
+  + 默认的Widget：NullBooleanSelect
+  + 空值：None
+  + 规范化为：Python None, False 或True 值。
+  + 不验证任何内容（即，它从不引发ValidationError）。
+  
+19 . **RegexField**
+
+  + 默认的Widget：TextInput
+  + 空值：''（一个空字符串）
+  + 规范化为：一个Unicode 对象。
+  + 验证给定值与某个正则表达式匹配。
+  + 错误信息的键：required, invalid
+需要一个必需的参数：`regex`，需要匹配的正则表达式。
+还可以接收max_length，min_length和strip参数，类似CharField。
+
+20 . **SlugField**
+
+  + 默认的Widget：TextInput
+  + 空值：''（一个空字符串）
+  + 规范化为：一个Unicode 对象。
+  + 验证给定的字符串只包括字母、数字、下划线及连字符。
+  + 错误信息的键：required, invalid
+此字段用于在表单中表示模型的SlugField。
+
+21 . **TimeField**
+
