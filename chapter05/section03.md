@@ -68,3 +68,93 @@ Django1.11中的新功能。循环可迭代对象中每个元素作为键值，�
 >>> QueryDict.fromkeys(['a', 'a', 'b'], value='val')
 <QueryDict: {'a': ['val', 'val'], 'b': ['val']}>
 ```
+
+3. QueryDict.update(other_dict)
+用新的QueryDict或字典更新当前QueryDict。类似dict.update()，但是追加内容，而不是更新并替换它们。 像这样：
+```python
+>>> q = QueryDict('a=1', mutable=True)
+>>> q.update({'a': '2'})
+>>> q.getlist('a')
+['1', '2']
+>>> q['a'] # returns the last
+'2'
+```
+
+4. QueryDict.items()
+类似`dict.items()`，如果有重复项目，返回最近的一个，而不是都返回：
+```python
+>>> q = QueryDict('a=1&a=2&a=3')
+>>> q.items()
+[('a', '3')]
+```
+
+5. QueryDict.values()
+类似dict.values()，但是只返回最近的值。 像这样：
+```python
+>>> q = QueryDict('a=1&a=2&a=3')
+>>> q.values()
+['3']
+```
+
+6. QueryDict.copy()
+使用`copy.deepcopy()`返回`QueryDict`对象的副本。 此副本是可变的！
+
+7. QueryDict.getlist(key, default=None)
+返回键对应的值列表。 如果该键不存在并且未提供默认值，则返回一个空列表。
+
+8. QueryDict.setlist(key, list_)
+为`list`设置给定的键。
+
+9. QueryDict.appendlist(key, item)
+将键追加到内部与键相关联的列表中。
+
+10. QueryDict.setdefault(key, default=None)
+类似`dict.setdefault()`，为某个键设置默认值。
+
+11. QueryDict.setlistdefault(key, default_list=None)
+类似setdefault()，除了它需要的是一个值的列表而不是单个值。
+
+12. QueryDict.lists()
+类似`items()`，只是它将其中的每个键的值作为列表放在一起。 像这样：
+>>> q = QueryDict('a=1&a=2&a=3')
+>>> q.lists()
+[('a', ['1', '2', '3'])]
+
+13. QueryDict.pop(key)
+返回给定键的值的列表，并从QueryDict中移除该键。 如果键不存在，将引发KeyError。 像这样：
+```python
+>>> q = QueryDict('a=1&a=2&a=3', mutable=True)
+>>> q.pop('a')
+['1', '2', '3']
+```
+
+14. QueryDict.popitem()
+删除`QueryDict`任意一个键，并返回二值元组，包含键和键的所有值的列表。在一个空的字典上调用时将引发`KeyError`。 像这样：
+```python
+>>> q = QueryDict('a=1&a=2&a=3', mutable=True)
+>>> q.popitem()
+('a', ['1', '2', '3'])
+```
+
+15. QueryDict.dict()
+将`QueryDict`转换为Python的字典数据类型，并返回该字典。如果出现重复的键，则将所有的值打包成一个列表，最为新字典中键的值。
+```python
+>>> q = QueryDict('a=1&a=3&a=5')
+>>> q.dict()
+{'a': '5'}
+```
+
+16. QueryDict.urlencode(safe=None)
+已url的编码格式返回数据字符串。 像这样：
+```python
+>>> q = QueryDict('a=2&b=3&b=5')
+>>> q.urlencode()
+'a=2&b=3&b=5'
+```
+使用safe参数传递不需要编码的字符。 像这样：
+```python
+>>> q = QueryDict(mutable=True)
+>>> q['next'] = '/a&b/'
+>>> q.urlencode(safe='/')
+'next=/a%26b/'
+```
