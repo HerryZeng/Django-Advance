@@ -20,7 +20,8 @@ ValidationError: ['Enter a valid email address.']
 
 以下的参数是每个Field类都可以使用的。
 
-1. **required**
+1 . **required**
+
 给字段添加必填属性，不能空着。
 ```python
 >>> from django import forms
@@ -62,7 +63,8 @@ ValidationError: ['This field is required.']
 'False'
 ```
 
-2. **label**
+2 . **label**
+
 label参数用来给字段添加‘人类友好’的提示信息。如果没有设置这个参数，那么就用字段的首字母大写名字。比如：
 
 下面的例子，前两个字段有，最后的`comment`没有`labe`l参数：
@@ -79,5 +81,61 @@ label参数用来给字段添加‘人类友好’的提示信息。如果没有
 <tr><th>Comment:</th><td><input type="text" name="comment" required /></td></tr>
 ```
 
-3. **label_suffix**
+3 . **label_suffix**
 
+Django默认为上面的label参数后面加个冒号后缀，如果想自定义，可以使用label_suffix参数。比如下面的例子用“？”代替了冒号：
+```python
+>>> class ContactForm(forms.Form):
+...     age = forms.IntegerField()
+...     nationality = forms.CharField()
+...     captcha_answer = forms.IntegerField(label='2 + 2', label_suffix=' =')
+>>> f = ContactForm(label_suffix='?')
+>>> print(f.as_p())
+<p><label for="id_age">Age?</label> <input id="id_age" name="age" type="number" required /></p>
+<p><label for="id_nationality">Nationality?</label> <input id="id_nationality" name="nationality" type="text" required /></p>
+<p><label for="id_captcha_answer">2 + 2 =</label> <input id="id_captcha_answer" name="captcha_answer" type="number" required /></p>
+```
+
+4 . **initial**
+
+为HTML页面中表单元素定义初始值。也就是input元素的value参数的值，如下所示：
+```python
+>>> from django import forms
+>>> class CommentForm(forms.Form):
+...     name = forms.CharField(initial='Your name')
+...     url = forms.URLField(initial='http://')
+...     comment = forms.CharField()
+>>> f = CommentForm(auto_id=False)
+>>> print(f)
+<tr><th>Name:</th><td><input type="text" name="name" value="Your name" required /></td></tr>
+<tr><th>Url:</th><td><input type="url" name="url" value="http://" required /></td></tr>
+<tr><th>Comment:</th><td><input type="text" name="comment" required /></td></tr>
+```
+你可能会问为什么不在渲染表单的时候传递一个包含初始化值的字典给它，不是更方便？因为如果这么做，你将触发表单的验证过程，此时输出的HTML页面将包含验证中产生的错误，如下所示：
+```python
+>>> class CommentForm(forms.Form):
+...     name = forms.CharField()
+...     url = forms.URLField()
+...     comment = forms.CharField()
+>>> default_data = {'name': 'Your name', 'url': 'http://'}
+>>> f = CommentForm(default_data, auto_id=False)
+>>> print(f)
+<tr><th>Name:</th><td><input type="text" name="name" value="Your name" required /></td></tr>
+<tr><th>Url:</th><td><ul class="errorlist"><li>Enter a valid URL.</li></ul><input type="url" name="url" value="http://" required /></td></tr>
+<tr><th>Comment:</th><td><ul class="errorlist"><li>This field is required.</li></ul><input type="text" name="comment" required /></td></tr>
+```
+这就是为什么initial参数只用在未绑定的表单上。
+还要注意，如果提交表单时某个字段的值没有填写，initial的值不会作为“默认”的数据。initial值只用于原始表单的显示：
+```python
+>>> class CommentForm(forms.Form):
+...     name = forms.CharField(initial='Your name')
+...     url = forms.URLField(initial='http://')
+...     comment = forms.CharField()
+>>> data = {'name': '', 'url': '', 'comment': 'Foo'}
+>>> f = CommentForm(data)
+>>> f.is_valid()
+False
+# The form does *not* fall back to using the initial values.
+>>> f.errors
+{'url': ['This field is required.'], 'name': ['This field is required.']}
+```
