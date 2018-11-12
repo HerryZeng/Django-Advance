@@ -247,3 +247,38 @@ localize参数帮助实现表单数据输入的本地化。
   + 验证给定的值是否在选项列表中。
   + 可用的错误信息键：required, invalid_choice
 参数choices：用来作为该字段选项的一个二元组组成的可迭代对象（例如，列表或元组）或者一个可调用对象。格式与用于和ORM模型字段的choices参数相同。
+
+4 . **TypedChoiceField**
+
+像ChoiceField一样，只是还有两个额外的参数：coerce和empty_value。
+  + 默认的Widget：Select
+  + 空值：empty_value参数设置的值。
+  + 规范化为：coerce参数类型的值。
+  + 验证给定的值在选项列表中存在并且可以被强制转换。
+  + 可用的错误信息的键：required, invalid_choice
+  
+5 . **DateField**
+
+  + 默认的Widget：DateInput
+  + 空值：None
+  + 规范化为：datetime.date对象。
+  + 验证给出的值是一个datetime.date、datetime.datetime 或指定日期格式的字符串。
+  + 错误信息的键：required, invalid
+  +接收一个可选的参数：input_formats。一个格式的列表，用于转换字符串为datetime.date对象。
+如果没有提供input_formats，默认的输入格式为：
+```python
+['%Y-%m-%d',      # '2006-10-25'
+ '%m/%d/%Y',      # '10/25/2006'
+ '%m/%d/%y']      # '10/25/06'
+```
+另外，如果你在设置中指定`USE_L10N=False`，以下的格式也将包含在默认的输入格式中：
+```python
+['%b %d %Y',      # 'Oct 25 2006'
+ '%b %d, %Y',     # 'Oct 25, 2006'
+ '%d %b %Y',      # '25 Oct 2006'
+ '%d %b, %Y',     # '25 Oct, 2006'
+ '%B %d %Y',      # 'October 25 2006'
+ '%B %d, %Y',     # 'October 25, 2006'
+ '%d %B %Y',      # '25 October 2006'
+ '%d %B, %Y']     # '25 October, 2006'
+```
