@@ -213,3 +213,37 @@ localize参数帮助实现表单数据输入的本地化。
 
 设置有该属性的字段在前端页面中将显示为不可编辑状态。
 该参数接收布尔值，当设置为True时，使用HTML的disabled属性禁用表单域，以使用户无法编辑该字段。即使非法篡改了前端页面的属性，向服务器提交了该字段的值，也将依然被忽略。
+
+---
+
+### Django表单内置的Field类
+
+对于每个字段类，介绍其默认的widget，当输入为空时返回的值，以及采取何种验证方式。‘规范化为’表示转换为PYthon的何种对象。可用的错误信息键，表示该字段可自定义错误信息的类型（字典的键）。
+
+1 . **BooleanField**
+
+  + 默认的Widget：CheckboxInput
+  + 空值：False
+  + 规范化为：Python的True或者False
+  + 可用的错误信息键：required
+  
+2 . **CharField**
+
+  + 默认的Widget：TextInput
+  + 空值：与empty_value给出的任何值。
+  + 规范化为：一个Unicode 对象。
+  + 验证max_length或min_length，如果设置了这两个参数。 否则，所有的输入都是合法的。
+  + 可用的错误信息键：min_length, max_length, required
+有四个可选参数：
+  + max_length，min_length：设置字符串的最大和最小长度。
+  + strip：如果True（默认），去除输入的前导和尾随空格。
+  + empty_value：用来表示“空”的值。 默认为空字符串。
+  
+3 . **ChoiceField**
+
+  + 默认的Widget：Select
+  + 空值：''（一个空字符串）
+  + 规范化为：一个Unicode 对象。
+  + 验证给定的值是否在选项列表中。
+  + 可用的错误信息键：required, invalid_choice
+参数choices：用来作为该字段选项的一个二元组组成的可迭代对象（例如，列表或元组）或者一个可调用对象。格式与用于和ORM模型字段的choices参数相同。
