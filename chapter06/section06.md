@@ -282,3 +282,58 @@ localize参数帮助实现表单数据输入的本地化。
  '%d %B %Y',      # '25 October 2006'
  '%d %B, %Y']     # '25 October, 2006'
 ```
+
+6 . **DateTimeField**
+
+  + 默认的Widget：DateTimeInput
+  + 空值：None
+  + 规范化为：Python的datetime.datetime对象。
+  + 验证给出的值是一个datetime.datetime、datetime.date或指定日期格式的字符串。
+  + 错误信息的键：required, invalid
+接收一个可选的参数：input_formats
+如果没有提供input_formats，默认的输入格式为：
+```python
+['%Y-%m-%d %H:%M:%S',    # '2006-10-25 14:30:59'
+ '%Y-%m-%d %H:%M',       # '2006-10-25 14:30'
+ '%Y-%m-%d',             # '2006-10-25'
+ '%m/%d/%Y %H:%M:%S',    # '10/25/2006 14:30:59'
+ '%m/%d/%Y %H:%M',       # '10/25/2006 14:30'
+ '%m/%d/%Y',             # '10/25/2006'
+ '%m/%d/%y %H:%M:%S',    # '10/25/06 14:30:59'
+ '%m/%d/%y %H:%M',       # '10/25/06 14:30'
+ '%m/%d/%y']             # '10/25/06'
+```  
+
+7 . **DecimalField**
+
+  + 默认的Widget：当Field.localize是False时为NumberInput，否则为TextInput。
+  + 空值：None
+  + 规范化为：Python decimal对象。
+  + 验证给定的值为一个十进制数。 忽略前导和尾随的空白。
+  + 错误信息的键：max_whole_digits, max_digits, max_decimal_places,max_value, invalid, required,min_value
+接收四个可选的参数：
+  + max_value,min_value:允许的值的范围，需要赋值decimal.Decimal对象，不能直接给个整数类型。
+  + max_digits：值允许的最大位数（小数点之前和之后的数字总共的位数，前导的零将被删除）。
+  + decimal_places：允许的最大小数位。
+  
+8 . **DurationField**
+
+  + 默认的Widget：TextInput
+  + 空值：None
+  + 规范化为：Python timedelta。
+  + 验证给出的值是一个字符串，而且可以转换为timedelta对象。
+  + 错误信息的键：required, invalid.
+  
+9 . **EmailField**
+
+  + 默认的Widget：EmailInput
+  + 空值：''（一个空字符串）
+  + 规范化为：Unicode 对象。
+  + 使用正则表达式验证给出的值是一个合法的邮件地址。
+  + 错误信息的键：required, invalid
+两个可选的参数用于验证，max_length 和min_length。  
+
+10 . **FileField**
+
+
+  
