@@ -16,4 +16,68 @@ ValidationError: ['Enter a valid email address.']
 
 ---
 
-### 
+### 一、核心字段参数
+
+以下的参数是每个Field类都可以使用的。
+
+1. **required**
+给字段添加必填属性，不能空着。
+```python
+>>> from django import forms
+>>> f = forms.CharField()
+>>> f.clean('foo')
+'foo'
+>>> f.clean('')
+Traceback (most recent call last):
+...
+ValidationError: ['This field is required.']
+>>> f.clean(None)
+Traceback (most recent call last):
+...
+ValidationError: ['This field is required.']
+>>> f.clean(' ')
+' '
+>>> f.clean(0)
+'0'
+>>> f.clean(True)
+'True'
+>>> f.clean(False)
+'False'
+```
+
+若要表示一个字段不是必需的，设置`required=False`：
+```python
+>>> f = forms.CharField(required=False)
+>>> f.clean('foo')
+'foo'
+>>> f.clean('')
+''
+>>> f.clean(None)
+''
+>>> f.clean(0)
+'0'
+>>> f.clean(True)
+'True'
+>>> f.clean(False)
+'False'
+```
+
+2. **label**
+label参数用来给字段添加‘人类友好’的提示信息。如果没有设置这个参数，那么就用字段的首字母大写名字。比如：
+
+下面的例子，前两个字段有，最后的`comment`没有`labe`l参数：
+```python
+>>> from django import forms
+>>> class CommentForm(forms.Form):
+...     name = forms.CharField(label='Your name')
+...     url = forms.URLField(label='Your website', required=False)
+...     comment = forms.CharField()
+>>> f = CommentForm(auto_id=False)
+>>> print(f)
+<tr><th>Your name:</th><td><input type="text" name="name" required /></td></tr>
+<tr><th>Your website:</th><td><input type="url" name="url" /></td></tr>
+<tr><th>Comment:</th><td><input type="text" name="comment" required /></td></tr>
+```
+
+3. **label_suffix**
+
