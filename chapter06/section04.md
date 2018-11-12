@@ -71,7 +71,7 @@
     from django.urls import path
     from front import views
     from django.conf.urls.static import static
-    from djanto.conf import settings
+    from django.conf import settings
     
     urlpatterns = [
         path('',views.index),
