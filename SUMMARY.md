@@ -87,4 +87,5 @@
 * [第二十三章：聚合内容 RSS/Atom](chapter23.md)
 * [第二十四章：发送邮件](chapter24.md)
   * [使用Django发送邮件](chapter24/section01.md)
+* [第二十五章：AJAX](chapter25.md)
 
