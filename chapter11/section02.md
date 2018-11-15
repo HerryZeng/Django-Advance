@@ -122,15 +122,11 @@
 
     def create_user(self,telephone,username,password,**kwargs):
         kwargs['is_superuser'] = False
-        user = self.__create_user(telephone=telephone,username=username,**kwargs)
-        user.set_password(password)
-        user.save()
+        return  self.__create_user(telephone=telephone,username=username,password=password,**kwargs)
 
     def create_superuser(self,telephone,username,password,**kwargs):
         kwargs['is_superuser'] = True
-        user = self.__create_user(telephone=telephone,username=username,**kwargs)
-        user.set_password(password)
-        user.save()
+        return self.__create_user(telephone=telephone,username=username,password=password,**kwargs)
 
     class User(AbstractUser):
         telephone = models.CharField(max_length=11,unique=True)
