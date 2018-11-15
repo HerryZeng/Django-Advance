@@ -32,8 +32,8 @@
         }
 ```
 ><html>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<head>
+><meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+><head>
 <title>点击劫持</title>
 <style>
     iframe{
