@@ -104,7 +104,7 @@
         if created:
             UserExtension.objects.create(user=instance)
         else:
-            pass
+            instance.extension.save()
 ```
 以上定义一个`UserExtension`的模型，并且让她和`User`模型进行一对一的绑定，以后我们新增的字段，就添加到`UserExtension`上。并且还写了一个接受保存模型的信号处理方法，只要是`User`调用了`save`方法，那么就会创建一个`UserExtension`和`User`进行绑定。
 
