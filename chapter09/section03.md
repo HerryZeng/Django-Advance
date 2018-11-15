@@ -31,9 +31,10 @@
             left: 630px;
         }
 ```
-><html>
-><meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-><head>
+```html
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<head>
 <title>点击劫持</title>
 <style>
     iframe{
@@ -59,6 +60,7 @@
     <iframe src="http://tieba.baidu.com/f?kw=%C3%C0%C5%AE"></iframe>
 </body>
 </html>
+```
 页面看起来比较简陋，但是实际上可能会比这些更精致一些。当这个页面通过某种手段被传播出去后，用户如果点击了“查看详情”，实际上点击到的是关注的按钮，这样就可以增加了一个粉丝。
 
 ### clickjacking防御
