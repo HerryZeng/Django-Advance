@@ -112,7 +112,26 @@
 
 对于`authenticate`不满意，并且不想要修改原来User对象上的一些字段，但是想要增加一些字段，那么这时候可以直接继承自`django.contrib.auth.models.AbstractUser`，其实这个类也是`django.contrib.auth.models.User`的父类。比如我们想要在原来`User`模型的基础之上添加一个`telephone`和`school`字段。示例代码如下：
 ```python
-    from django.contrib.auth.models import AbstractUser
+    from django.contrib.auth.models import AbstractUser,BaseUserManager
+    
+    class UserManager(BaseUserManager):
+    def __create_user(self,telephone,username,password,**kwargs):
+        user = self.model(telephone=telephone,username=username,**kwargs)
+        user.set_password(password)
+        user.save()
+
+    def create_user(self,telephone,username,password,**kwargs):
+        kwargs['is_superuser'] = False
+        user = self.__create_user(telephone=telephone,username=username,**kwargs)
+        user.set_password(password)
+        user.save()
+
+    def create_superuser(self,telephone,username,password,**kwargs):
+        kwargs['is_superuser'] = True
+        user = self.__create_user(telephone=telephone,username=username,**kwargs)
+        user.set_password(password)
+        user.save()
+
     class User(AbstractUser):
         telephone = models.CharField(max_length=11,unique=True)
         school = models.CharField(max_length=100)
