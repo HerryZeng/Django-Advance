@@ -78,7 +78,7 @@
     class Person(User):
         class Meta:
             proxy = True
-    
+        @classmethod
         def get_blacklist(self):
             return self.objects.filter(is_active=False)
 ```
