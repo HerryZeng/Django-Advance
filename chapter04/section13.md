@@ -63,3 +63,19 @@ class BookInfo(models.Model):
 >>> BookInfo.bmanager.all()
 
 ```
+
+### 扩展管理器类功能
+
+前面我们通过自定义管理器类扩展了原有的`all()`方法，但是有的时候我们想要的功能在管理器类中不仅不具备相应的方法，甚至连类似的可继承扩展的方法都没有，这个时候我们就需要完全自定义一个方法了。比如下面的一个场景，我们不希望每次拿到的返回结果都是`QuerySet`类型的集合对象，我们希望每次查询返回的是一个包含满足条件的图书名的`列表`，这个时候我们可以在自定义管理器类中定义一个方法完全适配我们要求的方法(其实这种自定义扩展方法本质就是把对`Manager`管理类查询结果的过滤操作从类外面搬到了管理类内部)
+```python
+class BookManager(models.Manager):
+        # 查询大于给定id号的图书信息
+        def blist(self,id):
+            ls = []
+            all_data = super().filter(id__gt=id)
+            for book in all_data:
+                ls.append(book.btitle)
+            return ls
+    #进行测试
+    >>> BookInfo.bmanager.blist(2)
+```
