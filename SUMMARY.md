@@ -29,6 +29,7 @@
   * [第十节：ORM作业](chapter04/section10.md)
   * [第十节：ORM作业参考答案](chapter04/section11.md)
   * [第十二节：Pycham连接数据库](chapter04/section12.md)
+  * [第十三节：Manager类](chapter04/section13.md)
 * [第五章：视图高级](chapter05.md)
   * [第一节：限制请求method](chapter05/section01.md)
   * [第二节：页面重定向](chapter05/section02.md)
